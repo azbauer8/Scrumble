@@ -1,8 +1,8 @@
 [package]
 name = "scrumble"
 version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "A markdown editor made with Tauri and Vite"
+authors = ["Zach Bauer"]
 license = ""
 repository = ""
 edition = "2021"
