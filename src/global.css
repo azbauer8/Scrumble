@@ -18,23 +18,4 @@
   [data-content-type="image"] .bn-add-image-button-icon {
     @apply bg-neutral-100 rounded-md p-4;
   }
-  /* width */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    @apply bg-transparent rounded-lg;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-700 rounded-lg;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-transparent rounded-lg;
-  }
 }
