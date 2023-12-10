@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-neutral-950;
+  /* full editor container */
+  div:has(.editor) {
+    @apply h-screen rounded-none border-none;
   }
+  /* editor toolbar 
+  div:has(.editor) > .css-hnubqc {
+  
+  }
+  */
+
+  /* editor
   .editor {
-    @apply h-screen overflow-x-hidden py-10;
-  }
-  [data-content-type="image"] .bn-add-image-button {
-    @apply bg-neutral-800 hover:bg-neutral-900 rounded-md p-4;
-  }
-  [data-content-type="image"] .bn-add-image-button-text {
-    @apply text-neutral-100;
-  }
-  [data-content-type="image"] .bn-add-image-button-icon {
-    @apply bg-neutral-100 rounded-md p-4;
-  }
+
+  } 
+  */
 }
