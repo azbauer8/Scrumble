@@ -1,25 +1,28 @@
-import { useEffect } from "react";
-import { Editable, useEditor } from "@wysimark/react";
-
+import { useEffect, useRef } from "react";
 import useGlobalStore from "../../utils/globalStore";
+
+import { MDXEditor, MDXEditorMethods } from "@mdxeditor/editor/MDXEditor";
+import "@mdxeditor/editor/style.css";
+import { plugins } from "./plugins";
 
 export default function Editor() {
   const { markdown, setMarkdown, fileOpened, setFileOpened } = useGlobalStore();
-  const editor = useEditor({});
+  const ref = useRef<MDXEditorMethods>(null);
 
   useEffect(() => {
     if (fileOpened) {
-      editor.setMarkdown(markdown);
+      ref.current?.setMarkdown(markdown);
       setFileOpened(false);
     }
   }, [fileOpened]);
 
   return (
-    <Editable
-      editor={editor}
-      value={markdown}
-      onChange={setMarkdown}
+    <MDXEditor
+      ref={ref}
       className="editor"
+      markdown={markdown}
+      onChange={setMarkdown}
+      plugins={plugins}
     />
   );
 }

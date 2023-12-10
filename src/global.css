@@ -1,21 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
+  margin: 0;
+}
 
-@layer base {
-  /* full editor container */
-  div:has(.editor) {
-    @apply h-screen rounded-none border-none;
-  }
-  /* editor toolbar 
-  div:has(.editor) > .css-hnubqc {
-  
-  }
-  */
-
-  /* editor
-  .editor {
-
-  } 
-  */
+._contentEditable_utjas_351 {
+  height: calc(100vh - 44px);
+  overflow-y: scroll;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
