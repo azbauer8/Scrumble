@@ -1,0 +1,3 @@
+run 
+yarn tauri icon src/assets/favicon.png
+to generate app icons

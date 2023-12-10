@@ -1,0 +1,19 @@
+{
+  "tauri": {
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "label": "scrumble",
+        "fullscreen": false,
+        "height": 680,
+        "resizable": true,
+        "title": "Scrumble",
+        "width": 540,
+        "center": true,
+        "transparent": true,
+        "hiddenTitle": true,
+        "decorations": false
+      }
+    ]
+  }
+}

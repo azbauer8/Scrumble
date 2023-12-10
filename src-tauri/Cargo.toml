@@ -1,23 +1,36 @@
 [package]
 name = "scrumble"
-version = "0.0.0"
-description = "A markdown editor made with Tauri and Vite"
+version = "0.0.1"
+description = "A Markdown editor powered by Milkdown."
 authors = ["Zach Bauer"]
 license = ""
 repository = ""
 edition = "2021"
+rust-version = "1.57"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.5", features = [] }
+tauri-build = { version = "1.2.1", features = [] }
 
 [dependencies]
-tauri = { version = "1.5", features = [ "dialog-open", "dialog-save", "fs-all"] }
-serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.2.3", features = ["app-all", "dialog-all", "fs-all", "os-all", "path-all", "process-relaunch-dangerous-allow-symlink-macos", "window-all"] }
+window-vibrancy = "0.3.2"
+window-shadows = "0.2.1"
 
 [features]
-# this feature is used for production builds or when `devPath` points to the filesystem
-# DO NOT REMOVE!!
+# by default Tauri runs in production mode
+# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
+#default = ["custom-protocol"]
+# this feature is used used for production builds where `devPath` points to the filesystem
+# DO NOT remove this
 custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort" # Strip expensive panic clean-up logic
+opt-level = "z"  # Optimize for size.
+codegen-units = 1
+strip = true  # Automatically strip symbols from the binary.
+lto = true # Enables link to optimizations
