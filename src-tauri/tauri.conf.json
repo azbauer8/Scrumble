@@ -66,8 +66,6 @@
         "timestampUrl": "",
         "wix": {
           "template": "wix-assets/main.wxs",
-          "bannerPath": "wix-assets/banner.png",
-          "dialogImagePath": "wix-assets/dialog.png",
           "license": "../LICENSE"
         }
       }
