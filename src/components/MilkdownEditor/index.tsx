@@ -11,7 +11,7 @@ import {
 import { ReactEditor, useEditor } from "@milkdown/react";
 import { block } from "@milkdown/plugin-block";
 import { listener, listenerCtx } from "@milkdown/plugin-listener";
-import { replaceAll, switchTheme } from "@milkdown/utils";
+import { replaceAll } from "@milkdown/utils";
 import { menu } from "@milkdown/plugin-menu";
 import { tooltip } from "@milkdown/plugin-tooltip";
 import { history } from "@milkdown/plugin-history";
@@ -38,7 +38,6 @@ interface MilkdownEditor {
   useMenu?: boolean;
   twoColumnEditor?: boolean;
   syntaxOption?: keyof typeof syntaxMap;
-  darkMode?: boolean;
   onMarkdownUpdated?: (markdown: string, prevMarkdown: string | null) => void;
   ref?: React.ForwardedRef<Editor>;
 }
@@ -53,7 +52,6 @@ const syntaxMap = {
 };
 
 let currentContent = "";
-let currentDarkMode = false;
 
 const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
   Editor,
@@ -64,7 +62,6 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
       content,
       useMenu = false,
       syntaxOption = "gfm",
-      darkMode = false,
       onMarkdownUpdated,
       twoColumnEditor = false,
     },
@@ -94,10 +91,6 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
         if (content !== currentContent) {
           instance?.action(replaceAll(content));
           currentContent = content;
-        }
-        if (darkMode !== currentDarkMode) {
-          instance?.action(switchTheme(getNord(darkMode)));
-          currentDarkMode = darkMode;
         }
       }
     }, [content, syntaxOption]);
@@ -132,7 +125,7 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
         .use(math)
         .use(tooltip)
         .use(diagram)
-        .use(getNord(darkMode))
+        .use(getNord())
         .use(block)
         .use(splitEditing);
 

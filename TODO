@@ -3,6 +3,6 @@ TODO: Create app icon and images for windows installer adding lines to tauri.con
 "dialogImagePath": "wix-assets/dialog.png",
 
 TODO: convert jotai states to zustand, should look a bit cleaner
-TODO: clean up naming conventions and organize project structure - reduce file lengths, split them out into separate files
+TODO: clean up App.tsx file - move key listeners to separate file
 TODO: strip down editor functionality to try to fix some bugs like dragging blocks
 TODO: Fix file save/close dialogs

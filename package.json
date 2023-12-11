@@ -32,7 +32,6 @@
     "@milkdown/prose": "^6.5.4",
     "@milkdown/react": "^6.5.4",
     "@milkdown/theme-nord": "^6.5.4",
-    "@milkdown/theme-tokyo": "^6.5.4",
     "@tauri-apps/api": "^1.2.0",
     "@types/debug": "^4.1.12",
     "ahooks": "^3.7.4",

@@ -27,11 +27,6 @@ interface PerferencesProps {
   onClose?: () => void;
 }
 
-const themeMap = {
-  light: "Light",
-  dark: "Dark",
-};
-
 const syntaxMap = {
   gfm: "GitHub Flavored Markdown",
   commonmark: "CommonMark",
@@ -80,18 +75,6 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 </Text>
               </Card>
             )}
-            <div className="option">
-              <p className="description">Theme</p>
-              <Dropdown
-                value={themeMap[settings.theme] || "Light"}
-                onOptionSelect={(e, data) => {
-                  setSetting("theme", data.optionValue);
-                }}
-              >
-                <Option value="light">Light</Option>
-                <Option value="dark">Dark</Option>
-              </Dropdown>
-            </div>
             <div className="option">
               <p className="description">Markdown Syntax</p>
               <Dropdown

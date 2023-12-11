@@ -162,7 +162,6 @@ function App() {
             }}
             twoColumnEditor={twoColumn}
             syntaxOption={settings.syntax}
-            darkMode={isDarkMode}
             ref={editorInstance}
           />
         </div>
