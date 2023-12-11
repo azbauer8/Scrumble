@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { Button } from "@fluentui/react-components";
-import styles from "./title-bar.module.scss";
+import "./title-bar.css";
 import {
   Add20Regular,
   ArrowDown20Regular,
@@ -16,7 +16,6 @@ import { savedJotai, savingJotai } from "../../jotais/file";
 import { TauriEvent } from "@tauri-apps/api/event";
 import { confirm } from "@tauri-apps/api/dialog";
 import { useUpdateEffect } from "ahooks";
-import classNames from "classnames";
 
 let globalSaved = savedJotai.init;
 interface TitleBar {
@@ -64,15 +63,13 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
     <>
       <div
         data-tauri-drag-region
-        className={classNames(styles.bar, {
-          [styles.mac]: vibrancy.vibrancy,
-        })}
+        className={`bar ${vibrancy.vibrancy ? "mac" : ""}`}
         ref={titleBarRef}
       >
         {vibrancy.vibrancy && (
-          <div className={styles.trafficLights}>
+          <div className="trafficLights">
             <div
-              className={styles.light}
+              className="light"
               style={{
                 backgroundColor: "#ff5e57",
                 border: "1px solid #e0534d",
@@ -82,7 +79,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
               }}
             />
             <div
-              className={styles.light}
+              className="light"
               style={{
                 backgroundColor: "#ffbb2e",
                 border: "1px solid #e0a528",
@@ -92,7 +89,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
               }}
             />
             <div
-              className={styles.light}
+              className="light"
               style={{
                 backgroundColor: "#38c149",
                 border: "1px solid #31aa40",
@@ -103,16 +100,16 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
             />
           </div>
         )}
-        <div data-tauri-drag-region className={styles.title}>
+        <div data-tauri-drag-region className="title">
           Scrumble
         </div>
-        <div data-tauri-drag-region className={styles.operation}>
+        <div data-tauri-drag-region className="operation">
           <FileMenu />
           <div style={{ width: "0.5rem" }}></div>
           <EditMenu editorInstance={editorInstance} />
         </div>
         {!vibrancy.vibrancy && (
-          <div className={styles.control}>
+          <div className="control">
             <Button
               appearance="subtle"
               icon={<ArrowDown20Regular />}
@@ -129,7 +126,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
             />
             <Button
               appearance="subtle"
-              icon={<Add20Regular className={styles.close} />}
+              icon={<Add20Regular className="close" />}
               onClick={async () => {
                 appWindow.emit(TauriEvent.WINDOW_CLOSE_REQUESTED);
               }}
@@ -138,7 +135,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
         )}
       </div>
       {(preference || about) && (
-        <div data-tauri-drag-region className={styles.invisibleBar} />
+        <div data-tauri-drag-region className="invisibleBar" />
       )}
     </>
   );

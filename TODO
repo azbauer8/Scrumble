@@ -2,9 +2,7 @@ TODO: Create app icon and images for windows installer adding lines to tauri.con
 "bannerPath": "wix-assets/banner.png",
 "dialogImagePath": "wix-assets/dialog.png",
 
-TODO: convert scss to css
 TODO: replace jotai with zustand
-TODO: replace "classnames" library usage with jsx logic
 TODO: clean up naming conventions and organize project structure - reduce file lengths, split them out into separate files
 TODO: replace usage of custom themes with just light, dark, or system - style these with css rather than custom theme objects
 TODO: strip down editor functionality to try to fix some bugs like dragging blocks

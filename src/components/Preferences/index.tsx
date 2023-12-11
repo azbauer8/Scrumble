@@ -12,7 +12,7 @@ import {
 } from "@fluentui/react-components";
 import React, { useState } from "react";
 import { Dropdown, Option } from "@fluentui/react-components";
-import styles from "./preferences.module.scss";
+import "./preferences.css";
 import { useAtom } from "jotai";
 import { settingsJotai } from "../../jotais/settings";
 import { Card } from "@fluentui/react-components";
@@ -68,19 +68,19 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
   return (
     <Dialog open={open}>
       <DialogSurface>
-        <DialogBody className={styles.body}>
+        <DialogBody className="body">
           <DialogTitle>Preferences</DialogTitle>
-          <DialogContent className={styles.content}>
+          <DialogContent className="content">
             {Object.keys(relaunchItem).length !== 0 && (
-              <Card appearance="outline" className={styles.alert}>
-                <Warning16Regular className={styles.icon} />
+              <Card appearance="outline" className="alert">
+                <Warning16Regular className="icon" />
                 <Text weight="semibold">
                   You need to re-launch to apply the changes
                 </Text>
               </Card>
             )}
-            <div className={styles.option}>
-              <p className={styles.description}>Editor theme(light)</p>
+            <div className="option">
+              <p className="description">Editor theme(light)</p>
               <Dropdown
                 value={themeMap[settings.theme]}
                 onOptionSelect={(e, data) => {
@@ -92,8 +92,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 <Option value="tokyo">Tokyo</Option>
               </Dropdown>
             </div>
-            <div className={styles.option}>
-              <p className={styles.description}>Editor theme(dark)</p>
+            <div className="option">
+              <p className="description">Editor theme(dark)</p>
               <Dropdown
                 value={themeMap[settings.themeDark]}
                 onOptionSelect={(e, data) => {
@@ -105,8 +105,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 <Option value="tokyo">Tokyo</Option>
               </Dropdown>
             </div>
-            <div className={styles.option}>
-              <p className={styles.description}>Markdown Syntax</p>
+            <div className="option">
+              <p className="description">Markdown Syntax</p>
               <Dropdown
                 value={
                   syntaxMap[
@@ -124,8 +124,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 <Option value="gfm">GitHub Flavored Markdown</Option>
               </Dropdown>
             </div>
-            <div className={styles.option}>
-              <p className={styles.description}>Window Style</p>
+            <div className="option">
+              <p className="description">Window Style</p>
               <Dropdown
                 value={settings.vibrancy}
                 onOptionSelect={(e, data) => {
@@ -140,8 +140,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 {vibrancy.mica && <Option value="Mica">Mica</Option>}
               </Dropdown>
             </div>
-            <div className={styles.option}>
-              <p className={styles.description}>Auto Save</p>
+            <div className="option">
+              <p className="description">Auto Save</p>
               <Switch
                 checked={settings.autoSave}
                 onChange={(e, data) => {
@@ -149,8 +149,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 }}
               />
             </div>
-            <div className={styles.option}>
-              <p className={styles.description}>Save when editor blurred</p>
+            <div className="option">
+              <p className="description">Save when editor blurred</p>
               <Switch
                 checked={settings.saveBlur}
                 onChange={(e, data) => {
@@ -158,8 +158,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 }}
               />
             </div>
-            <div className={styles.option}>
-              <p className={styles.description}>Save interval (sec)</p>
+            <div className="option">
+              <p className="description">Save interval (sec)</p>
               <Input
                 type="number"
                 value={String(settings.saveInterval)}
@@ -173,8 +173,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
               />
             </div>
             {/*
-                        <div className={styles.option}>
-                            <p className={styles.description}>
+                        <div className="option">
+                            <p className="description">
                                 Default path
                             </p>
                             <Input />

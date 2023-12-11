@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./floating-toolbar.module.scss";
+import "./floating-toolbar.css";
 import { useAtom } from "jotai";
 import { toolbarJotai } from "../../jotais/ui";
 import { Card } from "@fluentui/react-components";
@@ -11,7 +11,6 @@ import {
   ToolbarButton,
   ToolbarToggleButton,
 } from "@fluentui/react-components";
-import classNames from "classnames";
 import {
   Add20Regular,
   ArrowDown24Regular,
@@ -149,15 +148,13 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
 
   if (!status) return <></>;
   return (
-    <div className={styles.wrapper}>
+    <div className="wrapper">
       <Card
         appearance="filled-alternative"
-        className={classNames(styles.card, {
-          [styles.replace]: status === "replace",
-        })}
+        className={`card ${status === "replace" ? "replace" : ""}`}
       >
         <Toolbar>
-          <div className={styles.input}>
+          <div className="input">
             <Input
               placeholder="Find..."
               value={find}
@@ -181,7 +178,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
               />
             )}
           </div>
-          <div className={styles.buttons}>
+          <div className="buttons">
             <Tooltip content="Search" showDelay={650} relationship="label">
               <ToolbarButton
                 icon={<Search24Regular />}
@@ -210,7 +207,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
             </Tooltip>
             <Tooltip content="Close" showDelay={650} relationship="label">
               <ToolbarButton
-                icon={<Add20Regular className={styles.close} />}
+                icon={<Add20Regular className="close" />}
                 onClick={() => {
                   setStatus(false);
                 }}
@@ -225,7 +222,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
                 appearance="subtle"
                 as="button"
                 defaultChecked={cs}
-                className={styles.cs}
+                className="cs"
                 onClick={() => {
                   setCs(!cs);
                 }}
@@ -260,7 +257,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
               </>
             )}
           </div>
-          <Text className={styles.found}>
+          <Text className="found">
             {`${result.length === 0 ? 0 : pos} / ${result.length} matches`}
           </Text>
         </Toolbar>

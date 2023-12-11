@@ -1,0 +1,38 @@
+.wrapper {
+  position: fixed;
+  top: 56px;
+  left: 1rem;
+  display: flex;
+  z-index: 10;
+}
+.card {
+  padding: 0;
+}
+.card .input {
+  display: flex;
+  flex-direction: column;
+}
+.card .buttons {
+  display: flex;
+  flex-flow: wrap;
+  max-width: 160px;
+  .cs {
+    svg {
+      color: var(--colorNeutralForeground2);
+    }
+  }
+  .cs:hover {
+    svg {
+      color: var(--colorNeutralForeground2BrandHover);
+    }
+  }
+  .close {
+    transform: rotate(45deg);
+  }
+}
+.found {
+  color: var(--colorNeutralForeground4);
+}
+.replace {
+  padding: 25px 0;
+}

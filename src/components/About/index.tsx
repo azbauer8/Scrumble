@@ -9,7 +9,7 @@ import {
   Button,
   Text,
 } from "@fluentui/react-components";
-import styles from "./about.module.scss";
+import "./about.css";
 import icon from "../../assets/favicon.png";
 import { useAsyncEffect } from "ahooks";
 import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
@@ -29,12 +29,12 @@ const About: React.FC<AboutProps> = ({ open, onClose }) => {
   return (
     <Dialog open={open}>
       <DialogSurface>
-        <DialogBody className={styles.body}>
+        <DialogBody className="body">
           <DialogTitle>About </DialogTitle>
           <DialogContent>
-            <div className={styles.about}>
+            <div className="about">
               <img src={icon} />
-              <div className={styles.version}>
+              <div className="version">
                 <Text weight="semibold" size={400}>
                   Scrumble
                 </Text>

@@ -1,5 +1,5 @@
 import MilkdownEditor from "./components/MilkdownEditor";
-import styles from "./App.module.scss";
+import "./App.css";
 import TitleBar from "./components/TitleBar";
 import { useAtom } from "jotai";
 import {
@@ -16,7 +16,6 @@ import {
   twoColumnJotai,
   vibrancyJotai,
 } from "./jotais/ui";
-import classNames from "classnames";
 import { Spinner } from "@fluentui/react-components";
 import { useEffect, useRef } from "react";
 import {
@@ -52,6 +51,7 @@ function App() {
   const [vibrancy, setVibrancy] = useAtom(vibrancyJotai);
   const [about, setAbout] = useAtom(aboutJotai);
   const isDarkMode = useIsDarkMode();
+
   const editorInstance = useRef<Editor>(null);
 
   // Initialize
@@ -146,14 +146,12 @@ function App() {
       className="provider"
     >
       <div
-        className={classNames(styles.container, {
-          [styles.window]:
-            !settings.vibrancy || settings.vibrancy === "Default",
-          [styles.mac]: vibrancy.vibrancy,
-        })}
+        className={`container ${
+          !settings.vibrancy || settings.vibrancy === "Default" ? "window" : ""
+        } ${vibrancy.vibrancy ? "mac" : ""}`}
       >
         <TitleBar editorInstance={editorInstance} />
-        <div className={styles.editor} spellCheck={false}>
+        <div className="editor" spellCheck={false}>
           <MilkdownEditor
             useMenu={false}
             content={content}
@@ -168,9 +166,7 @@ function App() {
         </div>
         <div
           data-tauri-drag-region
-          className={classNames(styles.mask, {
-            [styles.white]: loading,
-          })}
+          className={`mask ${loading ? "white" : ""}`}
         >
           <Spinner />
         </div>
