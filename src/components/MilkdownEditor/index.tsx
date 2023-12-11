@@ -1,4 +1,6 @@
 import React, { forwardRef, useEffect } from "react";
+import { useUpdateEffect } from "ahooks";
+import { refractor } from "refractor/lib/common";
 import {
   Editor,
   rootCtx,
@@ -6,40 +8,37 @@ import {
   commandsCtx,
   EditorStatus,
 } from "@milkdown/core";
-import { nord, nordDark } from "@milkdown/theme-nord";
 import { ReactEditor, useEditor } from "@milkdown/react";
-import {
-  commonmark,
-  heading as commonmarkHeading,
-} from "@milkdown/preset-commonmark";
-import { tooltip } from "@milkdown/plugin-tooltip";
-import { gfm, heading as gfmHeading } from "@milkdown/preset-gfm";
-import { menu } from "@milkdown/plugin-menu";
-import "@material-design-icons/font";
-import { history } from "@milkdown/plugin-history";
-import { replaceAll, switchTheme } from "@milkdown/utils";
-import { prismPlugin } from "@milkdown/plugin-prism";
-import { clipboard } from "@milkdown/plugin-clipboard";
-import { tokyo } from "@milkdown/theme-tokyo";
-import { diagram } from "@milkdown/plugin-diagram";
 import { block } from "@milkdown/plugin-block";
 import { listener, listenerCtx } from "@milkdown/plugin-listener";
-import { useUpdateEffect } from "ahooks";
-import { refractor } from "refractor/lib/common";
+import { replaceAll, switchTheme } from "@milkdown/utils";
+import { menu } from "@milkdown/plugin-menu";
+import { tooltip } from "@milkdown/plugin-tooltip";
+import { history } from "@milkdown/plugin-history";
+import { prismPlugin } from "@milkdown/plugin-prism";
+import { clipboard } from "@milkdown/plugin-clipboard";
+import { diagram } from "@milkdown/plugin-diagram";
 import { math } from "@milkdown/plugin-math";
 import { cursor } from "@milkdown/plugin-cursor";
-import "katex/dist/katex.min.css";
 import {
   splitEditing,
   ToggleSplitEditing,
 } from "@milkdown-lab/plugin-split-editing";
+import { gfm, heading as gfmHeading } from "@milkdown/preset-gfm";
+import {
+  commonmark,
+  heading as commonmarkHeading,
+} from "@milkdown/preset-commonmark";
+import { getNord } from "@milkdown/theme-nord";
+import "@material-design-icons/font";
+import "katex/dist/katex.min.css";
 
 interface MilkdownEditor {
   content: string;
   useMenu?: boolean;
   twoColumnEditor?: boolean;
   syntaxOption?: keyof typeof syntaxMap;
-  theme?: keyof typeof themeMap;
+  darkMode?: boolean;
   onMarkdownUpdated?: (markdown: string, prevMarkdown: string | null) => void;
   ref?: React.ForwardedRef<Editor>;
 }
@@ -53,14 +52,8 @@ const syntaxMap = {
   }),
 };
 
-const themeMap = {
-  nord: nord,
-  nordDark: nordDark,
-  tokyo: tokyo,
-};
-
 let currentContent = "";
-let currentTheme = "";
+let currentDarkMode = false;
 
 const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
   Editor,
@@ -71,7 +64,7 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
       content,
       useMenu = false,
       syntaxOption = "gfm",
-      theme = "nord",
+      darkMode = false,
       onMarkdownUpdated,
       twoColumnEditor = false,
     },
@@ -102,16 +95,15 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
           instance?.action(replaceAll(content));
           currentContent = content;
         }
-        if (theme !== currentTheme) {
-          instance?.action(switchTheme(themeMap[theme]));
-          currentTheme = theme;
+        if (darkMode !== currentDarkMode) {
+          instance?.action(switchTheme(getNord(darkMode)));
+          currentDarkMode = darkMode;
         }
       }
-    }, [content, theme, syntaxOption]);
+    }, [content, syntaxOption]);
 
     const { editor, loading, getInstance } = useEditor((root) => {
       currentContent = content;
-      currentTheme = theme;
       const instance = Editor.make()
         .config((ctx) => {
           ctx.set(defaultValueCtx, content);
@@ -140,7 +132,7 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
         .use(math)
         .use(tooltip)
         .use(diagram)
-        .use(themeMap[theme])
+        .use(getNord(darkMode))
         .use(block)
         .use(splitEditing);
 

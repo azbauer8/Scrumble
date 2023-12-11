@@ -28,9 +28,8 @@ interface PerferencesProps {
 }
 
 const themeMap = {
-  nord: "Nord",
-  nordDark: "Nord (Dark)",
-  tokyo: "Tokyo",
+  light: "Light",
+  dark: "Dark",
 };
 
 const syntaxMap = {
@@ -82,29 +81,15 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
               </Card>
             )}
             <div className="option">
-              <p className="description">Editor theme(light)</p>
+              <p className="description">Theme</p>
               <Dropdown
-                value={themeMap[settings.theme]}
+                value={themeMap[settings.theme] || "Light"}
                 onOptionSelect={(e, data) => {
                   setSetting("theme", data.optionValue);
                 }}
               >
-                <Option value="nord">Nord</Option>
-                <Option value="nordDark">Nord (Dark)</Option>
-                <Option value="tokyo">Tokyo</Option>
-              </Dropdown>
-            </div>
-            <div className="option">
-              <p className="description">Editor theme(dark)</p>
-              <Dropdown
-                value={themeMap[settings.themeDark]}
-                onOptionSelect={(e, data) => {
-                  setSetting("themeDark", data.optionValue);
-                }}
-              >
-                <Option value="nord">Nord</Option>
-                <Option value="nordDark">Nord (Dark)</Option>
-                <Option value="tokyo">Tokyo</Option>
+                <Option value="light">Light</Option>
+                <Option value="dark">Dark</Option>
               </Dropdown>
             </div>
             <div className="option">

@@ -1,8 +1,7 @@
 import { atomWithStorage } from "jotai/utils";
 
 interface Setting {
-  theme: "nord" | "nordDark" | "tokyo";
-  themeDark: "nord" | "nordDark" | "tokyo";
+  theme: "light" | "dark";
   syntax: "gfm" | "commonmark";
   autoSave: boolean;
   saveBlur: boolean;
@@ -12,8 +11,7 @@ interface Setting {
 }
 
 export const userSettings = atomWithStorage<Setting>("settings", {
-  theme: "nord",
-  themeDark: "nordDark",
+  theme: "light",
   syntax: "gfm",
   autoSave: false,
   saveBlur: false,

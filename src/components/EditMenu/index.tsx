@@ -24,7 +24,7 @@ interface EditMenu {
   };
 }
 
-const mermaidMarkdown = `
+const defaultDiagram = `
 \`\`\`mermaid
 graph TD;
     EditorState-->EditorView;
@@ -33,6 +33,8 @@ graph TD;
     Transaction-->EditorState;
 \`\`\`
 `;
+
+const defaultFormula = `$\\sum_{i=0}^n i^2 = \\frac{(n^2+n)(2n+1)}{6}$`;
 
 const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
   const [, setToolbarOpen] = useAtom(toolbarOpen);
@@ -100,7 +102,7 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
               const parser = editorInstance.current.ctx.get(parserCtx);
               const editorState = editorView.state;
               const transaction = editorState.tr;
-              const mermaidNode = parser(mermaidMarkdown);
+              const mermaidNode = parser(defaultDiagram);
               if (!mermaidNode) return;
               editorView.dispatch(
                 transaction.insert(editorState.selection.$head.pos, mermaidNode)
@@ -116,9 +118,7 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
               const parser = editorInstance.current.ctx.get(parserCtx);
               const editorState = editorView.state;
               const transaction = editorState.tr;
-              const mermaidNode = parser(
-                `$\\sum_{i=0}^n i^2 = \\frac{(n^2+n)(2n+1)}{6}$`
-              );
+              const mermaidNode = parser(defaultFormula);
               if (!mermaidNode) return;
               editorView.dispatch(
                 transaction.insert(editorState.selection.$head.pos, mermaidNode)
