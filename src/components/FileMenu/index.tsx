@@ -1,4 +1,21 @@
+import {
+  open as openFilePicker,
+  save as saveFilePicker,
+} from "@tauri-apps/api/dialog";
+import { documentDir } from "@tauri-apps/api/path";
+import { writeTextFile } from "@tauri-apps/api/fs";
 import React from "react";
+import * as showdown from "showdown";
+
+import { useAtom } from "jotai";
+import {
+  fileContent,
+  currentFile,
+  isSaved,
+  isSaving,
+} from "../../globalState/file";
+import { aboutOpen, settingsOpen } from "../../globalState/ui";
+
 import {
   Menu,
   MenuButton,
@@ -9,31 +26,12 @@ import {
   MenuTrigger,
 } from "@fluentui/react-components";
 import { Folder16Regular } from "@fluentui/react-icons";
-import { useAtom } from "jotai";
-import {
-  open as openFilePicker,
-  save as saveFilePicker,
-} from "@tauri-apps/api/dialog";
-import { documentDir } from "@tauri-apps/api/path";
-import {
-  contentJotai,
-  filePathJotai,
-  savedJotai,
-  savingJotai,
-} from "../../jotais/file";
-import { writeTextFile } from "@tauri-apps/api/fs";
-import { aboutJotai, preferenceJotai } from "../../jotais/ui";
-import * as showdown from "showdown";
 
 const availbleExts = [
   {
     name: "Markdown",
     extensions: ["md"],
-  },
-  {
-    name: "Text file",
-    extensions: ["txt"],
-  },
+  }
 ];
 
 const availbleExportExts = [
@@ -44,12 +42,12 @@ const availbleExportExts = [
 ];
 
 const FileMenu: React.FC = () => {
-  const [filePath, setFilePath] = useAtom(filePathJotai);
-  const [content, setContent] = useAtom(contentJotai);
-  const [, setPreference] = useAtom(preferenceJotai);
-  const [saved, setSaved] = useAtom(savedJotai);
-  const [, setAbout] = useAtom(aboutJotai);
-  const [, setSaving] = useAtom(savingJotai);
+  const [filePath, setFilePath] = useAtom(currentFile);
+  const [content, setContent] = useAtom(fileContent);
+  const [, setSettingsOpen] = useAtom(settingsOpen);
+  const [saved, setSaved] = useAtom(isSaved);
+  const [, setAboutOpen] = useAtom(aboutOpen);
+  const [, setSaving] = useAtom(isSaving);
   return (
     <Menu>
       <MenuTrigger disableButtonEnhancement>
@@ -133,14 +131,14 @@ const FileMenu: React.FC = () => {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setPreference(true);
+              setSettingsOpen(true);
             }}
           >
             Settings
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setAbout(true);
+              setAboutOpen(true);
             }}
           >
             About

@@ -1,3 +1,11 @@
+import "./preferences.css";
+import { invoke } from "@tauri-apps/api/tauri";
+import React, { useState } from "react";
+
+import { useAtom } from "jotai";
+import { userSettings } from "../../globalState/settings";
+import { vibrancyConfig } from "../../globalState/ui";
+
 import {
   Button,
   Dialog,
@@ -10,15 +18,9 @@ import {
   Text,
   Switch,
 } from "@fluentui/react-components";
-import React, { useState } from "react";
-import { Dropdown, Option } from "@fluentui/react-components";
-import "./preferences.css";
-import { useAtom } from "jotai";
-import { settingsJotai } from "../../jotais/settings";
 import { Card } from "@fluentui/react-components";
 import { Warning16Regular } from "@fluentui/react-icons";
-import { invoke } from "@tauri-apps/api/tauri";
-import { vibrancyJotai } from "../../jotais/ui";
+import { Dropdown, Option } from "@fluentui/react-components";
 
 interface PerferencesProps {
   open: boolean;
@@ -37,8 +39,8 @@ const syntaxMap = {
 };
 
 const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
-  const [settings, setSettings] = useAtom(settingsJotai);
-  const [vibrancy] = useAtom(vibrancyJotai);
+  const [settings, setSettings] = useAtom(userSettings);
+  const [vibrancy] = useAtom(vibrancyConfig);
   const [relaunchItem, setRelaunchItem] = useState<{
     [prop in keyof typeof settings]?: unknown;
   }>({});
@@ -110,8 +112,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
               <Dropdown
                 value={
                   syntaxMap[
-                    (relaunchItem.syntax as keyof typeof syntaxMap) ??
-                      settings.syntax
+                  (relaunchItem.syntax as keyof typeof syntaxMap) ??
+                  settings.syntax
                   ]
                 }
                 onOptionSelect={(e, data) => {

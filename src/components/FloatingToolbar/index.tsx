@@ -1,7 +1,13 @@
-import React, { useState } from "react";
 import "./floating-toolbar.css";
+import React, { useState } from "react";
+import { useKeyPress, useUpdateEffect } from "ahooks";
+
+import { Finder } from "../../utils/findAndReplace";
+
 import { useAtom } from "jotai";
-import { toolbarJotai } from "../../jotais/ui";
+import { toolbarOpen } from "../../globalState/ui";
+import { fileContent } from "../../globalState/file";
+
 import { Card } from "@fluentui/react-components";
 import {
   Input,
@@ -17,14 +23,12 @@ import {
   ArrowUp24Regular,
   Search24Regular,
   TextCaseTitle24Regular,
-  TextExpand24Regular /*, TextGrammarWand24Regular*/,
+  TextExpand24Regular,
 } from "@fluentui/react-icons";
-import { useKeyPress, useUpdateEffect } from "ahooks";
 import { Editor, editorViewCtx, parserCtx } from "@milkdown/core";
-import { Finder } from "../../utils/findAndReplace";
-import { contentJotai } from "../../jotais/file";
 import { Selection, TextSelection } from "@milkdown/prose/state";
 import { Slice } from "@milkdown/prose/model";
+
 
 interface FloatingToolbar {
   editorInstance: {
@@ -33,11 +37,11 @@ interface FloatingToolbar {
 }
 
 const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
-  const [status, setStatus] = useAtom(toolbarJotai);
-  const [content] = useAtom(contentJotai);
+  const [isToolbarOpen, setToolbarOpen] = useAtom(toolbarOpen);
+  const [content] = useAtom(fileContent);
   const [find, setFind] = useState("");
   const [replace, setReplace] = useState("");
-  const [cs, setCs] = useState(false);
+  const [isCaseSensitive, setCaseSensitive] = useState(false);
   const [result, setResult] = useState<Selection[]>([]); // Matched selections
   const [pos, setPos] = useState(0); // Position of result
   const handleSearch = (originalPos?: number) => {
@@ -51,7 +55,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
     const editorState = editorView.state;
     const transaction = editorState.tr;
     // Wrapping a Finder into a class
-    const finder = new Finder(transaction, cs);
+    const finder = new Finder(transaction, isCaseSensitive);
     const matched = finder.find(find);
     if (matched?.length !== 0) {
       setResult(matched as TextSelection[]);
@@ -135,23 +139,23 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
    */
 
   useKeyPress("esc", () => {
-    if (status) setStatus(false);
+    if (isToolbarOpen) setToolbarOpen(false);
   });
   useUpdateEffect(() => {
     selectByPos();
   }, [pos, result]);
   useUpdateEffect(() => {
-    if (status && find !== "" && result.length !== 0) {
+    if (isToolbarOpen && find !== "" && result.length !== 0) {
       handleSearch();
     }
   }, [content]);
 
-  if (!status) return <></>;
+  if (!isToolbarOpen) return <></>;
   return (
     <div className="wrapper">
       <Card
         appearance="filled-alternative"
-        className={`card ${status === "replace" ? "replace" : ""}`}
+        className={`card ${isToolbarOpen === "replace" ? "replace" : ""}`}
       >
         <Toolbar>
           <div className="input">
@@ -165,7 +169,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
                 if (e.key === "Enter") handleSearch();
               }}
             />
-            {status === "replace" && (
+            {isToolbarOpen === "replace" && (
               <Input
                 placeholder="Replace..."
                 value={replace}
@@ -209,7 +213,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
               <ToolbarButton
                 icon={<Add20Regular className="close" />}
                 onClick={() => {
-                  setStatus(false);
+                  setToolbarOpen(false);
                 }}
               />
             </Tooltip>
@@ -221,17 +225,17 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
               <ToolbarToggleButton
                 appearance="subtle"
                 as="button"
-                defaultChecked={cs}
-                className="cs"
+                defaultChecked={isCaseSensitive}
+                className="case-sensitive"
                 onClick={() => {
-                  setCs(!cs);
+                  setCaseSensitive(!isCaseSensitive);
                 }}
                 name="case-sensitive"
                 value="case-sensitive"
                 icon={<TextCaseTitle24Regular />}
               />
             </Tooltip>
-            {status === "replace" && (
+            {isToolbarOpen === "replace" && (
               <>
                 <Tooltip content="Replace" showDelay={650} relationship="label">
                   <ToolbarButton

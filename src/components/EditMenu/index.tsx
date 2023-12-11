@@ -1,4 +1,9 @@
 import React from "react";
+
+import { useAtom } from "jotai";
+import { editMenuOpen, toolbarOpen, isTwoColumn } from "../../globalState/ui";
+import { userSettings } from "../../globalState/settings";
+
 import {
   Menu,
   MenuButton,
@@ -10,11 +15,8 @@ import {
   MenuTrigger,
 } from "@fluentui/react-components";
 import { DocumentEdit16Regular } from "@fluentui/react-icons";
-import { useAtom } from "jotai";
-import { editMenuJotai, toolbarJotai, twoColumnJotai } from "../../jotais/ui";
 import { Editor, commandsCtx, editorViewCtx, parserCtx } from "@milkdown/core";
 import { InsertTable } from "@milkdown/preset-gfm";
-import { settingsJotai } from "../../jotais/settings";
 
 interface EditMenu {
   editorInstance: {
@@ -33,15 +35,15 @@ graph TD;
 `;
 
 const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
-  const [, setFloatingToolbar] = useAtom(toolbarJotai);
-  const [settings] = useAtom(settingsJotai);
-  const [, setEditMenu] = useAtom(editMenuJotai);
-  const [twoColumn, setTwoColumn] = useAtom(twoColumnJotai);
+  const [, setToolbarOpen] = useAtom(toolbarOpen);
+  const [settings] = useAtom(userSettings);
+  const [, setEditMenuOpen] = useAtom(editMenuOpen);
+  const [twoColumn, setTwoColumn] = useAtom(isTwoColumn);
 
   return (
     <Menu
       onOpenChange={(e, data) => {
-        setEditMenu(data.open);
+        setEditMenuOpen(data.open);
       }}
       hasCheckmarks
     >
@@ -58,14 +60,14 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
         <MenuList>
           <MenuItem
             onClick={() => {
-              setFloatingToolbar("find");
+              setToolbarOpen("find");
             }}
           >
             Find
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setFloatingToolbar("replace");
+              setToolbarOpen("replace");
             }}
           >
             Replace

@@ -1,23 +1,26 @@
+import "./title-bar.css";
 import React, { useEffect, useRef } from "react";
 import { appWindow } from "@tauri-apps/api/window";
+import { TauriEvent } from "@tauri-apps/api/event";
+import { confirm } from "@tauri-apps/api/dialog";
+import { useUpdateEffect } from "ahooks";
+
+import { useAtom } from "jotai";
+import { aboutOpen, settingsOpen, vibrancyConfig } from "../../globalState/ui";
+import { isSaved, isSaving } from "../../globalState/file";
+
 import { Button } from "@fluentui/react-components";
-import "./title-bar.css";
 import {
   Add20Regular,
   ArrowDown20Regular,
   FullScreenMaximize20Regular,
 } from "@fluentui/react-icons";
+import { Editor } from "@milkdown/core";
+
 import FileMenu from "../FileMenu";
 import EditMenu from "../EditMenu";
-import { useAtom } from "jotai";
-import { aboutJotai, preferenceJotai, vibrancyJotai } from "../../jotais/ui";
-import { Editor } from "@milkdown/core";
-import { savedJotai, savingJotai } from "../../jotais/file";
-import { TauriEvent } from "@tauri-apps/api/event";
-import { confirm } from "@tauri-apps/api/dialog";
-import { useUpdateEffect } from "ahooks";
 
-let globalSaved = savedJotai.init;
+let globalSaved = isSaved.init;
 interface TitleBar {
   editorInstance: {
     current?: Editor | null;
@@ -25,11 +28,11 @@ interface TitleBar {
 }
 
 const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
-  const [preference] = useAtom(preferenceJotai);
-  const [about] = useAtom(aboutJotai);
-  const [saved] = useAtom(savedJotai);
-  const [vibrancy] = useAtom(vibrancyJotai);
-  const [, setSaving] = useAtom(savingJotai);
+  const [isSettingsOpen] = useAtom(settingsOpen);
+  const [isAboutOpen] = useAtom(aboutOpen);
+  const [saved] = useAtom(isSaved);
+  const [vibrancy] = useAtom(vibrancyConfig);
+  const [, setSaving] = useAtom(isSaving);
   const titleBarRef = useRef<HTMLDivElement>(null);
   const disableMenu = (e: MouseEvent) => {
     e.preventDefault();
@@ -134,7 +137,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
           </div>
         )}
       </div>
-      {(preference || about) && (
+      {(isSettingsOpen || isAboutOpen) && (
         <div data-tauri-drag-region className="invisibleBar" />
       )}
     </>

@@ -1,55 +1,58 @@
-import MilkdownEditor from "./components/MilkdownEditor";
 import "./App.css";
-import TitleBar from "./components/TitleBar";
-import { useAtom } from "jotai";
-import {
-  contentJotai,
-  filePathJotai,
-  savedJotai,
-  savingJotai,
-} from "./jotais/file";
-import {
-  aboutJotai,
-  loadingJotai,
-  preferenceJotai,
-  toolbarJotai,
-  twoColumnJotai,
-  vibrancyJotai,
-} from "./jotais/ui";
-import { Spinner } from "@fluentui/react-components";
+import { invoke } from "@tauri-apps/api/tauri";
+import { version as getVersion, type as getType } from "@tauri-apps/api/os";
 import { useEffect, useRef } from "react";
-import {
-  FluentProvider,
-  webLightTheme,
-  webDarkTheme,
-} from "@fluentui/react-components";
-import useIsDarkMode from "./hooks/dark";
-import Preferences from "./components/Preferences";
-import { settingsJotai } from "./jotais/settings";
 import {
   useKeyPress,
   useInterval,
   useEventListener,
   useAsyncEffect,
 } from "ahooks";
-import { version as getVersion, type as getType } from "@tauri-apps/api/os";
-import About from "./components/About";
-import { invoke } from "@tauri-apps/api/tauri";
-import FloatingToolbar from "./components/FloatingToolbar";
+import useIsDarkMode from "./hooks/dark";
+
+import { useAtom } from "jotai";
+import { userSettings } from "./globalState/settings";
+import {
+  fileContent,
+  currentFile,
+  isSaved,
+  isSaving,
+} from "./globalState/file";
+import {
+  aboutOpen,
+  isLoading,
+  settingsOpen,
+  toolbarOpen,
+  isTwoColumn,
+  vibrancyConfig,
+} from "./globalState/ui";
+
+import {
+  FluentProvider,
+  webLightTheme,
+  webDarkTheme,
+} from "@fluentui/react-components";
+import { Spinner } from "@fluentui/react-components";
+
 import { Editor } from "@milkdown/core";
+import MilkdownEditor from "./components/MilkdownEditor";
+import TitleBar from "./components/TitleBar";
+import Preferences from "./components/Preferences";
+import About from "./components/About";
+import FloatingToolbar from "./components/FloatingToolbar";
 
 function App() {
-  const [content, setContent] = useAtom(contentJotai);
-  const [filePath, setFilePath] = useAtom(filePathJotai);
-  const [loading] = useAtom(loadingJotai);
-  const [, setToolbar] = useAtom(toolbarJotai);
-  const [twoColumn] = useAtom(twoColumnJotai);
-  const [saved] = useAtom(savedJotai);
-  const [saving, setSaving] = useAtom(savingJotai);
-  const [settings] = useAtom(settingsJotai);
-  const [preference, setPreference] = useAtom(preferenceJotai);
-  const [vibrancy, setVibrancy] = useAtom(vibrancyJotai);
-  const [about, setAbout] = useAtom(aboutJotai);
+  const [content, setContent] = useAtom(fileContent);
+  const [filePath, setFilePath] = useAtom(currentFile);
+  const [loading] = useAtom(isLoading);
+  const [, setToolbarOpen] = useAtom(toolbarOpen);
+  const [twoColumn] = useAtom(isTwoColumn);
+  const [saved] = useAtom(isSaved);
+  const [saving, setSaving] = useAtom(isSaving);
+  const [settings] = useAtom(userSettings);
+  const [isSettingsOpen, setSettingsOpen] = useAtom(settingsOpen);
+  const [vibrancy, setVibrancy] = useAtom(vibrancyConfig);
+  const [isAboutOpen, setAboutOpen] = useAtom(aboutOpen);
   const isDarkMode = useIsDarkMode();
 
   const editorInstance = useRef<Editor>(null);
@@ -117,13 +120,13 @@ function App() {
   });
   useKeyPress("ctrl.f", (e) => {
     e.preventDefault();
-    setToolbar("find");
+    setToolbarOpen("find");
   });
   useKeyPress(["f5", "f7"], (e) => {
     e.preventDefault();
   });
   useKeyPress("ctrl.h", () => {
-    setToolbar("replace");
+    setToolbarOpen("replace");
   });
 
   useKeyPress("ctrl.alt.d", () => {
@@ -146,9 +149,8 @@ function App() {
       className="provider"
     >
       <div
-        className={`container ${
-          !settings.vibrancy || settings.vibrancy === "Default" ? "window" : ""
-        } ${vibrancy.vibrancy ? "mac" : ""}`}
+        className={`container ${!settings.vibrancy || settings.vibrancy === "Default" ? "window" : ""
+          } ${vibrancy.vibrancy ? "mac" : ""}`}
       >
         <TitleBar editorInstance={editorInstance} />
         <div className="editor" spellCheck={false}>
@@ -171,15 +173,15 @@ function App() {
           <Spinner />
         </div>
         <Preferences
-          open={preference}
+          open={isSettingsOpen}
           onClose={() => {
-            setPreference(false);
+            setSettingsOpen(false);
           }}
         />
         <About
-          open={about}
+          open={isAboutOpen}
           onClose={() => {
-            setAbout(false);
+            setAboutOpen(false);
           }}
         />
         <FloatingToolbar editorInstance={editorInstance} />
