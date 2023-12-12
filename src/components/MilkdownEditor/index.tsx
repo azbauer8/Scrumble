@@ -42,6 +42,7 @@ interface MilkdownEditor {
   ref?: React.ForwardedRef<Editor>;
 }
 
+let currentContent = "";
 const syntaxMap = {
   gfm: gfm.configure(gfmHeading, {
     className: (attrs) => `milkdownHeading h${attrs.level}`,
@@ -51,7 +52,6 @@ const syntaxMap = {
   }),
 };
 
-let currentContent = "";
 
 const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
   Editor,
