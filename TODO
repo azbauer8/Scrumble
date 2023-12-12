@@ -4,3 +4,4 @@ TODO: Create app icon and images for windows installer adding lines to tauri.con
 
 TODO: strip down editor functionality to try to fix some bugs like dragging blocks
 TODO: Fix file save/close dialogs
+TODO: Fix app.css general window layout and styling
