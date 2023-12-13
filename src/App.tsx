@@ -1,4 +1,5 @@
-import "./App.css";
+import "./styles/editorLayout.css";
+import "./styles/colorSchemes.css"
 import { useRef } from "react";
 import useIsDarkMode from "./hooks/dark";
 
@@ -52,7 +53,7 @@ function App() {
           } ${vibrancy.vibrancy ? "mac" : ""}`}
       >
         <TitleBar editorInstance={editorInstance} />
-        <div className="editor" spellCheck={false}>
+        <div className="editor-container" spellCheck={false}>
           <MilkdownEditor
             useMenu={false}
             content={content}
