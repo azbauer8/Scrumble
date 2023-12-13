@@ -1,10 +1,8 @@
 import "./preferences.css";
-import { invoke } from "@tauri-apps/api/tauri";
 import React, { useState } from "react";
 
 import { useAtom } from "jotai";
 import { userSettings } from "../../globalState/settings";
-import { vibrancyConfig } from "../../globalState/ui";
 
 import {
   Button,
@@ -34,7 +32,6 @@ const syntaxMap = {
 
 const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
   const [settings, setSettings] = useAtom(userSettings);
-  const [vibrancy] = useAtom(vibrancyConfig);
   const [relaunchItem, setRelaunchItem] = useState<{
     [prop in keyof typeof settings]?: unknown;
   }>({});
@@ -95,36 +92,11 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
               </Dropdown>
             </div>
             <div className="option">
-              <p className="description">Window Style</p>
-              <Dropdown
-                value={settings.vibrancy}
-                onOptionSelect={(e, data) => {
-                  if (settings.vibrancy === "Mica") invoke("clear_Mica");
-                  else if (settings.vibrancy === "Acrylic")
-                    invoke("clear_acrylic");
-                  setSetting("vibrancy", data.optionValue);
-                }}
-              >
-                <Option value="Default">Default</Option>
-                {vibrancy.acrylic && <Option value="Acrylic">Acrylic</Option>}
-                {vibrancy.mica && <Option value="Mica">Mica</Option>}
-              </Dropdown>
-            </div>
-            <div className="option">
               <p className="description">Auto Save</p>
               <Switch
                 checked={settings.autoSave}
                 onChange={(e, data) => {
                   setSetting("autoSave", data.checked);
-                }}
-              />
-            </div>
-            <div className="option">
-              <p className="description">Save when editor blurred</p>
-              <Switch
-                checked={settings.saveBlur}
-                onChange={(e, data) => {
-                  setSetting("saveBlur", data.checked);
                 }}
               />
             </div>
@@ -142,14 +114,15 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 }}
               />
             </div>
-            {/*
-                        <div className="option">
-                            <p className="description">
-                                Default path
-                            </p>
-                            <Input />
-                        </div>
-                        */}
+            <div className="option">
+              <p className="description">Save when editor blurred</p>
+              <Switch
+                checked={settings.saveBlur}
+                onChange={(e, data) => {
+                  setSetting("saveBlur", data.checked);
+                }}
+              />
+            </div>
           </DialogContent>
           <DialogActions>
             <Button

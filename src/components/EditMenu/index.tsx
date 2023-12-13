@@ -9,7 +9,6 @@ import {
   MenuButton,
   MenuDivider,
   MenuItem,
-  MenuItemCheckbox,
   MenuList,
   MenuPopover,
   MenuTrigger,
@@ -47,7 +46,6 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
       onOpenChange={(e, data) => {
         setEditMenuOpen(data.open);
       }}
-      hasCheckmarks
     >
       <MenuTrigger disableButtonEnhancement>
         <MenuButton
@@ -60,6 +58,7 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
       </MenuTrigger>
       <MenuPopover>
         <MenuList>
+
           <MenuItem
             onClick={() => {
               setToolbarOpen("find");
@@ -75,6 +74,7 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
             Replace
           </MenuItem>
           <MenuDivider />
+
           <MenuItem
             disabled={settings.syntax !== "gfm"}
             onClick={() => {
@@ -86,15 +86,6 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
           >
             Add Table
           </MenuItem>
-          <MenuItemCheckbox
-            name="twoColumnEditor"
-            value="twoColumn"
-            onClick={() => {
-              setTwoColumn(!twoColumn);
-            }}
-          >
-            Split Source View
-          </MenuItemCheckbox>
           <MenuItem
             onClick={() => {
               if (!editorInstance.current) return;
@@ -126,6 +117,14 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
             }}
           >
             Add Formula
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem
+            onClick={() => {
+              setTwoColumn(!twoColumn);
+            }}
+          >
+            {`${twoColumn ? "Disable" : "Enable"} Split View`}
           </MenuItem>
         </MenuList>
       </MenuPopover>

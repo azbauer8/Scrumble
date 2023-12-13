@@ -12,7 +12,7 @@ import {
   aboutOpen,
   settingsOpen,
   isTwoColumn,
-  vibrancyConfig,
+  isMac,
 } from "./globalState/ui";
 
 import {
@@ -34,8 +34,8 @@ function App() {
   const [twoColumn] = useAtom(isTwoColumn);
   const [settings] = useAtom(userSettings);
   const [isSettingsOpen, setSettingsOpen] = useAtom(settingsOpen);
-  const [vibrancy] = useAtom(vibrancyConfig);
   const [isAboutOpen, setAboutOpen] = useAtom(aboutOpen);
+  const [isAMac] = useAtom(isMac);
   const isDarkMode = useIsDarkMode();
 
   const editorInstance = useRef<Editor>(null);
@@ -49,8 +49,7 @@ function App() {
       className="provider"
     >
       <div
-        className={`container ${!settings.vibrancy || settings.vibrancy === "Default" ? "window" : ""
-          } ${vibrancy.vibrancy ? "mac" : ""}`}
+        className={`container ${isAMac ? "mac" : "windows"}`}
       >
         <TitleBar editorInstance={editorInstance} />
         <div className="editor-container" spellCheck={false}>

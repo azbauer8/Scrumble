@@ -6,7 +6,6 @@ interface Setting {
   saveBlur: boolean;
   saveInterval: number;
   defaultPath: string;
-  vibrancy: "Mica" | "Acrylic" | "Default";
 }
 
 export const userSettings = atomWithStorage<Setting>("settings", {
@@ -15,5 +14,4 @@ export const userSettings = atomWithStorage<Setting>("settings", {
   saveBlur: false,
   saveInterval: 120,
   defaultPath: "",
-  vibrancy: "Default",
 });

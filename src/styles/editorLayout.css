@@ -32,6 +32,11 @@
         overflow: auto;
         height: calc(100vh - 1rem - 32px);
       }
+      .editor {
+        padding-top: 0px;
+        padding-left: 35px;
+        padding-right: 35px;
+      }
     }
   }
 }
@@ -64,9 +69,8 @@
   }
 }
 
-.window {
-  background-color: var(--colorNeutralBackground4);
-  border-radius: 3px;
+.paragraph {
+  font-size: 1.2em !important;
 }
 
 .milkdownHeading.h1 {
@@ -86,9 +90,9 @@
 }
 
 .milkdownHeading.h5 {
-  font-size: 1.25em !important;
+  font-size: 1.38em !important;
 }
 
 .milkdownHeading.h6 {
-  font-size: 1.125em !important;
+  font-size: 1.3em !important;
 }

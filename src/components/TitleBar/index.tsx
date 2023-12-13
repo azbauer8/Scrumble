@@ -6,7 +6,7 @@ import { confirm } from "@tauri-apps/api/dialog";
 import { useUpdateEffect } from "ahooks";
 
 import { useAtom } from "jotai";
-import { aboutOpen, settingsOpen, vibrancyConfig } from "../../globalState/ui";
+import { aboutOpen, isMac, settingsOpen } from "../../globalState/ui";
 import { isSaved, isSaving } from "../../globalState/file";
 
 import { Button } from "@fluentui/react-components";
@@ -31,8 +31,8 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
   const [isSettingsOpen] = useAtom(settingsOpen);
   const [isAboutOpen] = useAtom(aboutOpen);
   const [saved] = useAtom(isSaved);
-  const [vibrancy] = useAtom(vibrancyConfig);
   const [, setSaving] = useAtom(isSaving);
+  const [isAMac] = useAtom(isMac);
   const titleBarRef = useRef<HTMLDivElement>(null);
   const disableMenu = (e: MouseEvent) => {
     e.preventDefault();
@@ -66,43 +66,41 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
     <>
       <div
         data-tauri-drag-region
-        className={`bar ${vibrancy.vibrancy ? "mac" : ""}`}
+        className="bar"
         ref={titleBarRef}
       >
-        {vibrancy.vibrancy && (
-          <div className="trafficLights">
-            <div
-              className="light"
-              style={{
-                backgroundColor: "#ff5e57",
-                border: "1px solid #e0534d",
-              }}
-              onClick={async () => {
-                appWindow.emit(TauriEvent.WINDOW_CLOSE_REQUESTED);
-              }}
-            />
-            <div
-              className="light"
-              style={{
-                backgroundColor: "#ffbb2e",
-                border: "1px solid #e0a528",
-              }}
-              onClick={async () => {
-                await appWindow.minimize();
-              }}
-            />
-            <div
-              className="light"
-              style={{
-                backgroundColor: "#38c149",
-                border: "1px solid #31aa40",
-              }}
-              onClick={async () => {
-                await appWindow.toggleMaximize();
-              }}
-            />
-          </div>
-        )}
+        {isAMac && <div className="trafficLights">
+          <div
+            className="light"
+            style={{
+              backgroundColor: "#ff5e57",
+              border: "1px solid #e0534d",
+            }}
+            onClick={async () => {
+              appWindow.emit(TauriEvent.WINDOW_CLOSE_REQUESTED);
+            }}
+          />
+          <div
+            className="light"
+            style={{
+              backgroundColor: "#ffbb2e",
+              border: "1px solid #e0a528",
+            }}
+            onClick={async () => {
+              await appWindow.minimize();
+            }}
+          />
+          <div
+            className="light"
+            style={{
+              backgroundColor: "#38c149",
+              border: "1px solid #31aa40",
+            }}
+            onClick={async () => {
+              await appWindow.toggleMaximize();
+            }}
+          />
+        </div>}
         <div data-tauri-drag-region className="title">
           Scrumble
         </div>
@@ -111,31 +109,29 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
           <div style={{ width: "0.5rem" }}></div>
           <EditMenu editorInstance={editorInstance} />
         </div>
-        {!vibrancy.vibrancy && (
-          <div className="control">
-            <Button
-              appearance="subtle"
-              icon={<ArrowDown20Regular />}
-              onClick={async () => {
-                await appWindow.minimize();
-              }}
-            />
-            <Button
-              appearance="subtle"
-              icon={<FullScreenMaximize20Regular />}
-              onClick={async () => {
-                await appWindow.toggleMaximize();
-              }}
-            />
-            <Button
-              appearance="subtle"
-              icon={<Add20Regular className="close" />}
-              onClick={async () => {
-                appWindow.emit(TauriEvent.WINDOW_CLOSE_REQUESTED);
-              }}
-            />
-          </div>
-        )}
+        <div className="control">
+          <Button
+            appearance="subtle"
+            icon={<ArrowDown20Regular />}
+            onClick={async () => {
+              await appWindow.minimize();
+            }}
+          />
+          <Button
+            appearance="subtle"
+            icon={<FullScreenMaximize20Regular />}
+            onClick={async () => {
+              await appWindow.toggleMaximize();
+            }}
+          />
+          <Button
+            appearance="subtle"
+            icon={<Add20Regular className="close" />}
+            onClick={async () => {
+              appWindow.emit(TauriEvent.WINDOW_CLOSE_REQUESTED);
+            }}
+          />
+        </div>
       </div>
       {(isSettingsOpen || isAboutOpen) && (
         <div data-tauri-drag-region className="invisibleBar" />
