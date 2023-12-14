@@ -1,8 +1,8 @@
-import "./preferences.css";
+import "./settings.css";
 import React, { useState } from "react";
 
 import { useAtom } from "jotai";
-import { userSettings } from "../../globalState/settings";
+import { userSettingsState } from "../../../globalState/settings";
 
 import {
   Button,
@@ -30,39 +30,39 @@ const syntaxMap = {
   commonmark: "CommonMark",
 };
 
-const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
-  const [settings, setSettings] = useAtom(userSettings);
+const Settings: React.FC<PerferencesProps> = ({ open, onClose }) => {
+  const [userSettings, setUserSettings] = useAtom(userSettingsState);
   const [relaunchItem, setRelaunchItem] = useState<{
-    [prop in keyof typeof settings]?: unknown;
+    [prop in keyof typeof userSettings]?: unknown;
   }>({});
-  function setSetting(key: keyof typeof settings, value: unknown) {
-    setSettings(
-      Object.assign({}, settings, {
+  function setSetting(key: keyof typeof userSettings, value: unknown) {
+    setUserSettings(
+      Object.assign({}, userSettings, {
         [key]: value,
       })
     );
   }
-  function addRelaunchItem(key: keyof typeof settings, value: unknown) {
+  function addRelaunchItem(key: keyof typeof userSettings, value: unknown) {
     setRelaunchItem(
       Object.assign({}, relaunchItem, {
         [key]: value,
       })
     );
   }
-  function deleteRelaunchItem(key: keyof typeof settings) {
+  function deleteRelaunchItem(key: keyof typeof userSettings) {
     const modifiedRelaunchItem = Object.assign({}, relaunchItem);
     delete modifiedRelaunchItem[key];
     setRelaunchItem(modifiedRelaunchItem);
   }
   function relaunchApply() {
-    setSettings(Object.assign({}, settings, relaunchItem));
+    setUserSettings(Object.assign({}, userSettings, relaunchItem));
     location.reload();
   }
   return (
     <Dialog open={open}>
       <DialogSurface>
         <DialogBody className="body">
-          <DialogTitle>Preferences</DialogTitle>
+          <DialogTitle>Settings</DialogTitle>
           <DialogContent className="content">
             {Object.keys(relaunchItem).length !== 0 && (
               <Card appearance="outline" className="alert">
@@ -78,11 +78,11 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
                 value={
                   syntaxMap[
                   (relaunchItem.syntax as keyof typeof syntaxMap) ??
-                  settings.syntax
+                  userSettings.syntax
                   ]
                 }
                 onOptionSelect={(e, data) => {
-                  if (data.optionValue !== settings.syntax)
+                  if (data.optionValue !== userSettings.syntax)
                     addRelaunchItem("syntax", data.optionValue);
                   else deleteRelaunchItem("syntax");
                 }}
@@ -94,7 +94,7 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
             <div className="option">
               <p className="description">Auto Save</p>
               <Switch
-                checked={settings.autoSave}
+                checked={userSettings.autoSave}
                 onChange={(e, data) => {
                   setSetting("autoSave", data.checked);
                 }}
@@ -104,8 +104,8 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
               <p className="description">Save interval (sec)</p>
               <Input
                 type="number"
-                value={String(settings.saveInterval)}
-                disabled={!settings.autoSave}
+                value={String(userSettings.saveInterval)}
+                disabled={!userSettings.autoSave}
                 onChange={(e, data) => {
                   setSetting(
                     "saveInterval",
@@ -117,7 +117,7 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
             <div className="option">
               <p className="description">Save when editor blurred</p>
               <Switch
-                checked={settings.saveBlur}
+                checked={userSettings.saveBlur}
                 onChange={(e, data) => {
                   setSetting("saveBlur", data.checked);
                 }}
@@ -141,4 +141,4 @@ const Preferences: React.FC<PerferencesProps> = ({ open, onClose }) => {
   );
 };
 
-export default Preferences;
+export default Settings;

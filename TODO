@@ -1,7 +1,12 @@
-TODO: Create app icon and images for windows installer adding lines to tauri.conf.json:
-"bannerPath": "wix-assets/banner.png",
-"dialogImagePath": "wix-assets/dialog.png",
-
 TODO: strip down editor functionality to try to fix some bugs like dragging blocks
 TODO: Fix file save/close dialogs
-TODO: Fix app.css general window layout and styling
+
+Roadmap:
+
+- Add "Open folder" functionality with sidebar to switch between files in folder
+- Add setting to open default folder on launch
+
+Wishlist:
+
+- Command Palette
+- Slash menu?

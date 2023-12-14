@@ -33,7 +33,7 @@ import { getNord } from "@milkdown/theme-nord";
 import "@material-design-icons/font";
 import "katex/dist/katex.min.css";
 
-interface MilkdownEditor {
+interface MdEditor {
   content: string;
   useMenu?: boolean;
   twoColumnEditor?: boolean;
@@ -53,9 +53,9 @@ const syntaxMap = {
 };
 
 
-const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
+const loadMdEditor: React.FC<MdEditor> = forwardRef<
   Editor,
-  MilkdownEditor
+  MdEditor
 >(
   (
     {
@@ -139,8 +139,8 @@ const MilkdownEditor: React.FC<MilkdownEditor> = forwardRef<
 );
 
 function areEqual(
-  prevProps: Readonly<MilkdownEditor>,
-  nextProps: Readonly<MilkdownEditor>
+  prevProps: Readonly<MdEditor>,
+  nextProps: Readonly<MdEditor>
 ) {
   if (prevProps !== nextProps) {
     for (const nextProp in nextProps) {
@@ -163,6 +163,6 @@ function areEqual(
   return true;
 }
 
-MilkdownEditor.displayName = "MilkdownEditor";
+loadMdEditor.displayName = "MdEditor";
 
-export default React.memo(MilkdownEditor, areEqual);
+export default React.memo(loadMdEditor, areEqual);

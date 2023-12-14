@@ -1,8 +1,8 @@
 import { atom } from "jotai";
-export const isMac = atom<boolean>(false);
-export const isLoading = atom<boolean>(false);
-export const settingsOpen = atom<boolean>(false);
-export const aboutOpen = atom<boolean>(false);
-export const toolbarOpen = atom<boolean | "find" | "replace">(false);
-export const editMenuOpen = atom<boolean>(false);
-export const isTwoColumn = atom<boolean>(false);
+export const isMacState = atom<boolean>(false);
+export const isLoadingState = atom<boolean>(false);
+export const settingsOpenState = atom<boolean>(false);
+export const aboutOpenState = atom<boolean>(false);
+export const toolbarOpenState = atom<boolean | "find" | "replace">(false);
+export const editMenuOpenState = atom<boolean>(false);
+export const isTwoColumnState = atom<boolean>(false);

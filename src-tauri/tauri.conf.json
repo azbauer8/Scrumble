@@ -65,8 +65,10 @@
         "digestAlgorithm": "sha256",
         "timestampUrl": "",
         "wix": {
+          "license": "../LICENSE",
           "template": "wix-assets/main.wxs",
-          "license": "../LICENSE"
+          "bannerPath": "wix-assets/banner.png",
+          "dialogImagePath": "wix-assets/dialog.png"
         }
       }
     },

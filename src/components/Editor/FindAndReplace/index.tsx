@@ -1,12 +1,12 @@
-import "./floating-toolbar.css";
+import "./find-and-replace.css";
 import React, { useState } from "react";
 import { useKeyPress, useUpdateEffect } from "ahooks";
 
-import { Finder } from "../../utils/findAndReplace";
+import { Finder } from "../../../utils/findAndReplace";
 
 import { useAtom } from "jotai";
-import { toolbarOpen } from "../../globalState/ui";
-import { fileContent } from "../../globalState/file";
+import { toolbarOpenState } from "../../../globalState/ui";
+import { fileContentState } from "../../../globalState/file";
 
 import { Card } from "@fluentui/react-components";
 import {
@@ -30,15 +30,15 @@ import { Selection, TextSelection } from "@milkdown/prose/state";
 import { Slice } from "@milkdown/prose/model";
 
 
-interface FloatingToolbar {
+interface FindAndReplace {
   editorInstance: {
     current?: Editor | null;
   };
 }
 
-const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
-  const [isToolbarOpen, setToolbarOpen] = useAtom(toolbarOpen);
-  const [content] = useAtom(fileContent);
+const FindAndReplace: React.FC<FindAndReplace> = ({ editorInstance }) => {
+  const [toolbarOpen, setToolbarOpen] = useAtom(toolbarOpenState);
+  const [fileContent] = useAtom(fileContentState);
   const [find, setFind] = useState("");
   const [replace, setReplace] = useState("");
   const [isCaseSensitive, setCaseSensitive] = useState(false);
@@ -139,23 +139,23 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
    */
 
   useKeyPress("esc", () => {
-    if (isToolbarOpen) setToolbarOpen(false);
+    if (toolbarOpen) setToolbarOpen(false);
   });
   useUpdateEffect(() => {
     selectByPos();
   }, [pos, result]);
   useUpdateEffect(() => {
-    if (isToolbarOpen && find !== "" && result.length !== 0) {
+    if (toolbarOpen && find !== "" && result.length !== 0) {
       handleSearch();
     }
-  }, [content]);
+  }, [fileContent]);
 
-  if (!isToolbarOpen) return <></>;
+  if (!toolbarOpen) return <></>;
   return (
     <div className="wrapper">
       <Card
         appearance="filled-alternative"
-        className={`card ${isToolbarOpen === "replace" ? "replace" : ""}`}
+        className={`card ${toolbarOpen === "replace" ? "replace" : ""}`}
       >
         <Toolbar>
           <div className="input">
@@ -169,7 +169,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
                 if (e.key === "Enter") handleSearch();
               }}
             />
-            {isToolbarOpen === "replace" && (
+            {toolbarOpen === "replace" && (
               <Input
                 placeholder="Replace..."
                 value={replace}
@@ -235,7 +235,7 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
                 icon={<TextCaseTitle24Regular />}
               />
             </Tooltip>
-            {isToolbarOpen === "replace" && (
+            {toolbarOpen === "replace" && (
               <>
                 <Tooltip content="Replace" showDelay={650} relationship="label">
                   <ToolbarButton
@@ -270,4 +270,4 @@ const FloatingToolbar: React.FC<FloatingToolbar> = ({ editorInstance }) => {
   );
 };
 
-export default FloatingToolbar;
+export default FindAndReplace;

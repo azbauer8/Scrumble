@@ -10,9 +10,9 @@ import {
   Text,
 } from "@fluentui/react-components";
 import "./about.css";
-import icon from "../../assets/favicon.png";
 import { useAsyncEffect } from "ahooks";
 import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
+import { RiQuillPenFill } from "react-icons/ri";
 
 interface AboutProps {
   open: boolean;
@@ -33,16 +33,15 @@ const About: React.FC<AboutProps> = ({ open, onClose }) => {
           <DialogTitle>About </DialogTitle>
           <DialogContent>
             <div className="about">
-              <img src={icon} />
+              <RiQuillPenFill className="about-icon" />
               <div className="version">
                 <Text weight="semibold" size={400}>
                   Scrumble
                 </Text>
                 <Text>{`Version: ${version ? version : "Loading..."}`}</Text>
                 <Text>
-                  {`Tauri Version: ${
-                    tauriVersion ? tauriVersion : "Loading..."
-                  }`}
+                  {`Tauri Version: ${tauriVersion ? tauriVersion : "Loading..."
+                    }`}
                 </Text>
               </div>
             </div>

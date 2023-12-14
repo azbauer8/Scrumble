@@ -1,19 +1,19 @@
 import { useKeyPress } from "ahooks";
 import { useAtom } from "jotai";
 import {
-  currentFile,
-  fileContent,
-  isSaved,
-  isSaving,
+  currentFileState,
+  fileContentState,
+  isSavedState,
+  isSavingState,
 } from "../globalState/file";
-import { toolbarOpen } from "../globalState/ui";
+import { toolbarOpenState } from "../globalState/ui";
 
 export default function UseKeybinds() {
-  const [filePath, setFilePath] = useAtom(currentFile);
-  const [content, setContent] = useAtom(fileContent);
-  const [, setToolbarOpen] = useAtom(toolbarOpen);
-  const [saved, setSaved] = useAtom(isSaved);
-  const [, setSaving] = useAtom(isSaving);
+  const [currentFile, setCurrentFile] = useAtom(currentFileState);
+  const [fileContent, setFileContent] = useAtom(fileContentState);
+  const [, setToolbarOpen] = useAtom(toolbarOpenState);
+  const [isSaved, setSaved] = useAtom(isSavedState);
+  const [, setSaving] = useAtom(isSavingState);
 
   // disable unwanted native shortcuts
   useKeyPress(["f5", "f7"], (e) => {
@@ -35,13 +35,13 @@ export default function UseKeybinds() {
     ["shift.ctrl.s"],
     async (e) => {
       e.preventDefault();
-      const originalFilePath = filePath;
-      const originalContent = content;
-      const originalSaved = saved;
-      setFilePath(null);
+      const originalFilePath = currentFile;
+      const originalContent = fileContent;
+      const originalSaved = isSaved;
+      setCurrentFile(null);
       setSaving(true);
-      setFilePath(originalFilePath);
-      setContent(originalContent);
+      setCurrentFile(originalFilePath);
+      setFileContent(originalContent);
       setSaved(originalSaved);
     },
     { exactMatch: true }

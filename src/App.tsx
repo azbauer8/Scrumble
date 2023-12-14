@@ -1,18 +1,12 @@
 import "./styles/editorLayout.css";
 import "./styles/colorSchemes.css"
+import "./styles/nordCodeBlocks.css"
 import { useRef } from "react";
 import useIsDarkMode from "./hooks/dark";
 
 import { useAtom } from "jotai";
-import { userSettings } from "./globalState/settings";
 import {
-  fileContent,
-} from "./globalState/file";
-import {
-  aboutOpen,
-  settingsOpen,
-  isTwoColumn,
-  isMac,
+  isMacState,
 } from "./globalState/ui";
 
 import {
@@ -21,21 +15,14 @@ import {
   webDarkTheme,
 } from "@fluentui/react-components";
 import { Editor } from "@milkdown/core";
-import MilkdownEditor from "./components/MilkdownEditor";
 import TitleBar from "./components/TitleBar";
-import Preferences from "./components/Preferences";
-import About from "./components/About";
-import FloatingToolbar from "./components/FloatingToolbar";
 import InitializeEditor from "./hooks/initializeEditor";
 import UseKeybinds from "./hooks/keybinds";
+import EditorWrapper from "./components/Editor";
+import Modals from "./components/Modals";
 
 function App() {
-  const [content, setContent] = useAtom(fileContent);
-  const [twoColumn] = useAtom(isTwoColumn);
-  const [settings] = useAtom(userSettings);
-  const [isSettingsOpen, setSettingsOpen] = useAtom(settingsOpen);
-  const [isAboutOpen, setAboutOpen] = useAtom(aboutOpen);
-  const [isAMac] = useAtom(isMac);
+  const [isMac] = useAtom(isMacState);
   const isDarkMode = useIsDarkMode();
 
   const editorInstance = useRef<Editor>(null);
@@ -49,34 +36,11 @@ function App() {
       className="provider"
     >
       <div
-        className={`container ${isAMac ? "mac" : "windows"}`}
+        className={`container ${isMac ? "mac" : "windows"}`}
       >
+        <Modals />
         <TitleBar editorInstance={editorInstance} />
-        <div className="editor-container" spellCheck={false}>
-          <MilkdownEditor
-            useMenu={false}
-            content={content}
-            onMarkdownUpdated={(markdown) => {
-              setContent(markdown);
-            }}
-            twoColumnEditor={twoColumn}
-            syntaxOption={settings.syntax}
-            ref={editorInstance}
-          />
-          <FloatingToolbar editorInstance={editorInstance} />
-        </div>
-        <Preferences
-          open={isSettingsOpen}
-          onClose={() => {
-            setSettingsOpen(false);
-          }}
-        />
-        <About
-          open={isAboutOpen}
-          onClose={() => {
-            setAboutOpen(false);
-          }}
-        />
+        <EditorWrapper editorInstance={editorInstance} />
       </div>
     </FluentProvider>
   );

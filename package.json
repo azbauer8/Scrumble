@@ -1,7 +1,7 @@
 {
   "name": "scrumble",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -40,6 +40,7 @@
     "jotai": "^1.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
     "showdown": "^2.1.0",
     "zustand": "^4.4.7"
   },

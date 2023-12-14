@@ -7,9 +7,10 @@
   user-select: text;
 }
 
-.about img {
+.about-icon {
   margin-left: 1rem;
   width: 70px;
+  height: 70px;
   user-select: none;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
   margin-right: 2rem;

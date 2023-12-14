@@ -1,6 +1,6 @@
 import { atomWithStorage } from "jotai/utils";
 
-interface Setting {
+interface SettingsProps {
   syntax: "gfm" | "commonmark";
   autoSave: boolean;
   saveBlur: boolean;
@@ -8,7 +8,7 @@ interface Setting {
   defaultPath: string;
 }
 
-export const userSettings = atomWithStorage<Setting>("settings", {
+export const userSettingsState = atomWithStorage<SettingsProps>("settings", {
   syntax: "gfm",
   autoSave: false,
   saveBlur: false,

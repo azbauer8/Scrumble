@@ -1,8 +1,8 @@
 import React from "react";
 
 import { useAtom } from "jotai";
-import { editMenuOpen, toolbarOpen, isTwoColumn } from "../../globalState/ui";
-import { userSettings } from "../../globalState/settings";
+import { editMenuOpenState, toolbarOpenState, isTwoColumnState } from "../../../globalState/ui";
+import { userSettingsState } from "../../../globalState/settings";
 
 import {
   Menu,
@@ -36,10 +36,10 @@ graph TD;
 const defaultFormula = `$\\sum_{i=0}^n i^2 = \\frac{(n^2+n)(2n+1)}{6}$`;
 
 const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
-  const [, setToolbarOpen] = useAtom(toolbarOpen);
-  const [settings] = useAtom(userSettings);
-  const [, setEditMenuOpen] = useAtom(editMenuOpen);
-  const [twoColumn, setTwoColumn] = useAtom(isTwoColumn);
+  const [, setToolbarOpen] = useAtom(toolbarOpenState);
+  const [userSettings] = useAtom(userSettingsState);
+  const [, setEditMenuOpen] = useAtom(editMenuOpenState);
+  const [istwoColumn, setTwoColumn] = useAtom(isTwoColumnState);
 
   return (
     <Menu
@@ -76,7 +76,7 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
           <MenuDivider />
 
           <MenuItem
-            disabled={settings.syntax !== "gfm"}
+            disabled={userSettings.syntax !== "gfm"}
             onClick={() => {
               if (!editorInstance.current) return;
               const commandManager =
@@ -121,10 +121,10 @@ const EditMenu: React.FC<EditMenu> = ({ editorInstance }) => {
           <MenuDivider />
           <MenuItem
             onClick={() => {
-              setTwoColumn(!twoColumn);
+              setTwoColumn(!istwoColumn);
             }}
           >
-            {`${twoColumn ? "Disable" : "Enable"} Split View`}
+            {`${istwoColumn ? "Disable" : "Enable"} Split View`}
           </MenuItem>
         </MenuList>
       </MenuPopover>

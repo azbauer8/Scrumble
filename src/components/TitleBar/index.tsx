@@ -6,8 +6,8 @@ import { confirm } from "@tauri-apps/api/dialog";
 import { useUpdateEffect } from "ahooks";
 
 import { useAtom } from "jotai";
-import { aboutOpen, isMac, settingsOpen } from "../../globalState/ui";
-import { isSaved, isSaving } from "../../globalState/file";
+import { aboutOpenState, isMacState, settingsOpenState } from "../../globalState/ui";
+import { isSavedState, isSavingState } from "../../globalState/file";
 
 import { Button } from "@fluentui/react-components";
 import {
@@ -17,10 +17,10 @@ import {
 } from "@fluentui/react-icons";
 import { Editor } from "@milkdown/core";
 
-import FileMenu from "../FileMenu";
-import EditMenu from "../EditMenu";
+import FileMenu from "./FileMenu";
+import EditMenu from "./EditMenu";
 
-let globalSaved = isSaved.init;
+let globalSaved = isSavedState.init;
 interface TitleBar {
   editorInstance: {
     current?: Editor | null;
@@ -28,11 +28,11 @@ interface TitleBar {
 }
 
 const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
-  const [isSettingsOpen] = useAtom(settingsOpen);
-  const [isAboutOpen] = useAtom(aboutOpen);
-  const [saved] = useAtom(isSaved);
-  const [, setSaving] = useAtom(isSaving);
-  const [isAMac] = useAtom(isMac);
+  const [settingsOpen] = useAtom(settingsOpenState);
+  const [aboutOpen] = useAtom(aboutOpenState);
+  const [saved] = useAtom(isSavedState);
+  const [, setSaving] = useAtom(isSavingState);
+  const [isMac] = useAtom(isMacState);
   const titleBarRef = useRef<HTMLDivElement>(null);
   const disableMenu = (e: MouseEvent) => {
     e.preventDefault();
@@ -69,7 +69,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
         className="bar"
         ref={titleBarRef}
       >
-        {isAMac && <div className="trafficLights">
+        {isMac && <div className="trafficLights">
           <div
             className="light"
             style={{
@@ -133,7 +133,7 @@ const TitleBar: React.FC<TitleBar> = ({ editorInstance }) => {
           />
         </div>
       </div>
-      {(isSettingsOpen || isAboutOpen) && (
+      {(settingsOpen || aboutOpen) && (
         <div data-tauri-drag-region className="invisibleBar" />
       )}
     </>

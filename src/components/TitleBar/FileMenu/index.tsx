@@ -9,12 +9,12 @@ import * as showdown from "showdown";
 
 import { useAtom } from "jotai";
 import {
-  fileContent,
-  currentFile,
-  isSaved,
-  isSaving,
-} from "../../globalState/file";
-import { aboutOpen, settingsOpen } from "../../globalState/ui";
+  fileContentState,
+  currentFileState,
+  isSavedState,
+  isSavingState,
+} from "../../../globalState/file";
+import { aboutOpenState, settingsOpenState } from "../../../globalState/ui";
 
 import {
   Menu,
@@ -42,12 +42,12 @@ const availbleExportExts = [
 ];
 
 const FileMenu: React.FC = () => {
-  const [filePath, setFilePath] = useAtom(currentFile);
-  const [content, setContent] = useAtom(fileContent);
-  const [, setSettingsOpen] = useAtom(settingsOpen);
-  const [saved, setSaved] = useAtom(isSaved);
-  const [, setAboutOpen] = useAtom(aboutOpen);
-  const [, setSaving] = useAtom(isSaving);
+  const [currentFile, setCurrentFile] = useAtom(currentFileState);
+  const [fileContent, setFileContent] = useAtom(fileContentState);
+  const [, setSettingsOpen] = useAtom(settingsOpenState);
+  const [isSaved, setSaved] = useAtom(isSavedState);
+  const [, setAboutOpen] = useAtom(aboutOpenState);
+  const [, setSaving] = useAtom(isSavingState);
   return (
     <Menu>
       <MenuTrigger disableButtonEnhancement>
@@ -60,7 +60,7 @@ const FileMenu: React.FC = () => {
         <MenuList>
           <MenuItem
             onClick={async () => {
-              setFilePath(null);
+              setCurrentFile(null);
             }}
           >
             New
@@ -73,13 +73,13 @@ const FileMenu: React.FC = () => {
                 filters: availbleExts,
               });
               if (selected === null) return;
-              setFilePath(selected as string);
+              setCurrentFile(selected as string);
             }}
           >
             Open
           </MenuItem>
           <MenuItem
-            disabled={filePath === null}
+            disabled={currentFile === null}
             onClick={async () => {
               setSaving(true);
             }}
@@ -89,15 +89,15 @@ const FileMenu: React.FC = () => {
           <MenuItem
             onClick={async () => {
               // Store original jotai
-              const originalFilePath = filePath;
-              const originalContent = content;
-              const originalSaved = saved;
+              const originalFilePath = currentFile;
+              const originalContent = fileContent;
+              const originalSaved = isSaved;
               // If filePath is null, setSaving will trigged file picker automatically
-              setFilePath(null);
+              setCurrentFile(null);
               setSaving(true);
               // Restore original jotai
-              setFilePath(originalFilePath);
-              setContent(originalContent);
+              setCurrentFile(originalFilePath);
+              setFileContent(originalContent);
               setSaved(originalSaved);
             }}
           >
@@ -121,7 +121,7 @@ const FileMenu: React.FC = () => {
                   const converter = new showdown.Converter(); // @todo use ProseMirror's toDOM function
                   await writeTextFile({
                     path: selected as string,
-                    contents: converter.makeHtml(content),
+                    contents: converter.makeHtml(fileContent),
                   });
                   break;
               }
