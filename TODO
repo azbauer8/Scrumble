@@ -1,12 +1,20 @@
-TODO: strip down editor functionality to try to fix some bugs like dragging blocks
-TODO: Fix file save/close dialogs
+Known issues/awkward behaviors:
+TODO Dragging blocks is broken
+TODO Replace function is broken
+TODO Closing file before saving dialog is a bit wonky
+TODO Split source view doesn't follow dark mode
 
 Roadmap:
-
-- Add "Open folder" functionality with sidebar to switch between files in folder
-- Add setting to open default folder on launch
+Add "Open folder" functionality with sidebar to switch between files in folder
+Add setting to open default folder on launch
+Spell check setting
+Drag and drop functionality for images and links
+Native md file association
 
 Wishlist:
-
-- Command Palette
-- Slash menu?
+Tabs & multiple windows
+Command palette
+Slash menu
+Search directory
+Remap keybindings
+Custom themes
