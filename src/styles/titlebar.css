@@ -1,0 +1,37 @@
+.title-bar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.5rem;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.menu-dropdown {
+  margin-left: 0.3rem;
+  width: 8rem !important;
+  margin-top: -2px !important;
+}
+
+.menu-button {
+  padding: 10px !important;
+}
+
+.menu-button-icon {
+  width: 20px;
+  height: 20px;
+}
+
+#file-name {
+  cursor: default;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#close-button:hover {
+  background-color: #e81022b9;
+  color: white;
+}

@@ -1,0 +1,12 @@
+.editor-container {
+  height: calc(100vh - 2.5rem);
+}
+.editor-content {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 1rem 0.5rem;
+  border: none !important;
+}
+.tiptap {
+  padding: 0 !important;
+}
