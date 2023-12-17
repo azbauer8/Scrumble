@@ -1,11 +1,11 @@
-import { Modal, Group, Switch, NumberInput, Select } from "@mantine/core";
+import { Modal, Group, Switch, NumberInput } from "@mantine/core";
 
 import useUIState from "../../store/ui";
 import useSettingsState from "../../store/settings";
 
 export default function Settings() {
   const { isSettingsOpen, setSettingsOpen } = useUIState();
-  const { settings, setSyntax, setSaveInterval, setSaveBlur, setAutoSave } =
+  const { settings, setSaveInterval, setSaveBlur, setAutoSave } =
     useSettingsState();
   return (
     <Modal
@@ -14,15 +14,6 @@ export default function Settings() {
       title="Settings"
       centered
     >
-      <Group justify="space-between">
-        <p>Markdown Syntax</p>
-        <Select
-          className="input-box"
-          data={["CommonMark", "GitHub"]}
-          value={settings.syntax}
-          onChange={(event) => setSyntax(event as "CommonMark" | "GitHub")}
-        />
-      </Group>
       <Group justify="space-between">
         <p>Auto Save</p>
         <Switch

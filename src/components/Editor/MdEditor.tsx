@@ -1,6 +1,5 @@
 import "@mantine/tiptap/styles.css";
 import "../../styles/editor.css";
-import { ScrollArea } from "@mantine/core";
 import { useEditor, BubbleMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { RichTextEditor, Link } from "@mantine/tiptap";
@@ -31,24 +30,22 @@ export default function MdEditor() {
   // grab md content to save it with: editor?.storage.markdown.getMarkdown()
   // load md content with: editor?.commands.setContent(content)
   return (
-    <ScrollArea className="editor-container">
-      <RichTextEditor
-        editor={editor}
-        className="editor-content"
-        spellCheck={false}
-      >
-        {editor && (
-          <BubbleMenu editor={editor}>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.Code />
-              <RichTextEditor.Link />
-            </RichTextEditor.ControlsGroup>
-          </BubbleMenu>
-        )}
-        <RichTextEditor.Content />
-      </RichTextEditor>
-    </ScrollArea>
+    <RichTextEditor
+      editor={editor}
+      className="editor-content"
+      spellCheck={false}
+    >
+      {editor && (
+        <BubbleMenu editor={editor}>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Bold />
+            <RichTextEditor.Italic />
+            <RichTextEditor.Code />
+            <RichTextEditor.Link />
+          </RichTextEditor.ControlsGroup>
+        </BubbleMenu>
+      )}
+      <RichTextEditor.Content />
+    </RichTextEditor>
   );
 }

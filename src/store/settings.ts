@@ -1,7 +1,6 @@
 import { create } from "zustand";
 
 interface Settings {
-  syntax: "GitHub" | "CommonMark";
   autoSave: boolean;
   saveBlur: boolean;
   saveInterval: number;
@@ -10,7 +9,6 @@ interface Settings {
 
 type SettingsStore = {
   settings: Settings;
-  setSyntax: (syntax: "GitHub" | "CommonMark") => void;
   setAutoSave: (autoSave: boolean) => void;
   setSaveBlur: (saveBlur: boolean) => void;
   setSaveInterval: (saveInterval: number) => void;
@@ -19,14 +17,11 @@ type SettingsStore = {
 
 const useSettingsState = create<SettingsStore>((set) => ({
   settings: {
-    syntax: "GitHub",
     autoSave: true,
     saveBlur: false,
     saveInterval: 60,
     defaultPath: "",
   },
-  setSyntax: (syntax) =>
-    set((state) => ({ settings: { ...state.settings, syntax } })),
   setAutoSave: (autoSave) =>
     set((state) => ({ settings: { ...state.settings, autoSave } })),
   setSaveBlur: (saveBlur) =>

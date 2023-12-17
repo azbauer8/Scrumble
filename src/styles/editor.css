@@ -1,12 +1,27 @@
-.editor-container {
-  height: calc(100vh - 2.5rem);
-}
 .editor-content {
-  max-width: 70rem;
-  margin: 0 auto;
-  padding: 1rem 0.5rem;
   border: none !important;
 }
 .tiptap {
-  padding: 0 !important;
+  padding: 2.5rem 0 !important;
+  height: calc(100vh - 2.5rem);
+  overflow-y: scroll;
+}
+.tiptap * {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.tiptap::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.tiptap::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Handle */
+.tiptap::-webkit-scrollbar-thumb {
+  background: var(--mantine-color-dark-1);
+  border-radius: 10px;
 }
