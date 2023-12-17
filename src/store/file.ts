@@ -1,8 +1,9 @@
+import { Editor } from "@tiptap/react";
 import { create } from "zustand";
 
 type FileStore = {
-  currentFile: string | null;
-  setCurrentFile: (currentFile: string | null) => void;
+  editorRef: Editor | null;
+  setEditorRef: (editor: Editor | null) => void;
   fileContent: string;
   setFileContent: (fileContent: string) => void;
   isSaved: boolean;
@@ -14,8 +15,8 @@ type FileStore = {
 };
 
 const useFileState = create<FileStore>((set) => ({
-  currentFile: null,
-  setCurrentFile: (currentFile: string | null) => set({ currentFile }),
+  editorRef: null,
+  setEditorRef: (editor: Editor | null) => set({ editorRef: editor }),
   fileContent: "",
   setFileContent: (fileContent: string) => set({ fileContent }),
   isSaved: true,

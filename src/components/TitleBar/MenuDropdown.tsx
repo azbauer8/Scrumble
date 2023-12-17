@@ -10,9 +10,11 @@ import { IconMenu } from "@tabler/icons-react";
 import useUIState from "../../store/ui";
 import Settings from "../OverlayPages/Settings";
 import About from "../OverlayPages/About";
+import useFileState from "../../store/file";
 
 export default function MenuBar() {
   const { setSettingsOpen, setAboutOpen } = useUIState();
+  const { editorRef } = useFileState();
   return (
     <>
       <Menu classNames={{ dropdown: "menu-dropdown" }}>
@@ -25,7 +27,13 @@ export default function MenuBar() {
         <MenuDropdown>
           <MenuItem>New</MenuItem>
           <MenuItem>Open</MenuItem>
-          <MenuItem>Save</MenuItem>
+          <MenuItem
+            onClick={() =>
+              console.log(editorRef?.storage.markdown.getMarkdown())
+            }
+          >
+            Save
+          </MenuItem>
           <MenuItem>Save As</MenuItem>
           <MenuDivider />
           <MenuItem onClick={() => setSettingsOpen(true)}>Settings</MenuItem>

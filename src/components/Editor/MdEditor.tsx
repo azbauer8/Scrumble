@@ -10,15 +10,21 @@ import css from "highlight.js/lib/languages/css";
 import js from "highlight.js/lib/languages/javascript";
 import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
+import python from "highlight.js/lib/languages/python";
+import rust from "highlight.js/lib/languages/rust";
 import CodeBlockComponent from "./CodeBlock";
+import useFileState from "../../store/file";
+import { useEffect } from "react";
 
 export default function MdEditor() {
+  const { fileContent, editorRef, setEditorRef } = useFileState();
   const lowlight = createLowlight();
-  lowlight.register("ts", ts);
-  lowlight.register("html", html);
-  lowlight.register("css", css);
-  lowlight.register("js", js);
-  lowlight.register("ts", ts);
+  lowlight.register("Javascript", js);
+  lowlight.register("Typescript", ts);
+  lowlight.register("HTML", html);
+  lowlight.register("CSS", css);
+  lowlight.register("Rust", rust);
+  lowlight.register("Python", python);
 
   Markdown.configure({
     linkify: true,
@@ -26,6 +32,7 @@ export default function MdEditor() {
     transformCopiedText: true,
   });
   const editor = useEditor({
+    content: fileContent,
     extensions: [
       StarterKit,
       Link,
@@ -37,11 +44,13 @@ export default function MdEditor() {
       }).configure({ lowlight }),
     ],
   });
-  // TODO: make editor a global state so you can modify it from other components
-  // you can do stuff like editor?.chain().focus().toggleBold().run() to bold the currently selected text
+  useEffect(() => {
+    editor && editor !== editorRef && setEditorRef(editor);
+  }, [editor]);
   // grab md content to save it with: editor?.storage.markdown.getMarkdown()
   // load md content with: editor?.commands.setContent(content)
   // TODO: add indent/unindent functionality with tab/shift+tab
+  // TODO: add custom context menu like Typora that acts as toolbar/bubble menu
   return (
     <RichTextEditor
       editor={editor}
