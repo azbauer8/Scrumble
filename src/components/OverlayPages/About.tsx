@@ -20,6 +20,10 @@ export default function About() {
       onClose={() => setAboutOpen(false)}
       title="About"
       centered
+      overlayProps={{
+        backgroundOpacity: 0.55,
+        blur: 3,
+      }}
     >
       <Group>
         <RiQuillPenFill className="about-icon" />

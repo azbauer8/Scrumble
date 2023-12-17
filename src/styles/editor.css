@@ -6,10 +6,16 @@
   height: calc(100vh - 2.5rem);
   overflow-y: scroll;
 }
-.tiptap * {
+.tiptap > * {
   max-width: 72rem;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+.tiptap > pre {
+  max-width: 72rem;
+  margin: 10px auto;
+  padding: 10px 14px;
+  transform: translateX(10px);
 }
 .tiptap::-webkit-scrollbar {
   width: 10px;
@@ -24,4 +30,19 @@
 .tiptap::-webkit-scrollbar-thumb {
   background: var(--mantine-color-dark-1);
   border-radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  .tiptap::-webkit-scrollbar-thumb {
+    background: var(--mantine-color-dark-5);
+  }
+}
+
+.code-block {
+  position: relative;
+}
+.code-lang-select {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  width: 7rem;
 }

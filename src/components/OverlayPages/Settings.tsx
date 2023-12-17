@@ -13,6 +13,10 @@ export default function Settings() {
       onClose={() => setSettingsOpen(false)}
       title="Settings"
       centered
+      overlayProps={{
+        backgroundOpacity: 0.55,
+        blur: 3,
+      }}
     >
       <Group justify="space-between">
         <p>Auto Save</p>
