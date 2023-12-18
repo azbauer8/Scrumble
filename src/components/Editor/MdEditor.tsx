@@ -7,8 +7,8 @@ import { Markdown } from "tiptap-markdown";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { createLowlight } from "lowlight";
 import css from "highlight.js/lib/languages/css";
-import js from "highlight.js/lib/languages/javascript";
-import ts from "highlight.js/lib/languages/typescript";
+import javascript from "highlight.js/lib/languages/javascript";
+import typescript from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 import python from "highlight.js/lib/languages/python";
 import rust from "highlight.js/lib/languages/rust";
@@ -19,12 +19,12 @@ import { useEffect } from "react";
 export default function MdEditor() {
   const { fileContent, editorRef, setEditorRef } = useFileState();
   const lowlight = createLowlight();
-  lowlight.register("Javascript", js);
-  lowlight.register("Typescript", ts);
-  lowlight.register("HTML", html);
-  lowlight.register("CSS", css);
-  lowlight.register("Rust", rust);
-  lowlight.register("Python", python);
+  lowlight.register("javascript", javascript);
+  lowlight.register("typescript", typescript);
+  lowlight.register("html", html);
+  lowlight.register("css", css);
+  lowlight.register("rust", rust);
+  lowlight.register("python", python);
 
   Markdown.configure({
     linkify: true,
@@ -49,8 +49,6 @@ export default function MdEditor() {
   }, [editor]);
   // grab md content to save it with: editor?.storage.markdown.getMarkdown()
   // load md content with: editor?.commands.setContent(content)
-  // TODO: add indent/unindent functionality with tab/shift+tab
-  // TODO: add custom context menu like Typora that acts as toolbar/bubble menu
   return (
     <RichTextEditor
       editor={editor}

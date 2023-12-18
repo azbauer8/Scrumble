@@ -13,7 +13,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 }) => {
   const langs = extension.options.lowlight.listLanguages();
   langs.unshift("Auto");
-
   return (
     <NodeViewWrapper className="code-block">
       <Select

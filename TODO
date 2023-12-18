@@ -1,20 +1,20 @@
-Known issues/awkward behaviors:
-TODO Dragging blocks is broken
-TODO Replace function is broken
-TODO Closing file before saving dialog is a bit wonky
-TODO Split source view doesn't follow dark mode
+// TODO: Add indent/unindent functionality with tab/shift+tab
+// TODO: Add custom context menu like Typora that acts as toolbar/bubble menu
+// TODO: Add save/save as and open functionality
+// TODO: Add more keyboard shortcuts
+// TODO: Add slash menu
 
 Roadmap:
+Drag and drop functionality for images and links
 Add "Open folder" functionality with sidebar to switch between files in folder
 Add setting to open default folder on launch
-Spell check setting
-Drag and drop functionality for images and links
 Native md file association
+Formated raw md text on paste
+Spell check setting
 
 Wishlist:
 Tabs & multiple windows
 Command palette
-Slash menu
 Search directory
 Remap keybindings
 Custom themes
