@@ -12,7 +12,7 @@
         "center": true,
         "transparent": true,
         "hiddenTitle": true,
-        "decorations": false
+        "titleBarStyle": "Overlay"
       }
     ]
   }
