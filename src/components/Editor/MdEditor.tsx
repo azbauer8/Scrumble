@@ -15,9 +15,13 @@ import rust from "highlight.js/lib/languages/rust";
 import CodeBlockComponent from "./CodeBlock";
 import useFileState from "../../store/file";
 import { useEffect } from "react";
+import InitializeEditor from "../../hooks/initializeEditor";
 
 export default function MdEditor() {
   const { fileContent, editorRef, setEditorRef } = useFileState();
+
+  InitializeEditor();
+
   const lowlight = createLowlight();
   lowlight.register("javascript", javascript);
   lowlight.register("typescript", typescript);

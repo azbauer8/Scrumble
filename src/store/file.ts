@@ -4,6 +4,8 @@ import { create } from "zustand";
 type FileStore = {
   editorRef: Editor | null;
   setEditorRef: (editor: Editor | null) => void;
+  filePath: string;
+  setFilePath: (filePath: string) => void;
   fileContent: string;
   setFileContent: (fileContent: string) => void;
   isSaved: boolean;
@@ -17,6 +19,8 @@ type FileStore = {
 const useFileState = create<FileStore>((set) => ({
   editorRef: null,
   setEditorRef: (editor: Editor | null) => set({ editorRef: editor }),
+  filePath: "",
+  setFilePath: (filePath: string) => set({ filePath }),
   fileContent: "",
   setFileContent: (fileContent: string) => set({ fileContent }),
   isSaved: true,
