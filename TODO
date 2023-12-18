@@ -4,7 +4,7 @@
 // TODO: Add more keyboard shortcuts
 // TODO: Add slash menu
 // TODO: Get rounded corners working on mac
-// TODO: Customize titlebar for Mac with traffic lights
+// TODO: Check for macOS and customize border radius & titlebar for Mac with traffic lights
 
 Roadmap:
 Drag and drop functionality for images and links

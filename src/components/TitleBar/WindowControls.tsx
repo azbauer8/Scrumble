@@ -20,7 +20,11 @@ export default function WindowControls() {
         color="gray"
         className="menu-button"
         onClick={async () => {
-          await appWindow.toggleMaximize();
+          if (await appWindow.isFullscreen()) {
+            await appWindow.setFullscreen(false);
+            return;
+          }
+          await appWindow.setFullscreen(true);
         }}
       >
         <IconCrop54 className="menu-button-icon" />
