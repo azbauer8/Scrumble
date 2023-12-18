@@ -5,6 +5,7 @@
 // TODO: Add slash menu
 // TODO: Get rounded corners working on mac
 // TODO: Check for macOS and customize border radius & titlebar for Mac with traffic lights
+// TODO: Look into using native transparent titlebar: https://github.com/tauri-apps/tauri/pull/3965
 
 Roadmap:
 Drag and drop functionality for images and links
