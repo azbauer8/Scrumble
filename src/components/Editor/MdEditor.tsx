@@ -17,7 +17,8 @@ import useFileState from "../../store/file";
 import { useEffect } from "react";
 
 export default function MdEditor() {
-  const { fileContent, editorRef, setEditorRef } = useFileState();
+  const { fileContent, setFileContent, editorRef, setEditorRef, setSaved } =
+    useFileState();
   const lowlight = createLowlight();
   lowlight.register("javascript", javascript);
   lowlight.register("typescript", typescript);
@@ -33,6 +34,10 @@ export default function MdEditor() {
   });
   const editor = useEditor({
     content: fileContent,
+    onUpdate: ({ editor }) => {
+      setFileContent(editor.storage.markdown.getMarkdown());
+      setSaved(false);
+    },
     extensions: [
       StarterKit,
       Link,

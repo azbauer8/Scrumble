@@ -1,3 +1,4 @@
+import useFileState from "../../store/file";
 import useUIState from "../../store/ui";
 import "../../styles/titlebar.css";
 import MenuDropdown from "./MenuDropdown";
@@ -6,6 +7,7 @@ import { useEffect, useRef } from "react";
 
 export default function TitleBar() {
   const { isMac } = useUIState();
+  const { fileName } = useFileState();
   //SECTION - Disable right clicking on title bar
   const titleBarRef = useRef<HTMLDivElement>(null);
   const disableMenu = (e: MouseEvent) => {
@@ -32,7 +34,7 @@ export default function TitleBar() {
         <>
           <WindowControls />
           <p data-tauri-drag-region id="file-name">
-            Untitled.md
+            {fileName ? fileName : "Untitled.md"}
           </p>
           <MenuDropdown />
         </>
@@ -40,7 +42,7 @@ export default function TitleBar() {
         <>
           <MenuDropdown />
           <p data-tauri-drag-region id="file-name">
-            Untitled.md
+            {fileName ? fileName : "Untitled.md"}
           </p>
           <WindowControls />
         </>

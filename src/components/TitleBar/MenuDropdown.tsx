@@ -11,10 +11,19 @@ import useUIState from "../../store/ui";
 import Settings from "../OverlayPages/Settings";
 import About from "../OverlayPages/About";
 import useFileState from "../../store/file";
+import { New, Open, Save, SaveAs } from "../../utils/FileOps";
 
 export default function MenuBar() {
   const { setSettingsOpen, setAboutOpen } = useUIState();
-  const { editorRef } = useFileState();
+  const {
+    editorRef,
+    fileContent,
+    setFileContent,
+    filePath,
+    setFilePath,
+    isSaved,
+    setSaved,
+  } = useFileState();
   const { isMac } = useUIState();
   return (
     <>
@@ -32,16 +41,24 @@ export default function MenuBar() {
         </MenuTarget>
 
         <MenuDropdown>
-          <MenuItem>New</MenuItem>
-          <MenuItem>Open</MenuItem>
+          <MenuItem onClick={() => New(editorRef, setFilePath, setFileContent)}>
+            New
+          </MenuItem>
+          <MenuItem
+            onClick={() => Open(editorRef, setFilePath, setFileContent)}
+          >
+            Open
+          </MenuItem>
           <MenuItem
             onClick={() =>
-              console.log(editorRef?.storage.markdown.getMarkdown())
+              Save(filePath, setFilePath, fileContent, isSaved, setSaved)
             }
           >
             Save
           </MenuItem>
-          <MenuItem>Save As</MenuItem>
+          <MenuItem onClick={() => SaveAs(setFilePath, fileContent, setSaved)}>
+            Save As
+          </MenuItem>
           <MenuDivider />
           <MenuItem onClick={() => setSettingsOpen(true)}>Settings</MenuItem>
           <MenuItem onClick={() => setAboutOpen(true)}>About</MenuItem>
