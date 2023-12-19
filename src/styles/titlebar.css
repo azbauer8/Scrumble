@@ -11,6 +11,12 @@
 
 .menu-dropdown {
   width: 8rem !important;
+  margin-left: 4px !important;
+}
+
+.mac-dropdown {
+  left: unset !important;
+  right: 5px !important;
 }
 
 .menu-button {

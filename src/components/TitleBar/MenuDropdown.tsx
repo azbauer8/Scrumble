@@ -19,8 +19,11 @@ export default function MenuBar() {
   return (
     <>
       <Menu
-        classNames={{ dropdown: "menu-dropdown" }}
+        classNames={{
+          dropdown: `menu-dropdown ${isMac ? "mac-dropdown" : ""}`,
+        }}
         position={isMac ? "bottom-end" : "bottom-start"}
+        offset={4}
       >
         <MenuTarget>
           <Button variant="subtle" color="gray" className="menu-button">
