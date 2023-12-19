@@ -23,12 +23,28 @@ export default function TitleBar() {
   //!SECTION
 
   return (
-    <nav data-tauri-drag-region className="title-bar" ref={titleBarRef}>
-      <MenuDropdown />
-      <p data-tauri-drag-region id="file-name">
-        Untitled.md
-      </p>
-      {!isMac && <WindowControls />}
+    <nav
+      data-tauri-drag-region
+      className={`title-bar ${isMac ? "mac" : ""}`}
+      ref={titleBarRef}
+    >
+      {isMac ? (
+        <>
+          <WindowControls />
+          <p data-tauri-drag-region id="file-name">
+            Untitled.md
+          </p>
+          <MenuDropdown />
+        </>
+      ) : (
+        <>
+          <MenuDropdown />
+          <p data-tauri-drag-region id="file-name">
+            Untitled.md
+          </p>
+          <WindowControls />
+        </>
+      )}
     </nav>
   );
 }

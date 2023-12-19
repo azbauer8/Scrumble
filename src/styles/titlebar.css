@@ -10,9 +10,7 @@
 }
 
 .menu-dropdown {
-  margin-left: 0.3rem;
   width: 8rem !important;
-  margin-top: -2px !important;
 }
 
 .menu-button {
@@ -34,4 +32,8 @@
 #close-button:hover {
   background-color: #e81022b9;
   color: white;
+}
+.mac .window-controls {
+  visibility: hidden;
+  width: 0 !important;
 }

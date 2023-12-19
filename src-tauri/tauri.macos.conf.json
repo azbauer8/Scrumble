@@ -4,12 +4,11 @@
     "windows": [
       {
         "label": "scrumble",
-        "fullscreen": false,
-        "height": 680,
-        "resizable": true,
         "title": "Scrumble",
+        "height": 680,
         "width": 540,
-        "center": true,
+        "minHeight": 400,
+        "minWidth": 400,
         "transparent": true,
         "hiddenTitle": true,
         "titleBarStyle": "Overlay"

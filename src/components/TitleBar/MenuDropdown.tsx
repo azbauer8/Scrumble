@@ -15,9 +15,13 @@ import useFileState from "../../store/file";
 export default function MenuBar() {
   const { setSettingsOpen, setAboutOpen } = useUIState();
   const { editorRef } = useFileState();
+  const { isMac } = useUIState();
   return (
     <>
-      <Menu classNames={{ dropdown: "menu-dropdown" }}>
+      <Menu
+        classNames={{ dropdown: "menu-dropdown" }}
+        position={isMac ? "bottom-end" : "bottom-start"}
+      >
         <MenuTarget>
           <Button variant="subtle" color="gray" className="menu-button">
             <IconMenu className="menu-button-icon" />

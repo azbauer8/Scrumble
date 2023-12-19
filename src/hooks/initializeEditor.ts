@@ -4,15 +4,14 @@ import { useAsyncEffect } from "ahooks";
 import useUIState from "../store/ui";
 import useFileState from "../store/file";
 export default function InitializeEditor() {
+  const { setMac } = useUIState();
+  const { setFilePath } = useFileState();
   useAsyncEffect(async () => {
-    const { setMac } = useUIState();
-    const { setFilePath } = useFileState();
     // Check for Mac
     const type = await getType();
     if (type === "Darwin") {
       setMac(true);
     }
-
     const args: string[] = await invoke("get_args");
     if (args.length > 1) setFilePath(args[1]);
   }, []);
