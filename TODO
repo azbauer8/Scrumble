@@ -1,9 +1,11 @@
+// TODO: add keybind hook that runs on startup
+// TODO: Add keyboard shortcuts for saving and opening new files
+// TODO: add check for unsaved file when closing window - think this needs to be a global event listener
+
 // TODO: Add indent/unindent functionality with tab/shift+tab
 // TODO: Add custom context menu like Typora that acts as toolbar/bubble menu
-// TODO: Add save/save as and open functionality
-// TODO: Add more keyboard shortcuts
+
 // TODO: Add slash menu
-// TODO: Get rounded corners working on mac
 
 Roadmap:
 Drag and drop functionality for images and links
