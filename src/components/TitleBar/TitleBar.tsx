@@ -48,4 +48,3 @@ export default function TitleBar() {
     </nav>
   );
 }
-// TODO: Change layout for MacOS
