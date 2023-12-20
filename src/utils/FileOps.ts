@@ -46,7 +46,7 @@ export async function Open(
   editor?.commands.setContent(openedContents);
   setFilePath(selected as string);
   notifications.show({
-    title: "Opened new file",
+    title: "Opened file",
     message: selected as string,
     color: "teal",
     withBorder: true,
