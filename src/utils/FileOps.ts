@@ -6,7 +6,6 @@ import { writeTextFile, readTextFile } from "@tauri-apps/api/fs";
 import { documentDir } from "@tauri-apps/api/path";
 import { Editor } from "@tiptap/react";
 import { notifications } from "@mantine/notifications";
-import useFileState from "../store/file";
 export const fileExtensions = [
   {
     name: "Markdown",

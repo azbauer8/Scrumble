@@ -3,9 +3,11 @@
 // TODO: add check for unsaved file when closing window - think this needs to be a global event listener
 
 // TODO: Add indent/unindent functionality with tab/shift+tab
-// TODO: Add custom context menu like Typora that acts as toolbar/bubble menu
+// TODO: Add custom context menu like Typora that acts as toolbar/bubble menu - used to modify selected content. Slash menu creates new content "template"
 
 // TODO: Add slash menu
+
+Remake in Svelte?? So many things just feel needlessly complicated with React
 
 Roadmap:
 Drag and drop functionality for images and links
