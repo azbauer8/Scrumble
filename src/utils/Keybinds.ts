@@ -1,40 +1,53 @@
-import { useKeyPress } from "ahooks";
+import { useHotkeys } from "@mantine/hooks";
 import { New, Open, Save, SaveAs } from "./FileOps";
 
 export default function UseKeybinds() {
-  useKeyPress(["f5", "f7"], (e) => {
-    e.preventDefault();
-  });
-  useKeyPress(
-    ["ctrl.s"],
-    async (e) => {
-      e.preventDefault();
-      Save();
-    },
-    { exactMatch: true }
-  );
-  useKeyPress(
-    ["shift.ctrl.s"],
-    async (e) => {
-      e.preventDefault();
-      SaveAs();
-    },
-    { exactMatch: true }
-  );
-  useKeyPress(
-    ["ctrl.n"],
-    async (e) => {
-      e.preventDefault();
-      New();
-    },
-    { exactMatch: true }
-  );
-  useKeyPress(
-    ["ctrl.o"],
-    async (e) => {
-      e.preventDefault();
-      Open();
-    },
-    { exactMatch: true }
+  useHotkeys(
+    [
+      [
+        "f5",
+        () => {
+          return;
+        },
+        { preventDefault: true },
+      ],
+      [
+        "f7",
+        () => {
+          return;
+        },
+        { preventDefault: true },
+      ],
+      [
+        "mod+s",
+        async () => {
+          Save();
+        },
+        { preventDefault: true },
+      ],
+      [
+        "shift+mod+s",
+        async () => {
+          SaveAs();
+        },
+        { preventDefault: true },
+      ],
+      [
+        "mod+n",
+        async () => {
+          New();
+        },
+        { preventDefault: true },
+      ],
+      [
+        "mod+o",
+        async () => {
+          Open();
+        },
+        { preventDefault: true },
+      ],
+    ],
+    [],
+    true
   );
 }

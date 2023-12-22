@@ -1,6 +1,7 @@
 import {
   save as saveFilePicker,
   open as openFilePicker,
+  ask as askDialog,
 } from "@tauri-apps/api/dialog";
 import { writeTextFile, readTextFile } from "@tauri-apps/api/fs";
 import { documentDir } from "@tauri-apps/api/path";
@@ -14,20 +15,45 @@ export const fileExtensions = [
   },
 ];
 
-export function New() {
+export async function New() {
+  const filePath = useFileState.getState().filePath;
   const setFilePath = useFileState.getState().setFilePath;
   const setFileContent = useFileState.getState().setFileContent;
+  const isSaved = useFileState.getState().isSaved;
+  const setSaved = useFileState.getState().setSaved;
+
   const editor = useFileState.getState().editorRef;
+  if (!isSaved) {
+    const response = await askDialog(
+      "The current file is unsaved, do you want to save it first?",
+      { title: "Warning", type: "warning" }
+    );
+    if (response) {
+      filePath ? await Save() : await SaveAs();
+    }
+  }
   setFilePath("");
   setFileContent("");
   editor?.commands.setContent("");
+  setSaved(true);
 }
 
 export async function Open() {
+  const filePath = useFileState.getState().filePath;
   const setFilePath = useFileState.getState().setFilePath;
   const setFileContent = useFileState.getState().setFileContent;
+  const isSaved = useFileState.getState().isSaved;
   const setSaved = useFileState.getState().setSaved;
   const editor = useFileState.getState().editorRef;
+  if (!isSaved) {
+    const response = await askDialog(
+      "The current file is unsaved, do you want to save it first?",
+      { title: "Warning", type: "warning" }
+    );
+    if (response) {
+      filePath ? await Save() : await SaveAs();
+    }
+  }
   const selected = await openFilePicker({
     defaultPath: await documentDir(),
     filters: fileExtensions,

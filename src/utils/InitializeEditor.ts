@@ -1,6 +1,5 @@
 import { type as getType } from "@tauri-apps/api/os";
 import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
-import { useAsyncEffect } from "ahooks";
 import useOSState from "../store/os";
 import { useInterval, useWindowEvent } from "@mantine/hooks";
 import { useEffect } from "react";
@@ -10,15 +9,29 @@ import { Save } from "./FileOps";
 
 export default function InitializeEditor() {
   const { setMac, setAppVersion, setTauriVersion } = useOSState();
-  useAsyncEffect(async () => {
-    // Check for Mac
-    const type = await getType();
-    if (type === "Darwin") {
-      setMac(true);
-    }
-    setAppVersion(await getVersion());
-    setTauriVersion(await getTauriVersion());
+  useEffect(() => {
+    const getMac = async () => {
+      // Check for Mac
+      if (window.location.hostname === "tauri.localhost") {
+        const type = await getType();
+        if (type === "Darwin") {
+          setMac(true);
+        }
+        setAppVersion(await getVersion());
+        setTauriVersion(await getTauriVersion());
+      }
+    };
+    getMac();
   }, []);
+
+  // disable right click menu globally
+  document.addEventListener(
+    "contextmenu",
+    (e) => {
+      e.preventDefault();
+    },
+    { capture: true }
+  );
 
   const { settings } = useSettingsState();
 
