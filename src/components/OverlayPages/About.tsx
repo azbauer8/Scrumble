@@ -1,19 +1,12 @@
-import "../../styles/about.css";
+import "./about.css";
 import { Modal, Group } from "@mantine/core";
-import { useAsyncEffect } from "ahooks";
-import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
 import useUIState from "../../store/ui";
-import { useState } from "react";
-import { RiQuillPenFill } from "react-icons/ri";
+import logo from "../../assets/favicon.png";
+import useOSStore from "../../store/os";
 
 export default function About() {
   const { isAboutOpen, setAboutOpen } = useUIState();
-  const [version, setVersion] = useState<string | null>(null);
-  const [tauriVersion, setTauriVersion] = useState<string | null>(null);
-  useAsyncEffect(async () => {
-    setVersion(await getVersion());
-    setTauriVersion(await getTauriVersion());
-  }, []);
+  const { appVersion, tauriVersion } = useOSStore();
   return (
     <Modal
       opened={isAboutOpen}
@@ -26,13 +19,11 @@ export default function About() {
       }}
     >
       <Group>
-        <RiQuillPenFill className="about-icon" />
+        <img src={logo} alt="Logo" className="about-logo" />
         <div className="about-text">
           <h1>Scrumble</h1>
-          <p>{`Version: ${version ? version : "Loading..."}`}</p>
-          <p>{`Tauri Version: ${
-            tauriVersion ? tauriVersion : "Loading..."
-          }`}</p>
+          <p>{`Version: ${appVersion}`}</p>
+          <p>{`Tauri Version: ${tauriVersion}`}</p>
         </div>
       </Group>
     </Modal>

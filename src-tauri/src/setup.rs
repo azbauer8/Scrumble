@@ -20,9 +20,3 @@ pub fn init(app: &mut App) -> std::result::Result<(), Box<dyn std::error::Error>
 pub fn init(app: &mut App) -> std::result::Result<(), Box<dyn std::error::Error>> {
     Ok(())
     }
-
-#[tauri::command]
-pub fn get_args() -> Result<Vec<String>, ()> {
-    let system_args: Vec<String> = std::env::args().collect();
-    Ok(system_args)
-}

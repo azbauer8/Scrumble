@@ -20,6 +20,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         defaultValue="Auto"
         onChange={(value) => updateAttributes({ language: value as string })}
         className="code-lang-select"
+        searchable
       />
       <pre>
         <NodeViewContent as="code" />

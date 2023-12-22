@@ -1,53 +1,22 @@
 import "@mantine/tiptap/styles.css";
-import "../../styles/editor.css";
-import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor, ReactNodeViewRenderer } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { Markdown } from "tiptap-markdown";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { createLowlight } from "lowlight";
-import css from "highlight.js/lib/languages/css";
-import javascript from "highlight.js/lib/languages/javascript";
-import typescript from "highlight.js/lib/languages/typescript";
-import html from "highlight.js/lib/languages/xml";
-import python from "highlight.js/lib/languages/python";
-import rust from "highlight.js/lib/languages/rust";
-import CodeBlockComponent from "./CodeBlock";
-import useFileState from "../../store/file";
+import "./editor.css";
 import { useEffect } from "react";
+import { RichTextEditor } from "@mantine/tiptap";
+import { useEditor } from "@tiptap/react";
+import { extensions } from "./extensions";
+import useFileState from "../../store/file";
 
 export default function MdEditor() {
   const { fileContent, setFileContent, editorRef, setEditorRef, setSaved } =
     useFileState();
-  const lowlight = createLowlight();
-  lowlight.register("javascript", javascript);
-  lowlight.register("typescript", typescript);
-  lowlight.register("html", html);
-  lowlight.register("css", css);
-  lowlight.register("rust", rust);
-  lowlight.register("python", python);
 
-  Markdown.configure({
-    linkify: true,
-    transformPastedText: true,
-    transformCopiedText: true,
-  });
   const editor = useEditor({
     content: fileContent,
     onUpdate: ({ editor }) => {
       setFileContent(editor.storage.markdown.getMarkdown());
       setSaved(false);
     },
-    extensions: [
-      StarterKit,
-      Link,
-      Markdown,
-      CodeBlockLowlight.extend({
-        addNodeView() {
-          return ReactNodeViewRenderer(CodeBlockComponent);
-        },
-      }).configure({ lowlight }),
-    ],
+    extensions: extensions,
   });
   useEffect(() => {
     editor && editor !== editorRef && setEditorRef(editor);

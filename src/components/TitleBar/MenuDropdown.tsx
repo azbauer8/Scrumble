@@ -7,24 +7,15 @@ import {
   Button,
 } from "@mantine/core";
 import { IconMenu } from "@tabler/icons-react";
-import useUIState from "../../store/ui";
 import Settings from "../OverlayPages/Settings";
 import About from "../OverlayPages/About";
-import useFileState from "../../store/file";
 import { New, Open, Save, SaveAs } from "../../utils/FileOps";
+import useUIState from "../../store/ui";
+import useOSStore from "../../store/os";
 
 export default function MenuBar() {
   const { setSettingsOpen, setAboutOpen } = useUIState();
-  const {
-    editorRef,
-    fileContent,
-    setFileContent,
-    filePath,
-    setFilePath,
-    isSaved,
-    setSaved,
-  } = useFileState();
-  const { isMac } = useUIState();
+  const { isMac } = useOSStore();
   return (
     <>
       <Menu
@@ -41,24 +32,10 @@ export default function MenuBar() {
         </MenuTarget>
 
         <MenuDropdown>
-          <MenuItem onClick={() => New(editorRef, setFilePath, setFileContent)}>
-            New
-          </MenuItem>
-          <MenuItem
-            onClick={() => Open(editorRef, setFilePath, setFileContent)}
-          >
-            Open
-          </MenuItem>
-          <MenuItem
-            onClick={() =>
-              Save(filePath, setFilePath, fileContent, isSaved, setSaved)
-            }
-          >
-            Save
-          </MenuItem>
-          <MenuItem onClick={() => SaveAs(setFilePath, fileContent, setSaved)}>
-            Save As
-          </MenuItem>
+          <MenuItem onClick={() => New()}>New</MenuItem>
+          <MenuItem onClick={() => Open()}>Open</MenuItem>
+          <MenuItem onClick={() => Save()}>Save</MenuItem>
+          <MenuItem onClick={() => SaveAs()}>Save As</MenuItem>
           <MenuDivider />
           <MenuItem onClick={() => setSettingsOpen(true)}>Settings</MenuItem>
           <MenuItem onClick={() => setAboutOpen(true)}>About</MenuItem>

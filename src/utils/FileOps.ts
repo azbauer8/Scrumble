@@ -4,8 +4,9 @@ import {
 } from "@tauri-apps/api/dialog";
 import { writeTextFile, readTextFile } from "@tauri-apps/api/fs";
 import { documentDir } from "@tauri-apps/api/path";
-import { Editor } from "@tiptap/react";
 import { notifications } from "@mantine/notifications";
+import useFileState from "../store/file";
+
 export const fileExtensions = [
   {
     name: "Markdown",
@@ -13,21 +14,20 @@ export const fileExtensions = [
   },
 ];
 
-export function New(
-  editor: Editor | null,
-  setFilePath: { (filePath: string): void },
-  setFileContent: { (fileContent: string): void }
-) {
-  setFileContent("");
+export function New() {
+  const setFilePath = useFileState.getState().setFilePath;
+  const setFileContent = useFileState.getState().setFileContent;
+  const editor = useFileState.getState().editorRef;
   setFilePath("");
+  setFileContent("");
   editor?.commands.setContent("");
 }
 
-export async function Open(
-  editor: Editor | null,
-  setFilePath: { (filePath: string): void },
-  setFileContent: { (fileContent: string): void }
-) {
+export async function Open() {
+  const setFilePath = useFileState.getState().setFilePath;
+  const setFileContent = useFileState.getState().setFileContent;
+  const setSaved = useFileState.getState().setSaved;
+  const editor = useFileState.getState().editorRef;
   const selected = await openFilePicker({
     defaultPath: await documentDir(),
     filters: fileExtensions,
@@ -45,6 +45,7 @@ export async function Open(
   setFileContent(openedContents);
   editor?.commands.setContent(openedContents);
   setFilePath(selected as string);
+  setSaved(true);
   notifications.show({
     title: "Opened file",
     message: selected as string,
@@ -53,13 +54,12 @@ export async function Open(
   });
 }
 
-export async function Save(
-  filePath: string,
-  setFilePath: { (filePath: string): void },
-  fileContent: string,
-  isSaved: boolean,
-  setSaved: { (isItSaved: boolean): void }
-) {
+export async function Save() {
+  const filePath = useFileState.getState().filePath;
+  const setFilePath = useFileState.getState().setFilePath;
+  const fileContent = useFileState.getState().fileContent;
+  const isSaved = useFileState.getState().isSaved;
+  const setSaved = useFileState.getState().setSaved;
   let path = filePath;
   // no action needed if already saved
   if (!isSaved) {
@@ -109,11 +109,10 @@ export async function Save(
   }
 }
 
-export async function SaveAs(
-  setFilePath: { (filePath: string): void },
-  fileContent: string,
-  setSaved: { (isItSaved: boolean): void }
-) {
+export async function SaveAs() {
+  const setFilePath = useFileState.getState().setFilePath;
+  const fileContent = useFileState.getState().fileContent;
+  const setSaved = useFileState.getState().setSaved;
   // show save as dialog
   const path = await saveFilePicker({
     defaultPath: await documentDir(),

@@ -1,11 +1,6 @@
 import { Editor } from "@tiptap/react";
 import { create } from "zustand";
 
-function splitPath(fullPath: string): string[] {
-  const regex = /[\\/]/; // Regular expression matching / or \
-  return fullPath.split(regex);
-}
-
 type FileStore = {
   editorRef: Editor | null;
   setEditorRef: (editor: Editor | null) => void;
@@ -16,8 +11,6 @@ type FileStore = {
   setFileContent: (fileContent: string) => void;
   isSaved: boolean;
   setSaved: (isItSaved: boolean) => void;
-  isAboutOpen: boolean;
-  setAboutOpen: (isItOpen: boolean) => void;
 };
 
 const useFileState = create<FileStore>((set) => ({
@@ -27,15 +20,13 @@ const useFileState = create<FileStore>((set) => ({
   filePath: "",
   setFilePath: (newfilePath: string) => {
     set({ filePath: newfilePath });
-    const path = splitPath(newfilePath);
+    const path = newfilePath.split(/[\\/]/);
     set({ fileName: path[path.length - 1] });
   },
   fileContent: "",
   setFileContent: (newContent: string) => set({ fileContent: newContent }),
   isSaved: false,
   setSaved: (isItSaved: boolean) => set({ isSaved: isItSaved }),
-  isAboutOpen: false,
-  setAboutOpen: (isItOpen: boolean) => set({ isAboutOpen: isItOpen }),
 }));
 
 export default useFileState;

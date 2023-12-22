@@ -8,5 +8,10 @@
 }
 
 .about-text {
-  line-height: 0.75rem;
+  line-height: 0.6rem;
+}
+
+.about-logo {
+  width: 10rem;
+  height: 10rem;
 }
