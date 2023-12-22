@@ -5,14 +5,17 @@ import { useInterval, useWindowEvent } from "@mantine/hooks";
 import { useEffect } from "react";
 import useSettingsState from "../store/settings";
 import useFileState from "../store/file";
-import { Save } from "./FileOps";
+import { Save, SaveAs } from "./FileOps";
+import { appWindow } from "@tauri-apps/api/window";
+import { ask as askDialog } from "@tauri-apps/api/dialog";
 
 export default function InitializeEditor() {
   const { setMac, setAppVersion, setTauriVersion } = useOSState();
+  const { isSaved, filePath } = useFileState();
   useEffect(() => {
-    const getMac = async () => {
-      // Check for Mac
-      if (window.location.hostname === "tauri.localhost") {
+    const getAppInfo = async () => {
+      if (window.__TAURI_METADATA__) {
+        // Check for Mac
         const type = await getType();
         if (type === "Darwin") {
           setMac(true);
@@ -21,7 +24,26 @@ export default function InitializeEditor() {
         setTauriVersion(await getTauriVersion());
       }
     };
-    getMac();
+    getAppInfo();
+
+    // check for unsaved file before closing app
+    const onClose = async () => {
+      await appWindow.onCloseRequested(async () => {
+        if (!isSaved) {
+          const response = await askDialog(
+            "The current file is unsaved, do you want to save it first?",
+            { title: "Warning", type: "warning" }
+          );
+          if (response) {
+            filePath ? await Save() : await SaveAs();
+          }
+        }
+      });
+    };
+
+    return () => {
+      onClose();
+    };
   }, []);
 
   // disable right click menu globally

@@ -17,9 +17,9 @@ type SettingsStore = {
 
 const useSettingsState = create<SettingsStore>((set) => ({
   settings: {
-    autoSave: true,
-    saveBlur: true,
-    saveInterval: 1,
+    autoSave: false,
+    saveBlur: false,
+    saveInterval: 60,
     defaultPath: "",
   },
   setAutoSave: (autoSave) =>

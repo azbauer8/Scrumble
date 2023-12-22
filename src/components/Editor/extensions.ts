@@ -12,6 +12,8 @@ import Blockquote from "@tiptap/extension-blockquote";
 import ListItem from "@tiptap/extension-list-item";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
 import HardBreak from "@tiptap/extension-hard-break";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import History from "@tiptap/extension-history";
@@ -35,10 +37,16 @@ export const extensions = [
   ListItem,
   BulletList,
   OrderedList,
+  TaskItem,
+  TaskList,
   HardBreak,
   HorizontalRule,
   History,
-  Link,
+  Link.configure({
+    openOnClick: true,
+    linkOnPaste: true,
+    autolink: true,
+  }),
   Markdown.configure({
     linkify: true,
     transformPastedText: true,

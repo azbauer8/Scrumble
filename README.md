@@ -4,24 +4,33 @@ A Markdown editor powered by [Milkdown](https://milkdown.dev/).
 
 # ✨ Features
 
-- [x] **🌈 Minimal Design - Using FluentUI components with Mica\Acrylic background**
-- [x] **🪶 Lightweight - Bundled with tauri for smaller installer size and memory usage**
-- [x] 📝 **WYSIWYG Markdown - provides Typora-like seamless Markdown editing experience**
+\[ \] **🌈 Minimal Design - Using FluentUI components with Mica\\Acrylic background**
 
-# 🚧 Todo
+\[x\] **🪶 Lightweight - Bundled with tauri for smaller installer size and memory usage**
 
-- [x] Multi-language support
-- [x] Find/Replace
-- [x] LaTeX support
-- [ ] More export options
-- [x] Two-column editor
-- [ ] Picture bed integration
+\[x\] asda sdas das d d Hello world!📝 **WYSIWYG Markdown - provides Typora-like seamless Markdown editing experience**
+
+# 🚧 Todoasdas
+
+\[x\] Multi-language support
+
+\[x\] Find/Replace
+
+\[x\] LsdsdaTeX support
+
+\[ \] sMore export options
+
+\[x\] Two-column editor
+
+\[ \] Picture bed integration
 
 # ☔ System Requirements
 
-- [x] Windows 7+ (Recommend: Windows 10 1803 +)
-- [x] macOS 11.3+ (Reasons: see [Fluent UI's broswer support matrix](https://react.fluentui.dev/?path=/docs/concepts-developer-browser-support-matrix--page))
-- [x] most Linux distributions (Recommend/Tested: Ubuntu 18.04 +)
+\[x\] Windows 7+ (Recommend: Windows 10 1803 +)
+
+\[x\] macOS 11.3+ (Reasons: see [Fluent UI's broswer support matrix](https://react.fluentui.dev/?path=/docs/concepts-developer-browser-support-matrix--page))
+
+\[x\] most Linux distributions (Recommend/Tested: Ubuntu 18.04 +)
 
 # 📦 How to build
 

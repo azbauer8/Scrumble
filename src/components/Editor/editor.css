@@ -9,7 +9,13 @@
 .tiptap > * {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0.1rem 1.5rem;
+}
+.tiptap > h1 {
+  padding-bottom: 1rem;
+}
+.tiptap > p {
+  padding-bottom: 0.1rem;
 }
 .tiptap > pre {
   max-width: 72rem;
