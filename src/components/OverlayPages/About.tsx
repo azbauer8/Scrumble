@@ -2,11 +2,11 @@ import "./about.css";
 import { Modal, Group } from "@mantine/core";
 import useUIState from "../../store/ui";
 import logo from "../../assets/favicon.png";
-import useOSStore from "../../store/os";
+import useOSState from "../../store/os";
 
 export default function About() {
   const { isAboutOpen, setAboutOpen } = useUIState();
-  const { appVersion, tauriVersion } = useOSStore();
+  const { appVersion, tauriVersion } = useOSState();
   return (
     <Modal
       opened={isAboutOpen}

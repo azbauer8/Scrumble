@@ -11,11 +11,11 @@ import Settings from "../OverlayPages/Settings";
 import About from "../OverlayPages/About";
 import { New, Open, Save, SaveAs } from "../../utils/FileOps";
 import useUIState from "../../store/ui";
-import useOSStore from "../../store/os";
+import useOSState from "../../store/os";
 
 export default function MenuBar() {
   const { setSettingsOpen, setAboutOpen } = useUIState();
-  const { isMac } = useOSStore();
+  const { isMac } = useOSState();
   return (
     <>
       <Menu

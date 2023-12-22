@@ -9,7 +9,7 @@ type OSStore = {
   setTauriVersion: (tauriVersion: string) => void;
 };
 
-const useOSStore = create<OSStore>((set) => ({
+const useOSState = create<OSStore>((set) => ({
   isMac: false,
   setMac: (isAMac: boolean) => set({ isMac: isAMac }),
   appVersion: "",
@@ -18,4 +18,4 @@ const useOSStore = create<OSStore>((set) => ({
   setTauriVersion: (tauriVersion: string) => set({ tauriVersion }),
 }));
 
-export default useOSStore;
+export default useOSState;

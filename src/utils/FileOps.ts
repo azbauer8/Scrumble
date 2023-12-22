@@ -99,13 +99,6 @@ export async function Save() {
         withBorder: true,
       });
     }
-  } else {
-    notifications.show({
-      title: "File is already saved",
-      message: "No action needed",
-      color: "yellow",
-      withBorder: true,
-    });
   }
 }
 

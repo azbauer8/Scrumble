@@ -5,10 +5,12 @@ import { Notifications } from "@mantine/notifications";
 
 import MdEditor from "./components/Editor/MdEditor";
 import TitleBar from "./components/TitleBar/TitleBar";
-import GetOsInfo from "./utils/OsOps";
+import InitializeEditor from "./utils/InitializeEditor";
+import UseKeybinds from "./utils/Keybinds";
 
 function App() {
-  GetOsInfo();
+  InitializeEditor();
+  UseKeybinds();
 
   return (
     <MantineProvider defaultColorScheme="auto">

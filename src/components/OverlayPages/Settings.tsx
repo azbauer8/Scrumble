@@ -32,8 +32,8 @@ export default function Settings() {
           value={settings.saveInterval}
           onChange={(event) => setSaveInterval(event as number)}
           placeholder="120"
-          min={10}
-          error={settings.saveInterval < 10 && "Minimum value is 10"}
+          min={1}
+          error={settings.saveInterval < 1 && "Minimum value is 1"}
         />
       </Group>
       <Group justify="space-between">
@@ -41,6 +41,7 @@ export default function Settings() {
         <Switch
           checked={settings.saveBlur}
           onChange={(event) => setSaveBlur(event.currentTarget.checked)}
+          disabled={!settings.autoSave}
         />
       </Group>
     </Modal>

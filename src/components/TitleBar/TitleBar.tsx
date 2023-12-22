@@ -3,11 +3,12 @@ import "./titlebar.css";
 import MenuDropdown from "./MenuDropdown";
 import WindowControls from "./WindowControls";
 import { useEffect, useRef } from "react";
-import useOSStore from "../../store/os";
+import useOSState from "../../store/os";
 
 export default function TitleBar() {
-  const { isMac } = useOSStore();
+  const { isMac } = useOSState();
   const { fileName, isSaved } = useFileState();
+
   //SECTION - Disable right clicking on title bar
   const titleBarRef = useRef<HTMLDivElement>(null);
   const disableMenu = (e: MouseEvent) => {
