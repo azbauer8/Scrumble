@@ -69,6 +69,18 @@ export default function MdEditor() {
                 editor?.chain().focus().setHeading({ level: 6 }).run(),
             },
             {
+              key: "bullet-list",
+              onClick: () => editor?.chain().focus().toggleBulletList().run(),
+            },
+            {
+              key: "ordered-list",
+              onClick: () => editor?.chain().focus().toggleOrderedList().run(),
+            },
+            {
+              key: "task",
+              onClick: () => editor?.chain().focus().toggleTaskList().run(),
+            },
+            {
               key: "block-quote",
               onClick: () => editor?.chain().focus().setBlockquote().run(),
             },

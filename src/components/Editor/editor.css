@@ -52,3 +52,12 @@
   top: 0.5rem;
   width: 7rem;
 }
+
+[data-type="taskList"] li {
+  display: flex !important;
+  transform: translateX(-1.3rem);
+  label {
+    margin-right: 5px;
+    transform: translateY(1px);
+  }
+}
