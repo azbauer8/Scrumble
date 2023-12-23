@@ -1,5 +1,6 @@
 import { Editor } from "@tiptap/react";
 import { create } from "zustand";
+import { updateFileJson } from "../utils/SettingsOps";
 
 type FileStore = {
   editorRef: Editor | null;
@@ -22,6 +23,7 @@ const useFileState = create<FileStore>((set) => ({
     set({ filePath: newfilePath });
     const path = newfilePath.split(/[\\/]/);
     set({ fileName: path[path.length - 1] });
+    updateFileJson(newfilePath);
   },
   fileContent: "",
   setFileContent: (newContent: string) => set({ fileContent: newContent }),

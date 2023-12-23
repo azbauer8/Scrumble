@@ -80,6 +80,19 @@ export async function Open() {
   });
 }
 
+export async function OpenPath(path: string) {
+  const setFilePath = useFileState.getState().setFilePath;
+  const setFileContent = useFileState.getState().setFileContent;
+  const setSaved = useFileState.getState().setSaved;
+  const editor = useFileState.getState().editorRef;
+
+  const openedContents = await readTextFile(path);
+  setFileContent(openedContents);
+  editor?.commands.setContent(openedContents);
+  setFilePath(path);
+  setSaved(true);
+}
+
 export async function Save() {
   const filePath = useFileState.getState().filePath;
   const setFilePath = useFileState.getState().setFilePath;

@@ -1,12 +1,17 @@
-import { Modal, Group, Switch, NumberInput } from "@mantine/core";
+import { Modal, Group, Switch, NumberInput, Select } from "@mantine/core";
 
 import useUIState from "../../store/ui";
 import useSettingsState from "../../store/settings";
 
 export default function Settings() {
   const { isSettingsOpen, setSettingsOpen } = useUIState();
-  const { settings, setSaveInterval, setSaveBlur, setAutoSave } =
-    useSettingsState();
+  const {
+    settings,
+    setSaveInterval,
+    setSaveBlur,
+    setAutoSave,
+    setOpenOnStartup,
+  } = useSettingsState();
   return (
     <Modal
       opened={isSettingsOpen}
@@ -18,6 +23,14 @@ export default function Settings() {
         blur: 3,
       }}
     >
+      <Group justify="space-between">
+        <p>Open on Startup</p>
+        <Select
+          data={["New File", "Previous File"]}
+          value={settings.openOnStartup}
+          onChange={(value) => setOpenOnStartup(value as string)}
+        />
+      </Group>
       <Group justify="space-between">
         <p>Auto Save</p>
         <Switch

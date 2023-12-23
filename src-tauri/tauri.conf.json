@@ -47,7 +47,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "byzach.scrumble",
+      "identifier": "Scrumble",
       "longDescription": "A Markdown editor powered by Milkdown.",
       "macOS": {
         "entitlements": null,

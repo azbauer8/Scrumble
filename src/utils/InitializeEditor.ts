@@ -8,10 +8,13 @@ import useFileState from "../store/file";
 import { Save, SaveAs } from "./FileOps";
 import { appWindow } from "@tauri-apps/api/window";
 import { ask as askDialog } from "@tauri-apps/api/dialog";
+import { setStateFromJson } from "./SettingsOps";
 
 export default function InitializeEditor() {
   const { setMac, setAppVersion, setTauriVersion } = useOSState();
   const { isSaved, filePath } = useFileState();
+  const { settings } = useSettingsState();
+
   useEffect(() => {
     const getAppInfo = async () => {
       if (window.__TAURI_METADATA__) {
@@ -41,6 +44,9 @@ export default function InitializeEditor() {
       });
     };
 
+    // read settings from json
+    setStateFromJson();
+
     return () => {
       onClose();
     };
@@ -54,8 +60,6 @@ export default function InitializeEditor() {
     },
     { capture: true }
   );
-
-  const { settings } = useSettingsState();
 
   // for auto save interval
   const interval = useInterval(
