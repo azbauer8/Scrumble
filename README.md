@@ -7,7 +7,7 @@ A simple Markdown editor powered by TipTap
 - Clean, minimal design using Mantine UI
 - Very fast and low utilization
 - WYSIWYG markdown with standard syntax and shortcuts
-- Available for Windows and MacOS 
+- Available for Windows and MacOS
   - Should work fine on Linux, I just haven't spun up a vm to bundle it myself yet
 - Fully open-source
 
@@ -15,7 +15,7 @@ A simple Markdown editor powered by TipTap
 
 - Adding tables and better support for links and images
 - Adding slash menu to insert blocks
-- Moving menu button to menu bar on MacOS
+- Moving menu button to menu bar on MacOS asd s das
 - Proper indent functionality
 - Drag and drop functionality for images and links
 - Add "Open folder" functionality with sidebar to switch between files in folder
@@ -34,7 +34,7 @@ A simple Markdown editor powered by TipTap
 
 Must have NodeJS and any dependencies to run Tauri
 
-```bash
+```Auto
 # clone repo
 gh repo clone azbauer8/Scrumble
 # install

@@ -27,7 +27,7 @@ const useFileState = create<FileStore>((set) => ({
   },
   fileContent: "",
   setFileContent: (newContent: string) => set({ fileContent: newContent }),
-  isSaved: false,
+  isSaved: true,
   setSaved: (isItSaved: boolean) => set({ isSaved: isItSaved }),
 }));
 
