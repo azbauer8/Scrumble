@@ -1,43 +1,46 @@
 # Scrumble
 
-A Markdown editor powered by [Milkdown](https://milkdown.dev/).
+A simple Markdown editor powered by TipTap
 
-# ✨ Features
+## Features
 
-\[ \] **🌈 Minimal Design - Using FluentUI components with Mica\\Acrylic background**
+- Clean, minimal design using Mantine UI
+- Very fast and low utilization
+- WYSIWYG markdown with standard syntax and shortcuts
+- Available for Windows and MacOS 
+  - Should work fine on Linux, I just haven't spun up a vm to bundle it myself yet
+- Fully open-source
 
-\[x\] **🪶 Lightweight - Bundled with tauri for smaller installer size and memory usage**
+## Roadmap
 
-\[x\] asda sdas das d d Hello world!📝 **WYSIWYG Markdown - provides Typora-like seamless Markdown editing experience**
+- Adding tables and better support for links and images
+- Adding slash menu to insert blocks
+- Moving menu button to menu bar on MacOS
+- Proper indent functionality
+- Drag and drop functionality for images and links
+- Add "Open folder" functionality with sidebar to switch between files in folder
+- Add setting to open default folder on launch
+- Native md file association
+- Format raw md text on paste
+- Spell check setting
 
-# 🚧 Todoasdas
+## Wishlist:
 
-\[x\] Multi-language support
+- Tabs & multiple windows
+- Command palette to search directory
+- Remap keybindings
 
-\[x\] Find/Replace
+# Building it yourself
 
-\[x\] LsdsdaTeX support
-
-\[ \] sMore export options
-
-\[x\] Two-column editor
-
-\[ \] Picture bed integration
-
-# ☔ System Requirements
-
-\[x\] Windows 7+ (Recommend: Windows 10 1803 +)
-
-\[x\] macOS 11.3+ (Reasons: see [Fluent UI's broswer support matrix](https://react.fluentui.dev/?path=/docs/concepts-developer-browser-support-matrix--page))
-
-\[x\] most Linux distributions (Recommend/Tested: Ubuntu 18.04 +)
-
-# 📦 How to build
-
-This project is bundled with [tauri](https://tauri.app), You should follow [this guide](https://tauri.app/v1/guides/getting-started/prerequisites/) first.
+Must have NodeJS and any dependencies to run Tauri
 
 ```bash
-yarn install # Install dependencies
-yarn tauri dev # Start development server
-yarn tauri build # Bundle App
+# clone repo
+gh repo clone azbauer8/Scrumble
+# install
+npm install
+# run in dev
+npm run tauri dev
+# build app
+npm run tauri build
 ```
