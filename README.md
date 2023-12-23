@@ -15,7 +15,7 @@ A simple Markdown editor powered by TipTap
 
 - Adding tables and better support for links and images
 - Adding slash menu to insert blocks
-- Moving menu button to menu bar on MacOS asd s das
+- Moving menu button to menu bar on MacOS
 - Proper indent functionality
 - Drag and drop functionality for images and links
 - Add "Open folder" functionality with sidebar to switch between files in folder
