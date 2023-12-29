@@ -1,5 +1,5 @@
 import { useHotkeys } from "@mantine/hooks";
-import { New, Open, Save, SaveAs } from "./FileOps";
+import { New, Open, Save, SaveAs } from "./fileOps";
 
 export default function UseKeybinds() {
   useHotkeys(

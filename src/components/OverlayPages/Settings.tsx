@@ -1,62 +1,85 @@
-import { Modal, Group, Switch, NumberInput, Select } from "@mantine/core";
-
-import useUIState from "../../store/ui";
-import useSettingsState from "../../store/settings";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import useSettingsState from "@/store/settings";
+import useUIState from "@/store/ui";
+import { Switch } from "../ui/switch";
+import { Input } from "../ui/input";
 
 export default function Settings() {
   const { isSettingsOpen, setSettingsOpen } = useUIState();
   const {
     settings,
-    setSaveInterval,
-    setSaveBlur,
-    setAutoSave,
     setOpenOnStartup,
+    setAutoSave,
+    setSaveBlur,
+    setSaveInterval,
   } = useSettingsState();
   return (
-    <Modal
-      opened={isSettingsOpen}
-      onClose={() => setSettingsOpen(false)}
-      title="Settings"
-      centered
-      overlayProps={{
-        backgroundOpacity: 0.55,
-        blur: 3,
-      }}
-    >
-      <Group justify="space-between">
-        <p>Open on Startup</p>
-        <Select
-          data={["New File", "Previous File"]}
-          value={settings.openOnStartup}
-          onChange={(value) => setOpenOnStartup(value as string)}
-        />
-      </Group>
-      <Group justify="space-between">
-        <p>Auto Save</p>
-        <Switch
-          checked={settings.autoSave}
-          onChange={(event) => setAutoSave(event.currentTarget.checked)}
-        />
-      </Group>
-      <Group justify="space-between">
-        <p>Save Interval (sec)</p>
-        <NumberInput
-          disabled={!settings.autoSave}
-          value={settings.saveInterval}
-          onChange={(event) => setSaveInterval(event as number)}
-          placeholder="120"
-          min={1}
-          error={settings.saveInterval < 1 && "Minimum value is 1"}
-        />
-      </Group>
-      <Group justify="space-between">
-        <p>Save on Window Blur</p>
-        <Switch
-          checked={settings.saveBlur}
-          onChange={(event) => setSaveBlur(event.currentTarget.checked)}
-          disabled={!settings.autoSave}
-        />
-      </Group>
-    </Modal>
+    <Dialog open={isSettingsOpen} onOpenChange={setSettingsOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-2xl">Settings</DialogTitle>
+        </DialogHeader>
+        <div className="pt-3 space-y-7">
+          <div className="flex justify-between items-center">
+            <p>Open on Startup</p>
+            <Select
+              value={settings.openOnStartup}
+              onValueChange={(value) => setOpenOnStartup(value)}
+            >
+              <SelectTrigger className="w-[180px]" tabIndex={-1}>
+                <SelectValue placeholder={settings.openOnStartup} />
+              </SelectTrigger>
+              <SelectContent className="bg-background">
+                <SelectGroup>
+                  <SelectItem value="New File">New File</SelectItem>
+                  <SelectItem value="Previous File">Previous File</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex justify-between items-center">
+            <p>Auto Save</p>
+            <Switch
+              checked={settings.autoSave}
+              onCheckedChange={(value) => setAutoSave(value)}
+              tabIndex={-1}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <p>Save Interval (sec)</p>
+            <Input
+              className="w-[180px]"
+              type="number"
+              min={1}
+              value={settings.saveInterval}
+              onChange={(e) => setSaveInterval(parseInt(e.target.value))}
+              tabIndex={-1}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <p>Save on Window Blur</p>
+            <Switch
+              checked={settings.saveBlur}
+              onCheckedChange={(value) => setSaveBlur(value)}
+              disabled={!settings.autoSave}
+              tabIndex={-1}
+            />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

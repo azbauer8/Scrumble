@@ -1,63 +1,23 @@
-.editor-content {
-  border: none !important;
+.remirror-editor {
+  @apply h-[calc(100vh-1.8rem)] py-10 overflow-y-scroll outline-none prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap;
 }
-.tiptap {
-  padding: 2.5rem 0 !important;
-  height: calc(100vh - 2.5rem);
-  overflow-y: scroll;
+.remirror-editor > * {
+  @apply mx-auto max-w-6xl px-5 py-0.5;
 }
-.tiptap > * {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 0.1rem 1.5rem;
-}
-.tiptap > h1 {
-  padding-bottom: 1rem;
-}
-.tiptap > p {
-  padding-bottom: 0.1rem;
-}
-.tiptap > pre {
-  max-width: 72rem;
-  margin: 10px auto;
-  padding: 10px 14px;
+
+.remirror-editor > pre {
+  margin: 10px auto !important;
   transform: translateX(10px);
 }
-.tiptap::-webkit-scrollbar {
-  width: 10px;
+
+.remirror-editor::-webkit-scrollbar {
+  @apply w-3;
 }
 
-/* Track */
-.tiptap::-webkit-scrollbar-track {
-  background-color: transparent;
+.remirror-editor::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
 
-/* Handle */
-.tiptap::-webkit-scrollbar-thumb {
-  background: var(--mantine-color-dark-1);
-  border-radius: 10px;
-}
-@media (prefers-color-scheme: dark) {
-  .tiptap::-webkit-scrollbar-thumb {
-    background: var(--mantine-color-dark-5);
-  }
-}
-
-.code-block {
-  position: relative;
-}
-.code-lang-select {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
-  width: 7rem;
-}
-
-[data-type="taskList"] li {
-  display: flex !important;
-  transform: translateX(-1.3rem);
-  label {
-    margin-right: 5px;
-    transform: translateY(1px);
-  }
+.remirror-editor::-webkit-scrollbar-thumb {
+  @apply rounded-md bg-scrollbar;
 }

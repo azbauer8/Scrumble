@@ -5,7 +5,7 @@ import {
 } from "@tauri-apps/api/dialog";
 import { writeTextFile, readTextFile } from "@tauri-apps/api/fs";
 import { documentDir } from "@tauri-apps/api/path";
-import { notifications } from "@mantine/notifications";
+import { toast } from "sonner";
 import useFileState from "../store/file";
 
 export const fileExtensions = [
@@ -34,7 +34,7 @@ export async function New() {
   }
   setFilePath("");
   setFileContent("");
-  editor?.commands.setContent("");
+  editor?.clearContent();
   setSaved(true);
 }
 
@@ -59,24 +59,20 @@ export async function Open() {
     filters: fileExtensions,
   });
   if (selected === null) {
-    notifications.show({
-      title: "Open dialog closed",
-      message: "No file selected",
-      color: "red",
-      withBorder: true,
+    toast.warning("Open dialog closed", {
+      description: "No file selected",
     });
     return;
   }
   const openedContents = await readTextFile(selected as string);
   setFileContent(openedContents);
-  editor?.commands.setContent(openedContents);
+  editor?.clearContent();
+  editor?.commands.insertMarkdown(openedContents);
   setFilePath(selected as string);
   setSaved(true);
-  notifications.show({
-    title: "Opened file",
-    message: selected as string,
-    color: "teal",
-    withBorder: true,
+
+  toast.success("Opened file", {
+    description: selected as string,
   });
 }
 
@@ -88,7 +84,8 @@ export async function OpenPath(path: string) {
 
   const openedContents = await readTextFile(path);
   setFileContent(openedContents);
-  editor?.commands.setContent(openedContents);
+  editor?.clearContent();
+  editor?.commands.insertMarkdown(openedContents);
   setFilePath(path);
   setSaved(true);
 }
@@ -110,11 +107,8 @@ export async function Save() {
       });
       // if user cancelled out of save dialog, return and don't save
       if (newPath === null) {
-        notifications.show({
-          title: "Save dialog closed",
-          message: "Your file will not be saved",
-          color: "red",
-          withBorder: true,
+        toast.warning("Save dialog closed", {
+          description: "Your file will not be saved",
         });
         return;
       }
@@ -124,18 +118,12 @@ export async function Save() {
     try {
       await writeTextFile({ path: path, contents: fileContent });
       setSaved(true);
-      notifications.show({
-        title: "Save successful",
-        message: `Saved to: ${path}`,
-        color: "teal",
-        withBorder: true,
+      toast.success("Save successful", {
+        description: `Saved to: ${path}`,
       });
     } catch (e) {
-      notifications.show({
-        title: "Error occurred while saving file",
-        message: (e as Error).message,
-        color: "red",
-        withBorder: true,
+      toast.error("Error occurred while saving file", {
+        description: (e as Error).message,
       });
     }
   }
@@ -152,11 +140,8 @@ export async function SaveAs() {
   });
   // if user cancelled out of save dialog, return and don't save
   if (path === null) {
-    notifications.show({
-      title: "Save dialog closed",
-      message: "Your file will not be saved",
-      color: "red",
-      withBorder: true,
+    toast.warning("Save dialog closed", {
+      description: "Your file will not be saved",
     });
     return;
   }
@@ -165,18 +150,13 @@ export async function SaveAs() {
   try {
     await writeTextFile({ path: path, contents: fileContent });
     setSaved(true);
-    notifications.show({
-      title: "Save successful",
-      message: `Saved to: ${path}`,
-      color: "teal",
-      withBorder: true,
+    toast.success("Save successful", {
+      description: `Saved to: ${path}`,
     });
+    // });
   } catch (e) {
-    notifications.show({
-      title: "Error occurred while saving file",
-      message: (e as Error).message,
-      color: "red",
-      withBorder: true,
+    toast.error("Error occurred while saving file", {
+      description: (e as Error).message,
     });
   }
 }

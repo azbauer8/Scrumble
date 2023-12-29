@@ -1,27 +1,39 @@
-import "@mantine/core/styles.layer.css";
-import "@mantine/notifications/styles.css";
-import "mantine-contextmenu/styles.layer.css";
-import { MantineProvider } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
-import { ContextMenuProvider } from "mantine-contextmenu";
+import { useEffect, useRef } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
+import MdEditor from "./components/Editor";
+import TitleBar from "./components/TitleBar";
+import useFileState from "./store/file";
+import Init from "./utils/init";
+import UseKeybinds from "./utils/keybinds";
+import About from "./components/OverlayPages/About";
+import Settings from "./components/OverlayPages/Settings";
+import EditorContextMenu from "./components/Editor/ContextMenu";
 
-import MdEditor from "./components/Editor/MdEditor";
-import TitleBar from "./components/TitleBar/TitleBar";
-import InitializeEditor from "./utils/InitializeEditor";
-import UseKeybinds from "./utils/Keybinds";
+export default function App() {
+  const mdEditorRef = useRef(null);
+  const { setEditorRef } = useFileState();
 
-function App() {
-  InitializeEditor();
+  useEffect(() => {
+    if (mdEditorRef.current) {
+      setEditorRef(mdEditorRef.current);
+    }
+  }, []);
+
+  Init();
   UseKeybinds();
   return (
-    <MantineProvider defaultColorScheme="auto">
-      <ContextMenuProvider>
-        <Notifications />
-        <TitleBar />
-        <MdEditor />
-      </ContextMenuProvider>
-    </MantineProvider>
+    <div>
+      <TitleBar />
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <MdEditor ref={mdEditorRef} />
+        </ContextMenuTrigger>
+        <EditorContextMenu />
+      </ContextMenu>
+      <About />
+      <Settings />
+      <Toaster richColors closeButton position="bottom-right" />
+    </div>
   );
 }
-
-export default App;

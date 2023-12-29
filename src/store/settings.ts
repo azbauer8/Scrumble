@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { UpdateJson } from "../utils/SettingsOps";
+import { UpdateJson } from "../utils/settingsOps";
 
 interface Settings {
   openOnStartup: string;

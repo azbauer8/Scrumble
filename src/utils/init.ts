@@ -1,16 +1,16 @@
 import { type as getType } from "@tauri-apps/api/os";
 import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
 import useOSState from "../store/os";
-import { useInterval, useWindowEvent } from "@mantine/hooks";
 import { useEffect } from "react";
 import useSettingsState from "../store/settings";
 import useFileState from "../store/file";
-import { Save, SaveAs } from "./FileOps";
+import { Save, SaveAs } from "./fileOps";
 import { appWindow } from "@tauri-apps/api/window";
 import { ask as askDialog } from "@tauri-apps/api/dialog";
-import { setStateFromJson } from "./SettingsOps";
+import { setStateFromJson } from "./settingsOps";
+import { useInterval, useWindowEvent } from "@mantine/hooks";
 
-export default function InitializeEditor() {
+export default function Init() {
   const { setMac, setAppVersion, setTauriVersion } = useOSState();
   const { isSaved, filePath } = useFileState();
   const { settings } = useSettingsState();
@@ -52,10 +52,25 @@ export default function InitializeEditor() {
     };
   }, []);
 
-  // disable right click menu globally
+  // disable right click menu on most elements
   document.addEventListener(
     "contextmenu",
     (e) => {
+      // elements with class name in this array will be allowed
+      const allowedClassNames = ["remirror-editor"];
+
+      let targetElement = e.target as HTMLElement;
+
+      while (targetElement) {
+        const hasAllowedClass = allowedClassNames.some((className) =>
+          targetElement.classList.contains(className)
+        );
+
+        if (hasAllowedClass) {
+          return;
+        }
+        targetElement = targetElement.parentElement as HTMLElement;
+      }
       e.preventDefault();
     },
     { capture: true }

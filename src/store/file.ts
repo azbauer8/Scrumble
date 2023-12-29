@@ -1,10 +1,11 @@
-import { Editor } from "@tiptap/react";
 import { create } from "zustand";
-import { updateFileJson } from "../utils/SettingsOps";
+import { ReactFrameworkOutput } from "@remirror/react";
+import { updateFileJson } from "../utils/settingsOps";
+import { Extensions } from "@/components/Editor/exts";
 
 type FileStore = {
-  editorRef: Editor | null;
-  setEditorRef: (editor: Editor | null) => void;
+  editorRef: ReactFrameworkOutput<Extensions> | null;
+  setEditorRef: (editor: any) => void;
   fileName: string;
   filePath: string;
   setFilePath: (filePath: string) => void;
@@ -16,7 +17,7 @@ type FileStore = {
 
 const useFileState = create<FileStore>((set) => ({
   editorRef: null,
-  setEditorRef: (editor: Editor | null) => set({ editorRef: editor }),
+  setEditorRef: (editor) => set({ editorRef: editor }),
   fileName: "",
   filePath: "",
   setFilePath: (newfilePath: string) => {

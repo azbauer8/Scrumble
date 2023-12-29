@@ -1,79 +1,137 @@
-import useFileState from "../../store/file";
-
-export default function ContextMenu() {
+import {
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+} from "@/components/ui/context-menu";
+import useFileState from "@/store/file";
+export default function EditorContextMenu() {
   const { editorRef } = useFileState();
-  const items = [
-    {
-      key: "turn-into",
-      items: [
-        {
-          key: "paragraph",
-          onClick: () => editorRef?.chain().focus().setParagraph().run(),
-        },
-        {
-          key: "h1",
-          onClick: () =>
-            editorRef?.chain().focus().setHeading({ level: 1 }).run(),
-        },
-        {
-          key: "h2",
-          onClick: () =>
-            editorRef?.chain().focus().setHeading({ level: 2 }).run(),
-        },
-        {
-          key: "h3",
-          onClick: () =>
-            editorRef?.chain().focus().setHeading({ level: 3 }).run(),
-        },
-        {
-          key: "h4",
-          onClick: () =>
-            editorRef?.chain().focus().setHeading({ level: 4 }).run(),
-        },
-        {
-          key: "h5",
-          onClick: () =>
-            editorRef?.chain().focus().setHeading({ level: 5 }).run(),
-        },
-        {
-          key: "h6",
-          onClick: () =>
-            editorRef?.chain().focus().setHeading({ level: 6 }).run(),
-        },
-        {
-          key: "bullet-list",
-          onClick: () => editorRef?.chain().focus().toggleBulletList().run(),
-        },
-        {
-          key: "ordered-list",
-          onClick: () => editorRef?.chain().focus().toggleOrderedList().run(),
-        },
-        {
-          key: "task",
-          onClick: () => editorRef?.chain().focus().toggleTaskList().run(),
-        },
-        {
-          key: "block-quote",
-          onClick: () => editorRef?.chain().focus().setBlockquote().run(),
-        },
-        {
-          key: "code-block",
-          onClick: () => editorRef?.chain().focus().setCodeBlock().run(),
-        },
-      ],
-    },
-    {
-      key: "bold",
-      onClick: () => editorRef?.chain().focus().toggleBold().run(),
-    },
-    {
-      key: "italics",
-      onClick: () => editorRef?.chain().focus().toggleItalic().run(),
-    },
-    {
-      key: "code",
-      onClick: () => editorRef?.chain().focus().toggleCode().run(),
-    },
-  ];
-  return items;
+  return (
+    <ContextMenuContent className="bg-background">
+      <ContextMenuSub>
+        <ContextMenuSubTrigger>Turn into</ContextMenuSubTrigger>
+        <ContextMenuSubContent className="w-fit bg-background translate-x-2 -translate-y-1">
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.convertParagraph();
+              editorRef?.commands.focus();
+            }}
+          >
+            Paragraph
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleBulletList();
+              editorRef?.commands.focus();
+            }}
+          >
+            Bullet List
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleOrderedList();
+              editorRef?.commands.focus();
+            }}
+          >
+            Ordered List
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleBlockquote();
+              editorRef?.commands.focus();
+            }}
+          >
+            Block Quote
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleCodeBlock();
+              editorRef?.commands.focus();
+            }}
+          >
+            Code Block
+          </ContextMenuItem>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+      <ContextMenuSub>
+        <ContextMenuSubTrigger>Heading</ContextMenuSubTrigger>
+        <ContextMenuSubContent className="w-fit bg-background translate-x-2 -translate-y-1">
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleHeading({ level: 1 });
+              editorRef?.commands.focus();
+            }}
+          >
+            H1
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleHeading({ level: 2 });
+              editorRef?.commands.focus();
+            }}
+          >
+            H2
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleHeading({ level: 3 });
+              editorRef?.commands.focus();
+            }}
+          >
+            H3
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleHeading({ level: 4 });
+              editorRef?.commands.focus();
+            }}
+          >
+            H4
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleHeading({ level: 5 });
+              editorRef?.commands.focus();
+            }}
+          >
+            H5
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              editorRef?.commands.toggleHeading({ level: 6 });
+              editorRef?.commands.focus();
+            }}
+          >
+            H6
+          </ContextMenuItem>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+      <ContextMenuItem
+        onClick={() => {
+          editorRef?.commands.toggleBold();
+          editorRef?.commands.focus();
+        }}
+      >
+        Bold
+      </ContextMenuItem>
+      <ContextMenuItem
+        onClick={() => {
+          editorRef?.commands.toggleItalic();
+          editorRef?.commands.focus();
+        }}
+      >
+        Italics
+      </ContextMenuItem>
+      <ContextMenuItem
+        onClick={() => {
+          editorRef?.commands.toggleCode();
+          editorRef?.commands.focus();
+        }}
+      >
+        Code
+      </ContextMenuItem>
+    </ContextMenuContent>
+  );
 }
