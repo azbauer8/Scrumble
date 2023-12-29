@@ -1,7 +1,44 @@
-# Tauri + React + Typescript
+# Scrumble
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+A simple Markdown editor powered by TipTap
 
-## Recommended IDE Setup
+## Features
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+- Clean, minimal design using ShadCN UI
+- Very fast and low utilization
+- WYSIWYG markdown with standard syntax and shortcuts
+- Available for Windows and MacOS
+  - Should work fine on Linux, I just haven't spun up a vm to bundle it myself yet
+- Fully open-source
+
+## Roadmap
+
+- Adding tables and better support for links and images
+- Adding slash menu to insert blocks
+- Moving menu button to menu bar on MacOS
+- Drag and drop functionality for images and links
+- Add "Open folder" functionality with sidebar to switch between files in folder
+- Add setting to open default folder on launch
+- Native md file association
+- Spell check setting
+
+## Wishlist:
+
+- Tabs & multiple windows
+- Command palette to search directory
+- Remap keybindings
+
+# Building it yourself
+
+Must have NodeJS and any dependencies to run Tauri
+
+```Auto
+# clone repo
+gh repo clone azbauer8/Scrumble
+# install
+npm install
+# run in dev
+npm run tauri dev
+# build app
+npm run tauri build
+```
