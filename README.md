@@ -1,6 +1,6 @@
 # Scrumble
 
-A simple Markdown editor powered by TipTap
+A simple Markdown editor powered by Remirror
 
 ## Features
 
