@@ -1,9 +1,5 @@
-import {
-  save as saveFilePicker,
-  open as openFilePicker,
-  ask as askDialog,
-} from "@tauri-apps/api/dialog";
-import { writeTextFile, readTextFile } from "@tauri-apps/api/fs";
+import { save, open, ask } from "@tauri-apps/api/dialog";
+import { writeTextFile, readTextFile, readDir } from "@tauri-apps/api/fs";
 import { documentDir } from "@tauri-apps/api/path";
 import { toast } from "sonner";
 import useFileState from "../store/file";
@@ -24,7 +20,7 @@ export async function New() {
 
   const editor = useFileState.getState().editorRef;
   if (!isSaved) {
-    const response = await askDialog(
+    const response = await ask(
       "The current file is unsaved, do you want to save it first?",
       { title: "Warning", type: "warning" }
     );
@@ -46,7 +42,7 @@ export async function Open() {
   const setSaved = useFileState.getState().setSaved;
   const editor = useFileState.getState().editorRef;
   if (!isSaved) {
-    const response = await askDialog(
+    const response = await ask(
       "The current file is unsaved, do you want to save it first?",
       { title: "Warning", type: "warning" }
     );
@@ -54,7 +50,7 @@ export async function Open() {
       filePath ? await Save() : await SaveAs();
     }
   }
-  const selected = await openFilePicker({
+  const selected = await open({
     defaultPath: await documentDir(),
     filters: fileExtensions,
   });
@@ -90,6 +86,54 @@ export async function OpenPath(path: string) {
   setSaved(true);
 }
 
+export async function OpenDirectory() {
+  const setOpenDirectory = useFileState.getState().setOpenDirectory;
+  const addOpenDirFile = useFileState.getState().addOpenDirFile;
+  const clearOpenDirFiles = useFileState.getState().clearOpenDirFiles;
+
+  const selected = await open({
+    directory: true,
+    defaultPath: await documentDir(),
+  });
+  if (selected === null) {
+    toast.warning("Open dialog closed", {
+      description: "No directory selected",
+    });
+    return;
+  }
+  clearOpenDirFiles();
+  setOpenDirectory(selected as string);
+  const entries = await readDir(selected as string);
+
+  for (const entry of entries) {
+    if (entry.path.slice(-3) === ".md") {
+      addOpenDirFile(entry);
+    }
+  }
+
+  toast.success("Opened directory", {
+    description: selected as string,
+  });
+}
+
+export async function OpenDirectoryFromPath(path: string) {
+  const setOpenDirectory = useFileState.getState().setOpenDirectory;
+  const addOpenDirFile = useFileState.getState().addOpenDirFile;
+
+  setOpenDirectory(path);
+  const entries = await readDir(path);
+
+  for (const entry of entries) {
+    if (entry.path.slice(-3)) {
+      addOpenDirFile(entry);
+    }
+  }
+
+  toast.success("Opened directory", {
+    description: path,
+  });
+}
+
 export async function Save() {
   const filePath = useFileState.getState().filePath;
   const setFilePath = useFileState.getState().setFilePath;
@@ -100,7 +144,7 @@ export async function Save() {
   if (!isSaved) {
     // show save as dialog if no file path
     if (!filePath) {
-      const newPath = await saveFilePicker({
+      const newPath = await save({
         defaultPath: await documentDir(),
         filters: fileExtensions,
       });
@@ -132,7 +176,7 @@ export async function SaveAs() {
   const fileContent = useFileState.getState().fileContent;
   const setSaved = useFileState.getState().setSaved;
   // show save as dialog
-  const path = await saveFilePicker({
+  const path = await save({
     defaultPath: await documentDir(),
     filters: fileExtensions,
   });

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { ReactFrameworkOutput } from "@remirror/react";
 import { updateFileJson } from "../utils/settingsOps";
 import { Extensions } from "@/components/Editor/exts";
+import { FileEntry } from "@tauri-apps/api/fs";
 
 type FileStore = {
   editorRef: ReactFrameworkOutput<Extensions> | null;
@@ -13,6 +14,12 @@ type FileStore = {
   setFileContent: (fileContent: string) => void;
   isSaved: boolean;
   setSaved: (isItSaved: boolean) => void;
+  openDirectory: string;
+  setOpenDirectory: (openDirectory: string) => void;
+  openDirFiles: FileEntry[];
+  addOpenDirFile: (file: FileEntry) => void;
+  setOpenDirFiles: (openDirFiles: FileEntry[]) => void;
+  clearOpenDirFiles: () => void;
 };
 
 const useFileState = create<FileStore>((set) => ({
@@ -30,6 +37,13 @@ const useFileState = create<FileStore>((set) => ({
   setFileContent: (newContent: string) => set({ fileContent: newContent }),
   isSaved: true,
   setSaved: (isItSaved: boolean) => set({ isSaved: isItSaved }),
+  openDirectory: "",
+  setOpenDirectory: (openDirectory: string) => set({ openDirectory }),
+  openDirFiles: [],
+  addOpenDirFile: (file: FileEntry) =>
+    set((state) => ({ openDirFiles: [...state.openDirFiles, file] })),
+  setOpenDirFiles: (openDirFiles: FileEntry[]) => set({ openDirFiles }),
+  clearOpenDirFiles: () => set({ openDirFiles: [] }),
 }));
 
 export default useFileState;

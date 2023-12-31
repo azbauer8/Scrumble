@@ -18,7 +18,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { New, Open, Save, SaveAs } from "../../utils/fileOps";
+import { New, Open, Save, SaveAs, OpenDirectory } from "../../utils/fileOps";
 import useUIState from "@/store/ui";
 
 export default function FileMenu({
@@ -45,6 +45,11 @@ export default function FileMenu({
           className={`w-64 bg-background -translate-y-0.5 ${dropdownClassName}`}
         >
           <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => OpenDirectory()}>
+              <PlusCircleIcon className="mr-2 h-4 w-4" />
+              <span>Open folder</span>
+              <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => New()}>
               <PlusCircleIcon className="mr-2 h-4 w-4" />
               <span>New</span>

@@ -44,7 +44,7 @@ export default function Init() {
       });
     };
 
-    // read settings from json
+    // set editor settings from stored json file
     setStateFromJson();
 
     return () => {

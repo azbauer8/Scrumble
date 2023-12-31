@@ -10,16 +10,19 @@ import About from "./components/OverlayPages/About";
 import Settings from "./components/OverlayPages/Settings";
 import EditorContextMenu from "./components/Editor/ContextMenu";
 import CommandMenu from "./components/Menus/CommandMenu";
+import useSettingsState from "./store/settings";
 
 export default function App() {
   const mdEditorRef = useRef(null);
-  const { setEditorRef } = useFileState();
+  const { setEditorRef, openDirFiles } = useFileState();
+  const { settings } = useSettingsState();
 
   useEffect(() => {
     if (mdEditorRef.current) {
       setEditorRef(mdEditorRef.current);
     }
   }, []);
+  console.log(openDirFiles);
 
   Init();
   UseKeybinds();
@@ -28,7 +31,8 @@ export default function App() {
       <TitleBar />
       <CommandMenu />
       <ContextMenu>
-        <ContextMenuTrigger>
+        {/* @ts-ignore */}
+        <ContextMenuTrigger spellCheck={settings.spellCheck}>
           <MdEditor ref={mdEditorRef} />
         </ContextMenuTrigger>
         <EditorContextMenu />

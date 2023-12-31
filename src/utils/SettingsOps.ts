@@ -32,9 +32,7 @@ export async function setStateFromJson() {
       await readTextFile(`${appDataDirPath}/settings.json`)
     );
     useSettingsState.getState().setSettings(settings);
-    if (
-      useSettingsState.getState().settings.openOnStartup === "Previous File"
-    ) {
+    if (settings.openOnStartup === "Previous File") {
       setEditorFromFileJson();
     }
   }

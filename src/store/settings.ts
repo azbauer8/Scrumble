@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { UpdateJson } from "../utils/settingsOps";
 
 interface Settings {
+  spellCheck: string;
   openOnStartup: string;
   autoSave: boolean;
   saveBlur: boolean;
@@ -11,6 +12,7 @@ interface Settings {
 type SettingsStore = {
   settings: Settings;
   setSettings: (settings: Settings) => void;
+  setSpellCheck: (spellCheck: string) => void;
   setOpenOnStartup: (openOnStartup: string) => void;
   setAutoSave: (autoSave: boolean) => void;
   setSaveBlur: (saveBlur: boolean) => void;
@@ -19,6 +21,7 @@ type SettingsStore = {
 
 const useSettingsState = create<SettingsStore>((set) => ({
   settings: {
+    spellCheck: "false",
     openOnStartup: "New File",
     autoSave: false,
     saveBlur: false,
@@ -26,6 +29,10 @@ const useSettingsState = create<SettingsStore>((set) => ({
   },
   setSettings: (settings) => {
     set({ settings });
+  },
+  setSpellCheck: (spellCheck) => {
+    set((state) => ({ settings: { ...state.settings, spellCheck } }));
+    UpdateJson();
   },
   setOpenOnStartup: (openOnStartup) => {
     set((state) => ({ settings: { ...state.settings, openOnStartup } }));

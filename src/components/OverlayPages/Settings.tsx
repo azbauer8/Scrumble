@@ -25,6 +25,7 @@ export default function Settings() {
     setAutoSave,
     setSaveBlur,
     setSaveInterval,
+    setSpellCheck,
   } = useSettingsState();
   return (
     <Dialog open={isSettingsOpen} onOpenChange={setSettingsOpen}>
@@ -76,6 +77,16 @@ export default function Settings() {
               checked={settings.saveBlur}
               onCheckedChange={(value) => setSaveBlur(value)}
               disabled={!settings.autoSave}
+              tabIndex={-1}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <p>Spell Check</p>
+            <Switch
+              checked={settings.spellCheck === "true"}
+              onCheckedChange={(value) =>
+                setSpellCheck(value ? "true" : "false")
+              }
               tabIndex={-1}
             />
           </div>
