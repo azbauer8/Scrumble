@@ -34,7 +34,7 @@ export default function Menu({
         <DropdownMenuTrigger asChild className="focus-visible:ring-0">
           <Button
             variant="ghost"
-            className={`focus-visible:ring-transparent focus:ring-transparent absolute top-0 ${buttonClassName}`}
+            className={`focus-visible:ring-transparent focus:ring-transparent absolute top-0.5 ${buttonClassName}`}
             tabIndex={-1}
           >
             <MenuIcon />

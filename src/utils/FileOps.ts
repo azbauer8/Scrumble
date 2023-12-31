@@ -96,11 +96,10 @@ export async function Save() {
   const fileContent = useFileState.getState().fileContent;
   const isSaved = useFileState.getState().isSaved;
   const setSaved = useFileState.getState().setSaved;
-  let path = filePath;
   // no action needed if already saved
   if (!isSaved) {
     // show save as dialog if no file path
-    if (!path) {
+    if (!filePath) {
       const newPath = await saveFilePicker({
         defaultPath: await documentDir(),
         filters: fileExtensions,
@@ -112,14 +111,13 @@ export async function Save() {
         });
         return;
       }
-      path = newPath;
-      setFilePath(path);
+      setFilePath(newPath);
     }
     try {
-      await writeTextFile({ path: path, contents: fileContent });
+      await writeTextFile({ path: filePath, contents: fileContent });
       setSaved(true);
       toast.success("Save successful", {
-        description: `Saved to: ${path}`,
+        description: `Saved to: ${filePath}`,
       });
     } catch (e) {
       toast.error("Error occurred while saving file", {

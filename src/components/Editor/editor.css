@@ -8,6 +8,7 @@
 .remirror-editor > pre {
   margin: 10px auto !important;
   transform: translateX(10px);
+  @apply w-[95%];
 }
 
 .remirror-editor::-webkit-scrollbar {

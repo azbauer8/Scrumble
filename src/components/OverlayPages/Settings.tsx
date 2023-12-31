@@ -66,6 +66,7 @@ export default function Settings() {
               min={1}
               value={settings.saveInterval}
               onChange={(e) => setSaveInterval(parseInt(e.target.value))}
+              disabled={!settings.autoSave}
               tabIndex={-1}
             />
           </div>

@@ -7,13 +7,12 @@ export default function TitleBar() {
   const { isMac } = useOSState();
   const { fileName, isSaved } = useFileState();
   return (
-    <div data-tauri-drag-region className="sticky top-0 h-9 titlebar">
+    <div data-tauri-drag-region className="h-9">
       {isMac ? (
         <>
-          <div></div>
           <div
             data-tauri-drag-region
-            className="cursor-default select-none absolute right-1/2 top-1"
+            className="cursor-default select-none absolute right-1/2 top-2"
           >
             {!isSaved ? "• " : ""}
             {fileName ? fileName : "Untitled.md"}
@@ -25,7 +24,7 @@ export default function TitleBar() {
           <Menu buttonClassName="left-0" dropdownClassName="ml-2" />
           <div
             data-tauri-drag-region
-            className="cursor-default select-none absolute right-1/2 top-1"
+            className="cursor-default select-none absolute right-1/2 top-2"
           >
             {!isSaved ? "• " : ""}
             {fileName ? fileName : "Untitled.md"}
