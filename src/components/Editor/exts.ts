@@ -35,7 +35,6 @@ export const extensions = () => [
   new CodeExtension(),
   new CodeBlockExtension({
     supportedLanguages: langs,
-    defaultLanguage: "ts",
     syntaxTheme: "a11y_dark",
   }),
   new TrailingNodeExtension(),

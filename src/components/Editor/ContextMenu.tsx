@@ -1,3 +1,4 @@
+import { open } from "@tauri-apps/api/shell";
 import {
   ContextMenuContent,
   ContextMenuItem,
@@ -6,10 +7,24 @@ import {
   ContextMenuSubContent,
 } from "@/components/ui/context-menu";
 import useFileState from "@/store/file";
+import useUIState from "@/store/ui";
 export default function EditorContextMenu() {
   const { editorRef } = useFileState();
+  const { isLinkSelected, setLinkSelected } = useUIState();
   return (
     <ContextMenuContent className="bg-background">
+      {isLinkSelected.isSelected && isLinkSelected.link && (
+        <ContextMenuItem
+          onClick={() => {
+            let href = isLinkSelected.link as string;
+            href = href.replace(/^\/\/(?!www\.)/, (match) => match + "www.");
+            open(href);
+            setLinkSelected(false, null);
+          }}
+        >
+          Open link
+        </ContextMenuItem>
+      )}
       <ContextMenuSub>
         <ContextMenuSubTrigger>Turn into</ContextMenuSubTrigger>
         <ContextMenuSubContent className="w-fit bg-background translate-x-2 -translate-y-1">

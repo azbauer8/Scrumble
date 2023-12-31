@@ -82,4 +82,16 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .command-list::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .command-list::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .command-list::-webkit-scrollbar-thumb {
+    @apply rounded-md bg-scrollbar;
+  }
 }

@@ -1,6 +1,6 @@
 import useOSState from "@/store/os";
 import useFileState from "@/store/file";
-import Menu from "./Menu";
+import FileMenu from "./FileMenu";
 import WindowControls from "./WindowControls";
 
 export default function TitleBar() {
@@ -17,11 +17,11 @@ export default function TitleBar() {
             {!isSaved ? "• " : ""}
             {fileName ? fileName : "Untitled.md"}
           </div>
-          <Menu buttonClassName="right-0" dropdownClassName="mr-2" />
+          <FileMenu buttonClassName="right-0" dropdownClassName="mr-2" />
         </>
       ) : (
         <>
-          <Menu buttonClassName="left-0" dropdownClassName="ml-2" />
+          <FileMenu buttonClassName="left-0" dropdownClassName="ml-2" />
           <div
             data-tauri-drag-region
             className="cursor-default select-none absolute right-1/2 top-2"

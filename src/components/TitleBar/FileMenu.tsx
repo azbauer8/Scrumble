@@ -6,6 +6,7 @@ import {
   SaveAllIcon,
   SettingsIcon,
   InfoIcon,
+  CommandIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,14 +21,14 @@ import {
 import { New, Open, Save, SaveAs } from "../../utils/fileOps";
 import useUIState from "@/store/ui";
 
-export default function Menu({
+export default function FileMenu({
   buttonClassName,
   dropdownClassName,
 }: {
   buttonClassName?: string;
   dropdownClassName?: string;
 }) {
-  const { setAboutOpen, setSettingsOpen } = useUIState();
+  const { setAboutOpen, setSettingsOpen, setCommandMenuOpen } = useUIState();
   return (
     <>
       <DropdownMenu>
@@ -41,7 +42,7 @@ export default function Menu({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className={`w-44 bg-background -translate-y-0.5 ${dropdownClassName}`}
+          className={`w-64 bg-background -translate-y-0.5 ${dropdownClassName}`}
         >
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => New()}>
@@ -63,6 +64,11 @@ export default function Menu({
               <SaveAllIcon className="mr-2 h-4 w-4" />
               <span>Save As</span>
               <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setCommandMenuOpen(true)}>
+              <CommandIcon className="mr-2 h-4 w-4" />
+              <span>Open Command Menu</span>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />

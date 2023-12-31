@@ -9,6 +9,7 @@ import UseKeybinds from "./utils/keybinds";
 import About from "./components/OverlayPages/About";
 import Settings from "./components/OverlayPages/Settings";
 import EditorContextMenu from "./components/Editor/ContextMenu";
+import CommandMenu from "./components/Menus/CommandMenu";
 
 export default function App() {
   const mdEditorRef = useRef(null);
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <div>
       <TitleBar />
+      <CommandMenu />
       <ContextMenu>
         <ContextMenuTrigger>
           <MdEditor ref={mdEditorRef} />
