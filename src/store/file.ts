@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { ReactFrameworkOutput } from "@remirror/react";
-import { updateFileJson } from "../utils/settingsOps";
+import { updateFileJson } from "@/utils/settingsOps";
 import { Extensions } from "@/components/Editor/exts";
 import { FileEntry } from "@tauri-apps/api/fs";
 
@@ -14,12 +14,12 @@ type FileStore = {
   setFileContent: (fileContent: string) => void;
   isSaved: boolean;
   setSaved: (isItSaved: boolean) => void;
-  openDirectory: string;
-  setOpenDirectory: (openDirectory: string) => void;
-  openDirFiles: FileEntry[];
-  addOpenDirFile: (file: FileEntry) => void;
-  setOpenDirFiles: (openDirFiles: FileEntry[]) => void;
-  clearOpenDirFiles: () => void;
+  openFolder: string;
+  setOpenFolder: (openFolder: string) => void;
+  filesInOpenFolder: FileEntry[];
+  addFilesInOpenFolder: (file: FileEntry) => void;
+  setFilesInOpenFolder: (filesInOpenFolder: FileEntry[]) => void;
+  clearFilesInOpenFolder: () => void;
 };
 
 const useFileState = create<FileStore>((set) => ({
@@ -31,19 +31,23 @@ const useFileState = create<FileStore>((set) => ({
     set({ filePath: newfilePath });
     const path = newfilePath.split(/[\\/]/);
     set({ fileName: path[path.length - 1] });
-    updateFileJson(newfilePath);
+    updateFileJson(newfilePath, useFileState.getState().openFolder);
   },
   fileContent: "",
   setFileContent: (newContent: string) => set({ fileContent: newContent }),
   isSaved: true,
   setSaved: (isItSaved: boolean) => set({ isSaved: isItSaved }),
-  openDirectory: "",
-  setOpenDirectory: (openDirectory: string) => set({ openDirectory }),
-  openDirFiles: [],
-  addOpenDirFile: (file: FileEntry) =>
-    set((state) => ({ openDirFiles: [...state.openDirFiles, file] })),
-  setOpenDirFiles: (openDirFiles: FileEntry[]) => set({ openDirFiles }),
-  clearOpenDirFiles: () => set({ openDirFiles: [] }),
+  openFolder: "",
+  setOpenFolder: (openFolder: string) => {
+    set({ openFolder: openFolder });
+    updateFileJson(useFileState.getState().filePath, openFolder);
+  },
+  filesInOpenFolder: [],
+  addFilesInOpenFolder: (file: FileEntry) =>
+    set((state) => ({ filesInOpenFolder: [...state.filesInOpenFolder, file] })),
+  setFilesInOpenFolder: (filesInOpenFolder: FileEntry[]) =>
+    set({ filesInOpenFolder: filesInOpenFolder }),
+  clearFilesInOpenFolder: () => set({ filesInOpenFolder: [] }),
 }));
 
 export default useFileState;

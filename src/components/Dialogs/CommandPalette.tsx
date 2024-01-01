@@ -30,12 +30,11 @@ import {
 } from "@/components/ui/command";
 import useUIState from "@/store/ui";
 import { useEffect, useState } from "react";
-import { useCommandState } from "cmdk";
 import useFileState from "@/store/file";
-import { langs } from "../Editor/langs";
+import { langs } from "@/components/Editor/langs";
 import { New, Open, Save, SaveAs } from "@/utils/fileOps";
 
-export default function CommandMenu() {
+export default function CommandPalette() {
   const {
     isCommandMenuOpen,
     setCommandMenuOpen,
@@ -51,8 +50,6 @@ export default function CommandMenu() {
     setPages([]);
     setSearch("");
   }, [isCommandMenuOpen]);
-
-  console.log(search);
 
   return (
     <CommandDialog

@@ -2,8 +2,8 @@ import { appWindow } from "@tauri-apps/api/window";
 import { ask } from "@tauri-apps/api/dialog";
 import { Button } from "@/components/ui/button";
 import { SquareIcon, MinusIcon, XIcon } from "lucide-react";
-import useFileState from "../../store/file";
-import { Save, SaveAs } from "../../utils/fileOps";
+import useFileState from "@/store/file";
+import { Save, SaveAs } from "@/utils/fileOps";
 
 export default function WindowControls() {
   const { isSaved, filePath } = useFileState();

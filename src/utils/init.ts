@@ -1,14 +1,14 @@
 import { type as getType } from "@tauri-apps/api/os";
 import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
-import useOSState from "../store/os";
-import { useEffect } from "react";
-import useSettingsState from "../store/settings";
-import useFileState from "../store/file";
-import { Save, SaveAs } from "./fileOps";
 import { appWindow } from "@tauri-apps/api/window";
 import { ask as askDialog } from "@tauri-apps/api/dialog";
-import { setStateFromJson } from "./settingsOps";
+import { useEffect } from "react";
 import { useInterval, useWindowEvent } from "@mantine/hooks";
+import useOSState from "@/store/os";
+import useSettingsState from "@/store/settings";
+import useFileState from "@/store/file";
+import { Save, SaveAs } from "./fileOps";
+import { setStateFromJson } from "./settingsOps";
 
 export default function Init() {
   const { setMac, setAppVersion, setTauriVersion } = useOSState();

@@ -14,14 +14,15 @@ import {
 } from "@/components/ui/select";
 import useSettingsState from "@/store/settings";
 import useUIState from "@/store/ui";
-import { Switch } from "../ui/switch";
-import { Input } from "../ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
 
 export default function Settings() {
   const { isSettingsOpen, setSettingsOpen } = useUIState();
   const {
     settings,
     setOpenOnStartup,
+    setCustomStartupFolder,
     setAutoSave,
     setSaveBlur,
     setSaveInterval,
@@ -40,16 +41,29 @@ export default function Settings() {
               value={settings.openOnStartup}
               onValueChange={(value) => setOpenOnStartup(value)}
             >
-              <SelectTrigger className="w-[180px]" tabIndex={-1}>
+              <SelectTrigger className="w-[220px]" tabIndex={-1}>
                 <SelectValue placeholder={settings.openOnStartup} />
               </SelectTrigger>
               <SelectContent className="bg-background">
                 <SelectGroup>
                   <SelectItem value="New File">New File</SelectItem>
-                  <SelectItem value="Previous File">Previous File</SelectItem>
+                  <SelectItem value="Previous File and Folder">
+                    Previous File and Folder
+                  </SelectItem>
+                  <SelectItem value="Custom Folder">Custom Folder</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex justify-between items-center">
+            <p>Custom Startup Folder</p>
+            <Input
+              className="w-[250px]"
+              value={settings.customStartupFolder}
+              onChange={(e) => setCustomStartupFolder(e.target.value)}
+              disabled={settings.openOnStartup !== "Custom Folder"}
+              tabIndex={-1}
+            />
           </div>
           <div className="flex justify-between items-center">
             <p>Auto Save</p>

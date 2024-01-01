@@ -7,6 +7,8 @@ import {
   SettingsIcon,
   InfoIcon,
   CommandIcon,
+  FileIcon,
+  PanelLeftIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +20,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { New, Open, Save, SaveAs, OpenDirectory } from "../../utils/fileOps";
+import { New, Open, Save, SaveAs, OpenFolder } from "@/utils/fileOps";
 import useUIState from "@/store/ui";
 
 export default function FileMenu({
@@ -28,7 +30,14 @@ export default function FileMenu({
   buttonClassName?: string;
   dropdownClassName?: string;
 }) {
-  const { setAboutOpen, setSettingsOpen, setCommandMenuOpen } = useUIState();
+  const {
+    setAboutOpen,
+    setSettingsOpen,
+    setCommandMenuOpen,
+    isSidebarOpen,
+    setSidebarOpen,
+    sidebarRef,
+  } = useUIState();
   return (
     <>
       <DropdownMenu>
@@ -45,20 +54,20 @@ export default function FileMenu({
           className={`w-64 bg-background -translate-y-0.5 ${dropdownClassName}`}
         >
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => OpenDirectory()}>
-              <PlusCircleIcon className="mr-2 h-4 w-4" />
-              <span>Open folder</span>
-              <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => New()}>
               <PlusCircleIcon className="mr-2 h-4 w-4" />
               <span>New</span>
               <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => Open()}>
-              <FolderOpenIcon className="mr-2 h-4 w-4" />
+              <FileIcon className="mr-2 h-4 w-4" />
               <span>Open</span>
               <DropdownMenuShortcut>⌘O</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => OpenFolder()}>
+              <FolderOpenIcon className="mr-2 h-4 w-4" />
+              <span>Open folder</span>
+              <DropdownMenuShortcut>⇧⌘O</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => Save()}>
               <SaveIcon className="mr-2 h-4 w-4" />
@@ -69,6 +78,19 @@ export default function FileMenu({
               <SaveAllIcon className="mr-2 h-4 w-4" />
               <span>Save As</span>
               <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onClick={() => {
+                isSidebarOpen ? sidebarRef?.collapse() : sidebarRef?.expand();
+                setSidebarOpen(!isSidebarOpen);
+              }}
+            >
+              <PanelLeftIcon className="mr-2 h-4 w-4" />
+              <span>Toggle Sidebar</span>
+              <DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setCommandMenuOpen(true)}>
               <CommandIcon className="mr-2 h-4 w-4" />

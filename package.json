@@ -29,6 +29,7 @@
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-resizable-panels": "^1.0.7",
     "refractor": "^4.8.1",
     "remirror": "^2.0.38",
     "sonner": "^1.3.1",
