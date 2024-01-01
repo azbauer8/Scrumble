@@ -41,7 +41,7 @@ const useSettingsState = create<SettingsStore>((set) => ({
   setOpenOnStartup: (openOnStartup) => {
     set((state) => ({ settings: { ...state.settings, openOnStartup } }));
     if (openOnStartup === "Previous File and Folder") {
-      useFileState.getState().setOpenFolder(useFileState.getState().filePath);
+      useFileState.getState().setOpenFolder(useFileState.getState().openFolder);
     }
     updateJson();
   },
