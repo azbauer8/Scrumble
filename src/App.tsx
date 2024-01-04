@@ -8,7 +8,7 @@ import Init from "./utils/init";
 import UseKeybinds from "./utils/keybinds";
 import About from "./components/Dialogs/Pages/About";
 import Settings from "./components/Dialogs/Pages/Settings";
-import EditorContextMenu from "./components/Editor/ContextMenu";
+import EditorContextMenu from "./components/Editor/EditorContextMenu";
 import CommandPalette from "./components/Dialogs/CommandPalette";
 import useSettingsState from "./store/settings";
 import Sidebar from "./components/Sidebar";
@@ -25,7 +25,7 @@ import useUIState from "./store/ui";
 export default function App() {
   const mdEditorRef = useRef(null);
   const sidebarRef = useRef<ImperativePanelHandle>(null);
-  const { setEditorRef, filesInOpenFolder } = useFileState();
+  const { setEditorRef } = useFileState();
   const { settings } = useSettingsState();
   const { setSidebarRef, isSidebarOpen, setSidebarOpen } = useUIState();
 
@@ -48,6 +48,7 @@ export default function App() {
       <ResizablePanelGroup direction="horizontal" autoSaveId="sidebar">
         <ResizablePanel
           id="sidebar-panel"
+          className="sidebar"
           ref={sidebarRef}
           defaultSize={25}
           minSize={10}
@@ -66,13 +67,7 @@ export default function App() {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel>
-          <ContextMenu>
-            {/* @ts-ignore */}
-            <ContextMenuTrigger spellCheck={settings.spellCheck}>
-              <MdEditor ref={mdEditorRef} />
-            </ContextMenuTrigger>
-            <EditorContextMenu />
-          </ContextMenu>
+          <MdEditor ref={mdEditorRef} />
         </ResizablePanel>
       </ResizablePanelGroup>
 

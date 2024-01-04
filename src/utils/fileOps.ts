@@ -133,12 +133,10 @@ export async function OpenFolderFromPath(path: string) {
   const clearFilesInOpenFolder = useFileState.getState().clearFilesInOpenFolder;
   clearFilesInOpenFolder();
   setOpenFolder(path);
-  const entries = await readDir(path);
+  const entries = await readDir(path, { recursive: true });
 
   for (const entry of entries) {
-    if (entry.path.slice(-3) === ".md") {
-      addFilesInOpenFolder(entry);
-    }
+    addFilesInOpenFolder(entry);
   }
 
   toast.success("Opened folder", {

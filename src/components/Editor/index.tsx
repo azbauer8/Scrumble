@@ -5,9 +5,12 @@ import { open } from "@tauri-apps/api/shell";
 import { Remirror, useRemirror, useHelpers, useKeymap } from "@remirror/react";
 import { extensions } from "./exts";
 import useFileState from "@/store/file";
+import useSettingsState from "@/store/settings";
 import { Save } from "@/utils/fileOps";
 import { LinkExtension } from "remirror/extensions";
 import useUIState from "@/store/ui";
+import { ContextMenu, ContextMenuTrigger } from "../ui/context-menu";
+import EditorContextMenu from "./EditorContextMenu";
 
 const hooks = [
   () => {
@@ -30,6 +33,7 @@ const MdEditor = forwardRef((_, ref) => {
   const { manager, state, setState, getContext } = useRemirror({ extensions });
   const { fileContent, setFileContent, setSaved } = useFileState();
   const { setLinkSelected } = useUIState();
+  const { settings } = useSettingsState();
 
   useImperativeHandle(ref, () => getContext(), [getContext]);
 
@@ -52,20 +56,28 @@ const MdEditor = forwardRef((_, ref) => {
 
   // Add the state and create an `onChange` handler for the state.
   return (
-    <Remirror
-      manager={manager}
-      hooks={hooks}
-      state={state}
-      onChange={(parameter: { state: any }) => {
-        // Update the state to the latest value.
-        setState(parameter.state);
-        setLinkSelected(false, null);
-        if ((getContext()?.helpers.getMarkdown() as string) !== fileContent) {
-          setFileContent(getContext()?.helpers.getMarkdown() as string);
-          setSaved(false);
-        }
-      }}
-    />
+    <ContextMenu>
+      {/* @ts-ignore */}
+      <ContextMenuTrigger spellCheck={settings.spellCheck}>
+        <Remirror
+          manager={manager}
+          hooks={hooks}
+          state={state}
+          onChange={(parameter: { state: any }) => {
+            // Update the state to the latest value.
+            setState(parameter.state);
+            setLinkSelected(false, null);
+            if (
+              (getContext()?.helpers.getMarkdown() as string) !== fileContent
+            ) {
+              setFileContent(getContext()?.helpers.getMarkdown() as string);
+              setSaved(false);
+            }
+          }}
+        />
+      </ContextMenuTrigger>
+      <EditorContextMenu />
+    </ContextMenu>
   );
 });
 

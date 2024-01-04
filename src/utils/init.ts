@@ -57,7 +57,7 @@ export default function Init() {
     "contextmenu",
     (e) => {
       // elements with class name in this array will be allowed
-      const allowedClassNames = ["remirror-editor"];
+      const allowedClassNames = ["remirror-editor", "sidebar-item"];
 
       let targetElement = e.target as HTMLElement;
 
