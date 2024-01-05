@@ -15,7 +15,7 @@ export default function TitleBar() {
             className="cursor-default select-none absolute right-1/2 top-2"
           >
             {!isSaved ? "• " : ""}
-            {fileName ? fileName : "Untitled.md"}
+            {fileName ? fileName?.slice(0, -3) : "Untitled"}
           </div>
           <FileMenu buttonClassName="right-0" dropdownClassName="mr-2" />
         </>
@@ -27,7 +27,7 @@ export default function TitleBar() {
             className="cursor-default select-none absolute right-1/2 top-2"
           >
             {!isSaved ? "• " : ""}
-            {fileName ? fileName : "Untitled.md"}
+            {fileName ? fileName?.slice(0, -3) : "Untitled"}
           </div>
           <WindowControls />
         </>

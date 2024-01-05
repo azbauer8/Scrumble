@@ -19,9 +19,11 @@ export default function Sidebar() {
       console.log(filesInOpenFolder);
       return (
         <div className="mt-5">
-          <div className="flex items-center gap-1 pl-2">
+          <div className="flex items-center gap-1 pl-2 ">
             <FolderIcon strokeWidth={2.5} className="size-5" />
-            <h1 className="font-medium truncate select-none">{lastPart}</h1>
+            <h1 className="font-medium truncate select-none cursor-pointer">
+              {lastPart}
+            </h1>
           </div>
           {filesInOpenFolder.map((file) =>
             file.path.slice(-3) === ".md" ? (
@@ -32,18 +34,18 @@ export default function Sidebar() {
                       filePath === file.path
                         ? "bg-accent hover:bg-accent-hover"
                         : "hover:bg-accent"
-                    } my-1 mx-2 rounded-md px-2 py-1 cursor-pointer flex items-center gap-1 sidebar-item`}
+                    } my-1 mx-2 rounded-md px-2 py-1 cursor-pointer flex items-center gap-1 select-none sidebar-item`}
                     onClick={() => OpenPath(file.path, true)}
                   >
                     <FileIcon className="size-4 shrink-0" />
-                    <p className="truncate">{file.name}</p>
+                    <p className="truncate">{file.name?.slice(0, -3)}</p>
                   </div>
                 </ContextMenuTrigger>
                 {/* <SidebarContextMenu /> */}
               </ContextMenu>
             ) : file.children ? (
               <>
-                <div className="flex items-center gap-1 pl-3.5">
+                <div className="my-1 mx-2 rounded-md px-2 py-1 cursor-pointer select-none flex items-center gap-1 sidebar-item">
                   <FolderIcon strokeWidth={2.5} className="size-5" />
                   <h2
                     key={file.path}
@@ -62,11 +64,13 @@ export default function Sidebar() {
                               filePath === child.path
                                 ? "bg-accent hover:bg-accent-hover"
                                 : "hover:bg-accent"
-                            } my-1 mx-5 rounded-md px-2 py-1 cursor-pointer flex items-center gap-1 sidebar-item`}
+                            } my-1 mx-2 rounded-md pl-6 py-1 cursor-pointer flex items-center gap-1 sidebar-item select-none`}
                             onClick={() => OpenPath(child.path, true)}
                           >
                             <FileIcon className="size-4 shrink-0" />
-                            <p className="truncate">{child.name}</p>
+                            <p className="truncate">
+                              {child.name?.slice(0, -3)}
+                            </p>
                           </div>
                         </ContextMenuTrigger>
                         {/* <SidebarContextMenu /> */}
