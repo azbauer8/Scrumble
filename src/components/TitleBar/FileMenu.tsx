@@ -1,15 +1,3 @@
-import {
-  FolderOpenIcon,
-  MenuIcon,
-  PlusCircleIcon,
-  SaveIcon,
-  SaveAllIcon,
-  SettingsIcon,
-  InfoIcon,
-  CommandIcon,
-  FileIcon,
-  PanelLeftIcon,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,8 +8,20 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { New, Open, Save, SaveAs, OpenFolder } from "@/utils/fileOps";
 import useUIState from "@/store/ui";
+import { New, Open, OpenFolder, Save, SaveAs } from "@/utils/fileOps";
+import {
+  CommandIcon,
+  FileIcon,
+  FolderOpenIcon,
+  InfoIcon,
+  MenuIcon,
+  PanelLeftIcon,
+  PlusCircleIcon,
+  SaveAllIcon,
+  SaveIcon,
+  SettingsIcon,
+} from "lucide-react";
 
 export default function FileMenu({
   buttonClassName,
@@ -44,14 +44,14 @@ export default function FileMenu({
         <DropdownMenuTrigger asChild className="focus-visible:ring-0">
           <Button
             variant="ghost"
-            className={`focus-visible:ring-transparent focus:ring-transparent absolute top-0.5 ${buttonClassName}`}
+            className={`absolute top-0.5 focus:ring-transparent focus-visible:ring-transparent ${buttonClassName}`}
             tabIndex={-1}
           >
             <MenuIcon />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className={`w-64 bg-background -translate-y-0.5 ${dropdownClassName}`}
+          className={`w-64 -translate-y-0.5 bg-background ${dropdownClassName}`}
         >
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => New()}>

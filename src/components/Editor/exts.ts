@@ -1,3 +1,5 @@
+import { ReactExtensions } from "@remirror/react";
+import { ExtensionPriority } from "remirror";
 import {
   BlockquoteExtension,
   BoldExtension,
@@ -15,9 +17,8 @@ import {
   TableExtension,
   TrailingNodeExtension,
 } from "remirror/extensions";
-import { ExtensionPriority } from "remirror";
+
 import { langs } from "./langs";
-import { ReactExtensions } from "@remirror/react";
 
 export const extensions = () => [
   new LinkExtension({ autoLink: true }),

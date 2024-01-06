@@ -1,24 +1,4 @@
-import {
-  FolderOpenIcon,
-  PlusCircleIcon,
-  SaveIcon,
-  SaveAllIcon,
-  SettingsIcon,
-  InfoIcon,
-  HeadingIcon,
-  ListIcon,
-  ListOrderedIcon,
-  TextQuoteIcon,
-  Code2Icon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  Heading4Icon,
-  Heading5Icon,
-  Heading6Icon,
-  TerminalIcon,
-} from "lucide-react";
-
+import { langs } from "@/components/Editor/langs";
 import {
   CommandDialog,
   CommandEmpty,
@@ -28,11 +8,30 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import useUIState from "@/store/ui";
-import { useEffect, useState } from "react";
 import useFileState from "@/store/file";
-import { langs } from "@/components/Editor/langs";
+import useUIState from "@/store/ui";
 import { New, Open, Save, SaveAs } from "@/utils/fileOps";
+import {
+  Code2Icon,
+  FolderOpenIcon,
+  Heading1Icon,
+  Heading2Icon,
+  Heading3Icon,
+  Heading4Icon,
+  Heading5Icon,
+  Heading6Icon,
+  HeadingIcon,
+  InfoIcon,
+  ListIcon,
+  ListOrderedIcon,
+  PlusCircleIcon,
+  SaveAllIcon,
+  SaveIcon,
+  SettingsIcon,
+  TerminalIcon,
+  TextQuoteIcon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function CommandPalette() {
   const {

@@ -1,15 +1,15 @@
-import { appWindow } from "@tauri-apps/api/window";
-import { ask } from "@tauri-apps/api/dialog";
 import { Button } from "@/components/ui/button";
-import { SquareIcon, MinusIcon, XIcon } from "lucide-react";
 import useFileState from "@/store/file";
 import { Save, SaveAs } from "@/utils/fileOps";
+import { ask } from "@tauri-apps/api/dialog";
+import { appWindow } from "@tauri-apps/api/window";
+import { MinusIcon, SquareIcon, XIcon } from "lucide-react";
 
 export default function WindowControls() {
   const { isSaved, filePath } = useFileState();
 
   return (
-    <div className="absolute right-0 -top-1">
+    <div className="absolute -top-1 right-0">
       <Button
         variant="ghost"
         className="rounded-none"
@@ -32,7 +32,7 @@ export default function WindowControls() {
       </Button>
       <Button
         variant="ghost"
-        className="hover:bg-[#e81022b9] rounded-none"
+        className="rounded-none hover:bg-[#e81022b9]"
         onClick={async () => {
           await HandleClose();
         }}
@@ -47,7 +47,7 @@ export default function WindowControls() {
     if (!isSaved) {
       const response = await ask(
         "The current file is unsaved, do you want to save it first?",
-        { title: "Warning", type: "warning" }
+        { title: "Warning", type: "warning" },
       );
       if (response) {
         filePath ? await Save() : await SaveAs();

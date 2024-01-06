@@ -1,5 +1,6 @@
-import { create } from "zustand";
 import { updateJson } from "@/utils/settingsOps";
+import { create } from "zustand";
+
 import useFileState from "./file";
 
 interface Settings {

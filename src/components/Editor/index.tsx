@@ -1,16 +1,17 @@
-import "@remirror/styles/extension-code-block.css";
-import "./editor.css";
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { open } from "@tauri-apps/api/shell";
-import { Remirror, useRemirror, useHelpers, useKeymap } from "@remirror/react";
-import { extensions } from "./exts";
 import useFileState from "@/store/file";
 import useSettingsState from "@/store/settings";
-import { Save } from "@/utils/fileOps";
-import { LinkExtension } from "remirror/extensions";
 import useUIState from "@/store/ui";
+import { Save } from "@/utils/fileOps";
+import { Remirror, useHelpers, useKeymap, useRemirror } from "@remirror/react";
+import "@remirror/styles/extension-code-block.css";
+import { open } from "@tauri-apps/api/shell";
+import { forwardRef, useCallback, useImperativeHandle } from "react";
+import { LinkExtension } from "remirror/extensions";
+
 import { ContextMenu, ContextMenuTrigger } from "../ui/context-menu";
 import EditorContextMenu from "./EditorContextMenu";
+import "./editor.css";
+import { extensions } from "./exts";
 
 const hooks = [
   () => {
@@ -21,7 +22,7 @@ const hooks = [
         Save();
         return true; // Prevents any further key handlers from being run.
       },
-      [getMarkdown]
+      [getMarkdown],
     );
 
     // "Mod" means platform agnostic modifier key - i.e. Ctrl on Windows, or Cmd on MacOS

@@ -1,6 +1,7 @@
-import { useHotkeys } from "@mantine/hooks";
-import { New, Open, OpenFolder, Save, SaveAs } from "./fileOps";
 import useUIState from "@/store/ui";
+import { useHotkeys } from "@mantine/hooks";
+
+import { New, Open, OpenFolder, Save, SaveAs } from "./fileOps";
 
 export default function UseKeybinds() {
   useHotkeys(

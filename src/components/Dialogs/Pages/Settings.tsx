@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -12,10 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import useSettingsState from "@/store/settings";
 import useUIState from "@/store/ui";
-import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
 
 export default function Settings() {
   const { isSettingsOpen, setSettingsOpen } = useUIState();
@@ -34,8 +34,8 @@ export default function Settings() {
         <DialogHeader>
           <DialogTitle className="text-2xl">Settings</DialogTitle>
         </DialogHeader>
-        <div className="pt-3 space-y-7">
-          <div className="flex justify-between items-center">
+        <div className="space-y-7 pt-3">
+          <div className="flex items-center justify-between">
             <p>Open on Startup</p>
             <Select
               value={settings.openOnStartup}
@@ -55,7 +55,7 @@ export default function Settings() {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <p>Custom Startup Folder</p>
             <Input
               className="w-[250px]"
@@ -65,7 +65,7 @@ export default function Settings() {
               tabIndex={-1}
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <p>Spell Check</p>
             <Switch
               checked={settings.spellCheck === "true"}
@@ -75,7 +75,7 @@ export default function Settings() {
               tabIndex={-1}
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <p>Auto Save</p>
             <Switch
               checked={settings.autoSave}
@@ -83,7 +83,7 @@ export default function Settings() {
               tabIndex={-1}
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <p>Save Interval (sec)</p>
             <Input
               className="w-[180px]"
@@ -95,7 +95,7 @@ export default function Settings() {
               tabIndex={-1}
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <p>Save on Window Blur</p>
             <Switch
               checked={settings.saveBlur}

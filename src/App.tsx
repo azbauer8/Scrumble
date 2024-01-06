@@ -1,26 +1,25 @@
-import { useEffect, useRef } from "react";
-import { Toaster } from "@/components/ui/sonner";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
-import MdEditor from "./components/Editor";
-import TitleBar from "./components/TitleBar";
-import useFileState from "./store/file";
-import Init from "./utils/init";
-import UseKeybinds from "./utils/keybinds";
-import About from "./components/Dialogs/Pages/About";
-import Settings from "./components/Dialogs/Pages/Settings";
-import EditorContextMenu from "./components/Editor/EditorContextMenu";
-import CommandPalette from "./components/Dialogs/CommandPalette";
-import useSettingsState from "./store/settings";
-import Sidebar from "./components/Sidebar";
-
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-
+import { Toaster } from "@/components/ui/sonner";
+import { useEffect, useRef } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
+
+import CommandPalette from "./components/Dialogs/CommandPalette";
+import About from "./components/Dialogs/Pages/About";
+import Settings from "./components/Dialogs/Pages/Settings";
+import MdEditor from "./components/Editor";
+import EditorContextMenu from "./components/Editor/EditorContextMenu";
+import Sidebar from "./components/Sidebar";
+import TitleBar from "./components/TitleBar";
+import useFileState from "./store/file";
+import useSettingsState from "./store/settings";
 import useUIState from "./store/ui";
+import Init from "./utils/init";
+import UseKeybinds from "./utils/keybinds";
 
 export default function App() {
   const mdEditorRef = useRef(null);

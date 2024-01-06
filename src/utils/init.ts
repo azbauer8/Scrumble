@@ -1,12 +1,13 @@
-import { type as getType } from "@tauri-apps/api/os";
-import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
-import { appWindow } from "@tauri-apps/api/window";
-import { ask as askDialog } from "@tauri-apps/api/dialog";
-import { useEffect } from "react";
-import { useInterval, useWindowEvent } from "@mantine/hooks";
+import useFileState from "@/store/file";
 import useOSState from "@/store/os";
 import useSettingsState from "@/store/settings";
-import useFileState from "@/store/file";
+import { useInterval, useWindowEvent } from "@mantine/hooks";
+import { getTauriVersion, getVersion } from "@tauri-apps/api/app";
+import { ask as askDialog } from "@tauri-apps/api/dialog";
+import { type as getType } from "@tauri-apps/api/os";
+import { appWindow } from "@tauri-apps/api/window";
+import { useEffect } from "react";
+
 import { Save, SaveAs } from "./fileOps";
 import { setStateFromJson } from "./settingsOps";
 

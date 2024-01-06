@@ -1,12 +1,13 @@
-import { appDataDir } from "@tauri-apps/api/path";
+import useSettingsState from "@/store/settings";
 import {
-  writeTextFile,
-  readTextFile,
   createDir,
   exists,
+  readTextFile,
+  writeTextFile,
 } from "@tauri-apps/api/fs";
-import useSettingsState from "@/store/settings";
-import { OpenPath, OpenFolderFromPath } from "./fileOps";
+import { appDataDir } from "@tauri-apps/api/path";
+
+import { OpenFolderFromPath, OpenPath } from "./fileOps";
 
 export async function updateJson() {
   const settings = useSettingsState.getState().settings;

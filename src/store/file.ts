@@ -1,8 +1,8 @@
-import { create } from "zustand";
-import { ReactFrameworkOutput } from "@remirror/react";
-import { updateFileJson } from "@/utils/settingsOps";
 import { Extensions } from "@/components/Editor/exts";
+import { updateFileJson } from "@/utils/settingsOps";
+import { ReactFrameworkOutput } from "@remirror/react";
 import { FileEntry } from "@tauri-apps/api/fs";
+import { create } from "zustand";
 
 type FileStore = {
   editorRef: ReactFrameworkOutput<Extensions> | null;

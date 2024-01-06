@@ -1,13 +1,14 @@
-import { open } from "@tauri-apps/api/shell";
 import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSub,
-  ContextMenuSubTrigger,
   ContextMenuSubContent,
+  ContextMenuSubTrigger,
 } from "@/components/ui/context-menu";
 import useFileState from "@/store/file";
 import useUIState from "@/store/ui";
+import { open } from "@tauri-apps/api/shell";
+
 export default function EditorContextMenu() {
   const { editorRef } = useFileState();
   const { isLinkSelected, setLinkSelected } = useUIState();
@@ -27,7 +28,7 @@ export default function EditorContextMenu() {
       )}
       <ContextMenuSub>
         <ContextMenuSubTrigger>Turn into</ContextMenuSubTrigger>
-        <ContextMenuSubContent className="w-fit bg-background translate-x-2 -translate-y-1">
+        <ContextMenuSubContent className="w-fit -translate-y-1 translate-x-2 bg-background">
           <ContextMenuItem
             onClick={() => {
               editorRef?.commands.convertParagraph();
@@ -72,7 +73,7 @@ export default function EditorContextMenu() {
       </ContextMenuSub>
       <ContextMenuSub>
         <ContextMenuSubTrigger>Heading</ContextMenuSubTrigger>
-        <ContextMenuSubContent className="w-fit bg-background translate-x-2 -translate-y-1">
+        <ContextMenuSubContent className="w-fit -translate-y-1 translate-x-2 bg-background">
           <ContextMenuItem
             onClick={() => {
               editorRef?.commands.toggleHeading({ level: 1 });

@@ -1,10 +1,11 @@
 import useFileState from "@/store/file";
 import useUIState from "@/store/ui";
 import { OpenFolder, OpenPath } from "@/utils/fileOps";
-import { Button } from "../ui/button";
 import { FileIcon, FolderIcon } from "lucide-react";
-import SidebarContextMenu from "./SidebarContextMenu";
+
+import { Button } from "../ui/button";
 import { ContextMenu, ContextMenuTrigger } from "../ui/context-menu";
+import SidebarContextMenu from "./SidebarContextMenu";
 
 // don't worry about responsive layouts for now, just
 export default function Sidebar() {
@@ -21,7 +22,7 @@ export default function Sidebar() {
         <div className="mt-5">
           <div className="flex items-center gap-1 pl-2 ">
             <FolderIcon strokeWidth={2.5} className="size-5" />
-            <h1 className="font-medium truncate select-none cursor-pointer">
+            <h1 className="cursor-pointer select-none truncate font-medium">
               {lastPart}
             </h1>
           </div>
@@ -34,7 +35,7 @@ export default function Sidebar() {
                       filePath === file.path
                         ? "bg-accent hover:bg-accent-hover"
                         : "hover:bg-accent"
-                    } my-1 mx-2 rounded-md px-2 py-1 cursor-pointer flex items-center gap-1 select-none sidebar-item`}
+                    } sidebar-item mx-2 my-1 flex cursor-pointer select-none items-center gap-1 rounded-md px-2 py-1`}
                     onClick={() => OpenPath(file.path, true)}
                   >
                     <FileIcon className="size-4 shrink-0" />
@@ -45,11 +46,11 @@ export default function Sidebar() {
               </ContextMenu>
             ) : file.children ? (
               <>
-                <div className="my-1 mx-2 rounded-md px-2 py-1 cursor-pointer select-none flex items-center gap-1 sidebar-item">
+                <div className="sidebar-item mx-2 my-1 flex cursor-pointer select-none items-center gap-1 rounded-md px-2 py-1">
                   <FolderIcon strokeWidth={2.5} className="size-5" />
                   <h2
                     key={file.path}
-                    className="font-medium truncate select-none"
+                    className="select-none truncate font-medium"
                   >
                     {file.name}
                   </h2>
@@ -64,7 +65,7 @@ export default function Sidebar() {
                               filePath === child.path
                                 ? "bg-accent hover:bg-accent-hover"
                                 : "hover:bg-accent"
-                            } my-1 mx-2 rounded-md pl-6 py-1 cursor-pointer flex items-center gap-1 sidebar-item select-none`}
+                            } sidebar-item mx-2 my-1 flex cursor-pointer select-none items-center gap-1 rounded-md py-1 pl-6`}
                             onClick={() => OpenPath(child.path, true)}
                           >
                             <FileIcon className="size-4 shrink-0" />
@@ -75,16 +76,16 @@ export default function Sidebar() {
                         </ContextMenuTrigger>
                         {/* <SidebarContextMenu /> */}
                       </ContextMenu>
-                    )
+                    ),
                 )}
               </>
-            ) : null
+            ) : null,
           )}
         </div>
       );
     }
     return (
-      <div className="items-center justify-center text-center p-5">
+      <div className="items-center justify-center p-5 text-center">
         <Button className="w-full" onClick={() => OpenFolder()}>
           Open
         </Button>
