@@ -1,0 +1,7 @@
+span:has(.sidebar) {
+  @apply block h-full;
+}
+
+button:has(.folder) {
+  @apply w-full;
+}

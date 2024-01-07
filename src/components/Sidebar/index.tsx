@@ -1,84 +1,77 @@
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import useFileState from "@/store/file";
 import useUIState from "@/store/ui";
-import { OpenFolder, OpenPath } from "@/utils/fileOps";
-import { FileIcon, FolderIcon } from "lucide-react";
+import { OpenFolder } from "@/utils/fileOps";
+import { useState } from "react";
 
-import { Button } from "../ui/button";
-import { ContextMenu, ContextMenuTrigger } from "../ui/context-menu";
-import SidebarContextMenu from "./SidebarContextMenu";
+import {
+  SidebarFolder,
+  SidebarItem,
+  SidebarParentFolder,
+} from "./SidebarItems";
+import "./sidebar.css";
 
 // don't worry about responsive layouts for now, just
 export default function Sidebar() {
-  const { sidebarRef, isSidebarOpen } = useUIState();
-  const { openFolder, filesInOpenFolder, filePath } = useFileState();
+  const { isSidebarOpen } = useUIState();
+  const { openFolder, filesInOpenFolder } = useFileState();
+  const [isEditingFiles, setIsEditingFiles] = useState<Record<string, boolean>>(
+    {},
+  );
 
   if (isSidebarOpen) {
     if (openFolder && filesInOpenFolder) {
       let path = openFolder;
       let parts = path.split(/[\\\/]/);
       let lastPart = parts.pop();
-      console.log(filesInOpenFolder);
       return (
-        <div className="mt-5">
-          <div className="flex items-center gap-1 pl-2 ">
-            <FolderIcon strokeWidth={2.5} className="size-5" />
-            <h1 className="cursor-pointer select-none truncate font-medium">
-              {lastPart}
-            </h1>
-          </div>
+        <div className="sidebar mt-5 h-full">
+          <SidebarParentFolder
+            name={lastPart as string}
+            path={path}
+            setIsEditingFiles={setIsEditingFiles}
+          />
           {filesInOpenFolder.map((file) =>
             file.path.slice(-3) === ".md" ? (
-              <ContextMenu key={file.path}>
-                <ContextMenuTrigger>
-                  <div
-                    className={`${
-                      filePath === file.path
-                        ? "bg-accent hover:bg-accent-hover"
-                        : "hover:bg-accent"
-                    } sidebar-item mx-2 my-1 flex cursor-pointer select-none items-center gap-1 rounded-md px-2 py-1`}
-                    onClick={() => OpenPath(file.path, true)}
-                  >
-                    <FileIcon className="size-4 shrink-0" />
-                    <p className="truncate">{file.name?.slice(0, -3)}</p>
-                  </div>
-                </ContextMenuTrigger>
-                {/* <SidebarContextMenu /> */}
-              </ContextMenu>
+              <SidebarItem
+                key={file.path}
+                name={file.name?.slice(0, -3) as string}
+                path={file.path}
+                isEditingFiles={isEditingFiles}
+                setIsEditingFiles={setIsEditingFiles}
+              />
             ) : file.children ? (
-              <>
-                <div className="sidebar-item mx-2 my-1 flex cursor-pointer select-none items-center gap-1 rounded-md px-2 py-1">
-                  <FolderIcon strokeWidth={2.5} className="size-5" />
-                  <h2
-                    key={file.path}
-                    className="select-none truncate font-medium"
-                  >
-                    {file.name}
-                  </h2>
-                </div>
-                {file.children.map(
-                  (child) =>
-                    child.path.slice(-3) === ".md" && (
-                      <ContextMenu key={child.path}>
-                        <ContextMenuTrigger>
-                          <div
-                            className={`${
-                              filePath === child.path
-                                ? "bg-accent hover:bg-accent-hover"
-                                : "hover:bg-accent"
-                            } sidebar-item mx-2 my-1 flex cursor-pointer select-none items-center gap-1 rounded-md py-1 pl-6`}
-                            onClick={() => OpenPath(child.path, true)}
-                          >
-                            <FileIcon className="size-4 shrink-0" />
-                            <p className="truncate">
-                              {child.name?.slice(0, -3)}
-                            </p>
-                          </div>
-                        </ContextMenuTrigger>
-                        {/* <SidebarContextMenu /> */}
-                      </ContextMenu>
-                    ),
-                )}
-              </>
+              <Collapsible key={file.path}>
+                <CollapsibleTrigger>
+                  <SidebarFolder
+                    name={file.name as string}
+                    path={file.path}
+                    isEditingFiles={isEditingFiles}
+                    setIsEditingFiles={setIsEditingFiles}
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  {file.children.map((child) => {
+                    if (child.path.slice(-3) === ".md") {
+                      return (
+                        <SidebarItem
+                          key={child.path}
+                          className="pl-6"
+                          name={child.name?.slice(0, -3) as string}
+                          path={child.path}
+                          isEditingFiles={isEditingFiles}
+                          setIsEditingFiles={setIsEditingFiles}
+                        />
+                      );
+                    }
+                  })}
+                </CollapsibleContent>
+              </Collapsible>
             ) : null,
           )}
         </div>
