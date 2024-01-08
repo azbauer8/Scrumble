@@ -1,16 +1,17 @@
-import icon from "@/assets/favicon.png";
+import icon from "@/assets/favicon.png"
+import useOSState from "@/store/os"
+import useUIState from "@/store/ui"
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import useOSState from "@/store/os";
-import useUIState from "@/store/ui";
+} from "@/components/ui/dialog"
 
 export default function About() {
-  const { isAboutOpen, setAboutOpen } = useUIState();
-  const { appVersion, tauriVersion } = useOSState();
+  const { isAboutOpen, setAboutOpen } = useUIState()
+  const { appVersion, tauriVersion } = useOSState()
   return (
     <Dialog open={isAboutOpen} onOpenChange={setAboutOpen}>
       <DialogContent>
@@ -27,5 +28,5 @@ export default function About() {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

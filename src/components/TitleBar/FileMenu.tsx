@@ -1,15 +1,5 @@
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import useUIState from "@/store/ui";
-import { New, Open, OpenFolder, Save, SaveAs } from "@/utils/fileOps";
+import useUIState from "@/store/ui"
+import { New, Open, OpenFolder, Save, SaveAs } from "@/utils/fileOps"
 import {
   CommandIcon,
   FileIcon,
@@ -21,14 +11,25 @@ import {
   SaveAllIcon,
   SaveIcon,
   SettingsIcon,
-} from "lucide-react";
+} from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function FileMenu({
   buttonClassName,
   dropdownClassName,
 }: {
-  buttonClassName?: string;
-  dropdownClassName?: string;
+  buttonClassName?: string
+  dropdownClassName?: string
 }) {
   const {
     setAboutOpen,
@@ -37,7 +38,7 @@ export default function FileMenu({
     isSidebarOpen,
     setSidebarOpen,
     sidebarRef,
-  } = useUIState();
+  } = useUIState()
   return (
     <>
       <DropdownMenu>
@@ -84,8 +85,8 @@ export default function FileMenu({
           <DropdownMenuGroup>
             <DropdownMenuItem
               onClick={() => {
-                isSidebarOpen ? sidebarRef?.collapse() : sidebarRef?.expand();
-                setSidebarOpen(!isSidebarOpen);
+                isSidebarOpen ? sidebarRef?.collapse() : sidebarRef?.expand()
+                setSidebarOpen(!isSidebarOpen)
               }}
             >
               <PanelLeftIcon className="mr-2 h-4 w-4" />
@@ -112,5 +113,5 @@ export default function FileMenu({
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  );
+  )
 }

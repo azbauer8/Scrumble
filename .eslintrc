@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "ignorePatterns": ["dist", ".eslintrc"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react-refresh", "tailwindcss"],
+  "rules": {
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      }
+    }
+  ]
+}

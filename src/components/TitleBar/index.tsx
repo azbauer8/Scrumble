@@ -1,12 +1,12 @@
-import useFileState from "@/store/file";
-import useOSState from "@/store/os";
+import useFileState from "@/store/file"
+import useOSState from "@/store/os"
 
-import FileMenu from "./FileMenu";
-import WindowControls from "./WindowControls";
+import FileMenu from "./FileMenu"
+import WindowControls from "./WindowControls"
 
 export default function TitleBar() {
-  const { isMac } = useOSState();
-  const { fileName, isSaved } = useFileState();
+  const { isMac } = useOSState()
+  const { fileName, isSaved } = useFileState()
   return (
     <div data-tauri-drag-region className="h-9">
       {isMac ? (
@@ -34,5 +34,5 @@ export default function TitleBar() {
         </>
       )}
     </div>
-  );
+  )
 }

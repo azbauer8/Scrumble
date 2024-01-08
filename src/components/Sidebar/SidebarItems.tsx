@@ -1,21 +1,23 @@
-import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
-import useFileState from "@/store/file";
-import { OpenPath } from "@/utils/fileOps";
-import { ChevronsUpDownIcon, FileIcon, FolderIcon } from "lucide-react";
+import useFileState from "@/store/file"
+import { OpenPath } from "@/utils/fileOps"
+import { ChevronsUpDownIcon, FileIcon, FolderIcon } from "lucide-react"
 
-import SidebarContextMenu from "./SidebarContextMenu";
-import "./sidebar.css";
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu"
+
+import SidebarContextMenu from "./SidebarContextMenu"
+
+import "./sidebar.css"
 
 export function SidebarParentFolder({
   name,
   path,
   setIsEditingFiles,
 }: {
-  name: string;
-  path: string;
+  name: string
+  path: string
   setIsEditingFiles: (
-    value: React.SetStateAction<Record<string, boolean>>,
-  ) => void;
+    value: React.SetStateAction<Record<string, boolean>>
+  ) => void
 }) {
   return (
     <ContextMenu>
@@ -36,7 +38,7 @@ export function SidebarParentFolder({
         }
       />
     </ContextMenu>
-  );
+  )
 }
 
 export function SidebarFolder({
@@ -45,12 +47,12 @@ export function SidebarFolder({
   isEditingFiles,
   setIsEditingFiles,
 }: {
-  name: string;
-  path: string;
-  isEditingFiles: Record<string, boolean>;
+  name: string
+  path: string
+  isEditingFiles: Record<string, boolean>
   setIsEditingFiles: (
-    value: React.SetStateAction<Record<string, boolean>>,
-  ) => void;
+    value: React.SetStateAction<Record<string, boolean>>
+  ) => void
 }) {
   return (
     <ContextMenu>
@@ -88,7 +90,7 @@ export function SidebarFolder({
         }
       />
     </ContextMenu>
-  );
+  )
 }
 
 export function SidebarItem({
@@ -98,15 +100,15 @@ export function SidebarItem({
   isEditingFiles,
   setIsEditingFiles,
 }: {
-  className?: string;
-  name: string;
-  path: string;
-  isEditingFiles: Record<string, boolean>;
+  className?: string
+  name: string
+  path: string
+  isEditingFiles: Record<string, boolean>
   setIsEditingFiles: (
-    value: React.SetStateAction<Record<string, boolean>>,
-  ) => void;
+    value: React.SetStateAction<Record<string, boolean>>
+  ) => void
 }) {
-  const { filePath } = useFileState();
+  const { filePath } = useFileState()
   return (
     <ContextMenu>
       <ContextMenuTrigger>
@@ -147,5 +149,5 @@ export function SidebarItem({
         }
       />
     </ContextMenu>
-  );
+  )
 }

@@ -1,44 +1,45 @@
-import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
+import { useEffect, useRef } from "react"
+import { ImperativePanelHandle } from "react-resizable-panels"
+
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu"
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { Toaster } from "@/components/ui/sonner";
-import { useEffect, useRef } from "react";
-import { ImperativePanelHandle } from "react-resizable-panels";
+} from "@/components/ui/resizable"
+import { Toaster } from "@/components/ui/sonner"
 
-import CommandPalette from "./components/Dialogs/CommandPalette";
-import About from "./components/Dialogs/Pages/About";
-import Settings from "./components/Dialogs/Pages/Settings";
-import MdEditor from "./components/Editor";
-import EditorContextMenu from "./components/Editor/EditorContextMenu";
-import Sidebar from "./components/Sidebar";
-import TitleBar from "./components/TitleBar";
-import useFileState from "./store/file";
-import useSettingsState from "./store/settings";
-import useUIState from "./store/ui";
-import Init from "./utils/init";
-import UseKeybinds from "./utils/keybinds";
+import CommandPalette from "./components/Dialogs/CommandPalette"
+import About from "./components/Dialogs/Pages/About"
+import Settings from "./components/Dialogs/Pages/Settings"
+import MdEditor from "./components/Editor"
+import EditorContextMenu from "./components/Editor/EditorContextMenu"
+import Sidebar from "./components/Sidebar"
+import TitleBar from "./components/TitleBar"
+import useFileState from "./store/file"
+import useSettingsState from "./store/settings"
+import useUIState from "./store/ui"
+import Init from "./utils/init"
+import UseKeybinds from "./utils/keybinds"
 
 export default function App() {
-  const mdEditorRef = useRef(null);
-  const sidebarRef = useRef<ImperativePanelHandle>(null);
-  const { setEditorRef } = useFileState();
-  const { settings } = useSettingsState();
-  const { setSidebarRef, isSidebarOpen, setSidebarOpen } = useUIState();
+  const mdEditorRef = useRef(null)
+  const sidebarRef = useRef<ImperativePanelHandle>(null)
+  const { setEditorRef } = useFileState()
+  const { settings } = useSettingsState()
+  const { setSidebarRef, isSidebarOpen, setSidebarOpen } = useUIState()
 
   useEffect(() => {
     if (mdEditorRef.current) {
-      setEditorRef(mdEditorRef.current);
+      setEditorRef(mdEditorRef.current)
     }
     if (sidebarRef.current) {
-      setSidebarRef(sidebarRef.current);
+      setSidebarRef(sidebarRef.current)
     }
-  }, []);
+  }, [])
 
-  Init();
-  UseKeybinds();
+  Init()
+  UseKeybinds()
   return (
     <div>
       <TitleBar />
@@ -56,9 +57,9 @@ export default function App() {
           collapsedSize={1}
           onResize={(width) => {
             if (width < 10) {
-              setSidebarOpen(false);
+              setSidebarOpen(false)
             } else if (!isSidebarOpen) {
-              setSidebarOpen(true);
+              setSidebarOpen(true)
             }
           }}
         >
@@ -74,5 +75,5 @@ export default function App() {
       <Settings />
       <Toaster richColors closeButton position="bottom-right" />
     </div>
-  );
+  )
 }

@@ -1,20 +1,20 @@
-import { ImperativePanelHandle } from "react-resizable-panels";
-import { create } from "zustand";
+import { ImperativePanelHandle } from "react-resizable-panels"
+import { create } from "zustand"
 
 type UIStore = {
-  isCommandMenuOpen: boolean;
-  setCommandMenuOpen: (isItOpen: boolean) => void;
-  sidebarRef: ImperativePanelHandle | null;
-  setSidebarRef: (sidebar: ImperativePanelHandle | null) => void;
-  isSidebarOpen: boolean;
-  setSidebarOpen: (isItOpen: boolean) => void;
-  isSettingsOpen: boolean;
-  setSettingsOpen: (isItOpen: boolean) => void;
-  isAboutOpen: boolean;
-  setAboutOpen: (isItOpen: boolean) => void;
-  isLinkSelected: { isSelected: boolean; link: string | null };
-  setLinkSelected: (isItSelected: boolean, link: string | null) => void;
-};
+  isCommandMenuOpen: boolean
+  setCommandMenuOpen: (isItOpen: boolean) => void
+  sidebarRef: ImperativePanelHandle | null
+  setSidebarRef: (sidebar: ImperativePanelHandle | null) => void
+  isSidebarOpen: boolean
+  setSidebarOpen: (isItOpen: boolean) => void
+  isSettingsOpen: boolean
+  setSettingsOpen: (isItOpen: boolean) => void
+  isAboutOpen: boolean
+  setAboutOpen: (isItOpen: boolean) => void
+  isLinkSelected: { isSelected: boolean; link: string | null }
+  setLinkSelected: (isItSelected: boolean, link: string | null) => void
+}
 
 const useUIState = create<UIStore>((set) => ({
   isCommandMenuOpen: false,
@@ -32,6 +32,6 @@ const useUIState = create<UIStore>((set) => ({
   isLinkSelected: { isSelected: false, link: null },
   setLinkSelected: (isItSelected: boolean, link: string | null) =>
     set({ isLinkSelected: { isSelected: isItSelected, link: link } }),
-}));
+}))
 
-export default useUIState;
+export default useUIState

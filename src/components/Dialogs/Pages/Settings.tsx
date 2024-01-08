@@ -1,10 +1,13 @@
+import useSettingsState from "@/store/settings"
+import useUIState from "@/store/ui"
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -12,13 +15,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import useSettingsState from "@/store/settings";
-import useUIState from "@/store/ui";
+} from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 
 export default function Settings() {
-  const { isSettingsOpen, setSettingsOpen } = useUIState();
+  const { isSettingsOpen, setSettingsOpen } = useUIState()
   const {
     settings,
     setOpenOnStartup,
@@ -27,7 +28,7 @@ export default function Settings() {
     setSaveBlur,
     setSaveInterval,
     setSpellCheck,
-  } = useSettingsState();
+  } = useSettingsState()
   return (
     <Dialog open={isSettingsOpen} onOpenChange={setSettingsOpen}>
       <DialogContent>
@@ -107,5 +108,5 @@ export default function Settings() {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

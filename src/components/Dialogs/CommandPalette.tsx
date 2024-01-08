@@ -1,16 +1,7 @@
-import { langs } from "@/components/Editor/langs";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
-import useFileState from "@/store/file";
-import useUIState from "@/store/ui";
-import { New, Open, Save, SaveAs } from "@/utils/fileOps";
+import { useEffect, useState } from "react"
+import useFileState from "@/store/file"
+import useUIState from "@/store/ui"
+import { New, Open, Save, SaveAs } from "@/utils/fileOps"
 import {
   Code2Icon,
   FolderOpenIcon,
@@ -30,8 +21,18 @@ import {
   SettingsIcon,
   TerminalIcon,
   TextQuoteIcon,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+} from "lucide-react"
+
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+import { langs } from "@/components/Editor/langs"
 
 export default function CommandPalette() {
   const {
@@ -39,16 +40,16 @@ export default function CommandPalette() {
     setCommandMenuOpen,
     setSettingsOpen,
     setAboutOpen,
-  } = useUIState();
-  const [search, setSearch] = useState("");
-  const [pages, setPages] = useState([] as string[]);
-  const page = pages[pages.length - 1];
-  const { editorRef } = useFileState();
+  } = useUIState()
+  const [search, setSearch] = useState("")
+  const [pages, setPages] = useState([] as string[])
+  const page = pages[pages.length - 1]
+  const { editorRef } = useFileState()
 
   useEffect(() => {
-    setPages([]);
-    setSearch("");
-  }, [isCommandMenuOpen]);
+    setPages([])
+    setSearch("")
+  }, [isCommandMenuOpen])
 
   return (
     <CommandDialog
@@ -59,12 +60,12 @@ export default function CommandPalette() {
         // Escape goes to previous page
         // Backspace goes to previous page when search is empty
         if (e.key === "Escape" || (e.key === "Backspace" && !search)) {
-          e.preventDefault();
+          e.preventDefault()
           if (pages.length > 0) {
-            setPages((pages) => pages.slice(0, -1));
-            setSearch("");
+            setPages((pages) => pages.slice(0, -1))
+            setSearch("")
           } else {
-            setCommandMenuOpen(false);
+            setCommandMenuOpen(false)
           }
         }
       }}
@@ -79,8 +80,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              setPages([...pages, "heading"]);
-              setSearch("");
+              setPages([...pages, "heading"])
+              setSearch("")
             }}
           >
             <HeadingIcon className="mr-2" />
@@ -91,9 +92,9 @@ export default function CommandPalette() {
         {(search || page === "heading") && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleHeading({ level: 1 });
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleHeading({ level: 1 })
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <Heading1Icon className="mr-2" />
@@ -104,9 +105,9 @@ export default function CommandPalette() {
         {(search || page === "heading") && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleHeading({ level: 2 });
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleHeading({ level: 2 })
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <Heading2Icon className="mr-2" />
@@ -117,9 +118,9 @@ export default function CommandPalette() {
         {(search || page === "heading") && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleHeading({ level: 3 });
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleHeading({ level: 3 })
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <Heading3Icon className="mr-2" />
@@ -130,9 +131,9 @@ export default function CommandPalette() {
         {(search || page === "heading") && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleHeading({ level: 4 });
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleHeading({ level: 4 })
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <Heading4Icon className="mr-2" />
@@ -143,9 +144,9 @@ export default function CommandPalette() {
         {(search || page === "heading") && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleHeading({ level: 5 });
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleHeading({ level: 5 })
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <Heading5Icon className="mr-2" />
@@ -156,9 +157,9 @@ export default function CommandPalette() {
         {(search || page === "heading") && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleHeading({ level: 6 });
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleHeading({ level: 6 })
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <Heading6Icon className="mr-2" />
@@ -169,9 +170,9 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleBulletList();
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleBulletList()
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <ListIcon className="mr-2" />
@@ -182,9 +183,9 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleOrderedList();
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleOrderedList()
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <ListOrderedIcon className="mr-2" />
@@ -195,9 +196,9 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleBlockquote();
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleBlockquote()
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <TextQuoteIcon className="mr-2" />
@@ -208,8 +209,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              setPages([...pages, "code-block"]);
-              setSearch("");
+              setPages([...pages, "code-block"])
+              setSearch("")
             }}
           >
             <Code2Icon className="mr-2" />
@@ -220,9 +221,9 @@ export default function CommandPalette() {
         {page === "code-block" && (
           <CommandItem
             onSelect={() => {
-              editorRef?.commands.toggleCodeBlock();
-              editorRef?.commands.focus();
-              setCommandMenuOpen(false);
+              editorRef?.commands.toggleCodeBlock()
+              editorRef?.commands.focus()
+              setCommandMenuOpen(false)
             }}
           >
             <TerminalIcon className="mr-2" />
@@ -237,22 +238,22 @@ export default function CommandPalette() {
                 onSelect={() => {
                   editorRef?.commands.toggleCodeBlock({
                     language: lang.displayName,
-                  });
-                  editorRef?.commands.focus();
-                  setCommandMenuOpen(false);
+                  })
+                  editorRef?.commands.focus()
+                  setCommandMenuOpen(false)
                 }}
               >
                 <TerminalIcon className="mr-2" />
                 <span>{lang.displayName}</span>
               </CommandItem>
-            );
+            )
           })}
         {!search && !page && <CommandSeparator />}
         {!page && (
           <CommandItem
             onSelect={() => {
-              New();
-              setCommandMenuOpen(false);
+              New()
+              setCommandMenuOpen(false)
             }}
           >
             <PlusCircleIcon className="mr-2" />
@@ -263,8 +264,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              Open();
-              setCommandMenuOpen(false);
+              Open()
+              setCommandMenuOpen(false)
             }}
           >
             <FolderOpenIcon className="mr-2" />
@@ -275,8 +276,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              Save();
-              setCommandMenuOpen(false);
+              Save()
+              setCommandMenuOpen(false)
             }}
           >
             <SaveIcon className="mr-2" />
@@ -287,8 +288,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              SaveAs();
-              setCommandMenuOpen(false);
+              SaveAs()
+              setCommandMenuOpen(false)
             }}
           >
             <SaveAllIcon className="mr-2" />
@@ -301,8 +302,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              setSettingsOpen(true);
-              setCommandMenuOpen(false);
+              setSettingsOpen(true)
+              setCommandMenuOpen(false)
             }}
           >
             <SettingsIcon className="mr-2" />
@@ -312,8 +313,8 @@ export default function CommandPalette() {
         {!page && (
           <CommandItem
             onSelect={() => {
-              setAboutOpen(true);
-              setCommandMenuOpen(false);
+              setAboutOpen(true)
+              setCommandMenuOpen(false)
             }}
           >
             <InfoIcon className="mr-2" />
@@ -322,5 +323,5 @@ export default function CommandPalette() {
         )}
       </CommandList>
     </CommandDialog>
-  );
+  )
 }

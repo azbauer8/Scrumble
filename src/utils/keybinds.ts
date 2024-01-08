@@ -1,7 +1,7 @@
-import useUIState from "@/store/ui";
-import { useHotkeys } from "@mantine/hooks";
+import useUIState from "@/store/ui"
+import { useHotkeys } from "@mantine/hooks"
 
-import { New, Open, OpenFolder, Save, SaveAs } from "./fileOps";
+import { New, Open, OpenFolder, Save, SaveAs } from "./fileOps"
 
 export default function UseKeybinds() {
   useHotkeys(
@@ -9,67 +9,67 @@ export default function UseKeybinds() {
       [
         "f5",
         () => {
-          return;
+          return
         },
         { preventDefault: true },
       ],
       [
         "f7",
         () => {
-          return;
+          return
         },
         { preventDefault: true },
       ],
       [
         "mod+s",
         async () => {
-          Save();
+          Save()
         },
         { preventDefault: true },
       ],
       [
         "shift+mod+s",
         async () => {
-          SaveAs();
+          SaveAs()
         },
         { preventDefault: true },
       ],
       [
         "mod+n",
         async () => {
-          New();
+          New()
         },
         { preventDefault: true },
       ],
       [
         "mod+o",
         async () => {
-          Open();
+          Open()
         },
         { preventDefault: true },
       ],
       [
         "shift+mod+o",
         async () => {
-          OpenFolder();
+          OpenFolder()
         },
         { preventDefault: true },
       ],
       [
         "mod+p",
         () => {
-          return;
+          return
         },
         { preventDefault: true },
       ],
       [
         "shift+mod+e",
         () => {
-          const isOpen = useUIState.getState().isSidebarOpen;
+          const isOpen = useUIState.getState().isSidebarOpen
           isOpen
             ? useUIState.getState().sidebarRef?.collapse()
-            : useUIState.getState().sidebarRef?.expand();
-          useUIState.getState().setSidebarOpen(!isOpen);
+            : useUIState.getState().sidebarRef?.expand()
+          useUIState.getState().setSidebarOpen(!isOpen)
         },
         { preventDefault: true },
       ],
@@ -78,12 +78,12 @@ export default function UseKeybinds() {
         () => {
           useUIState
             .getState()
-            .setCommandMenuOpen(!useUIState.getState().isCommandMenuOpen);
+            .setCommandMenuOpen(!useUIState.getState().isCommandMenuOpen)
         },
         { preventDefault: true },
       ],
     ],
     [],
     true
-  );
+  )
 }

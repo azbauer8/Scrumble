@@ -1,13 +1,13 @@
-import { create } from "zustand";
+import { create } from "zustand"
 
 type OSStore = {
-  isMac: boolean;
-  setMac: (isAMac: boolean) => void;
-  appVersion: string;
-  setAppVersion: (appVersion: string) => void;
-  tauriVersion: string;
-  setTauriVersion: (tauriVersion: string) => void;
-};
+  isMac: boolean
+  setMac: (isAMac: boolean) => void
+  appVersion: string
+  setAppVersion: (appVersion: string) => void
+  tauriVersion: string
+  setTauriVersion: (tauriVersion: string) => void
+}
 
 const useOSState = create<OSStore>((set) => ({
   isMac: false,
@@ -16,6 +16,6 @@ const useOSState = create<OSStore>((set) => ({
   setAppVersion: (appVersion: string) => set({ appVersion }),
   tauriVersion: "",
   setTauriVersion: (tauriVersion: string) => set({ tauriVersion }),
-}));
+}))
 
-export default useOSState;
+export default useOSState

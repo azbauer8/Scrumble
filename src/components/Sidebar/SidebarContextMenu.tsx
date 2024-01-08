@@ -1,22 +1,23 @@
+import { MutableRefObject } from "react"
+import useFileState from "@/store/file"
+import { Open } from "@/utils/fileOps"
+import { tauri } from "@tauri-apps/api"
+import { writeText } from "@tauri-apps/api/clipboard"
+import { removeDir, removeFile } from "@tauri-apps/api/fs"
+
 import {
   ContextMenuContent,
   ContextMenuItem,
-} from "@/components/ui/context-menu";
-import useFileState from "@/store/file";
-import { Open } from "@/utils/fileOps";
-import { tauri } from "@tauri-apps/api";
-import { writeText } from "@tauri-apps/api/clipboard";
-import { removeDir, removeFile } from "@tauri-apps/api/fs";
-import { MutableRefObject } from "react";
+} from "@/components/ui/context-menu"
 
 export default function SidebarContextMenu({
   type,
   path,
   setIsEditing,
 }: {
-  type: "sidebar" | "file" | "folder";
-  path: string;
-  setIsEditing: () => void;
+  type: "sidebar" | "file" | "folder"
+  path: string
+  setIsEditing: () => void
 }) {
   return (
     <ContextMenuContent className="bg-background">
@@ -47,43 +48,43 @@ export default function SidebarContextMenu({
         </>
       )}
     </ContextMenuContent>
-  );
+  )
 }
 
 function CopyPath({ path }: { path: string }) {
   return (
     <ContextMenuItem
       onClick={async () => {
-        await writeText(path);
+        await writeText(path)
       }}
     >
       Copy Path
     </ContextMenuItem>
-  );
+  )
 }
 
 function OpenPath({ path }: { path: string }) {
   return (
     <ContextMenuItem
       onClick={async () => {
-        await tauri.invoke("open_location", { path });
+        await tauri.invoke("open_location", { path })
       }}
     >
       Open Location
     </ContextMenuItem>
-  );
+  )
 }
 
 function Rename({ setIsEditing }: { setIsEditing: () => void }) {
   return (
     <ContextMenuItem
       onClick={() => {
-        setIsEditing();
+        setIsEditing()
       }}
     >
       Rename
     </ContextMenuItem>
-  );
+  )
 }
 
 function Delete({ path, type }: { path: string; type: "file" | "folder" }) {
@@ -91,13 +92,13 @@ function Delete({ path, type }: { path: string; type: "file" | "folder" }) {
     <ContextMenuItem
       onClick={async () => {
         if (type === "file") {
-          await removeFile(path);
+          await removeFile(path)
         } else if (type === "folder") {
-          await removeDir(path);
+          await removeDir(path)
         }
       }}
     >
       Delete
     </ContextMenuItem>
-  );
+  )
 }

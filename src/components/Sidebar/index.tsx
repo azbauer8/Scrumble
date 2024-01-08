@@ -1,34 +1,32 @@
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import useFileState from "@/store/file"
+import useUIState from "@/store/ui"
+import { OpenFolder } from "@/utils/fileOps"
+
+import { Button } from "@/components/ui/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import useFileState from "@/store/file";
-import useUIState from "@/store/ui";
-import { OpenFolder } from "@/utils/fileOps";
-import { useState } from "react";
+} from "@/components/ui/collapsible"
 
-import {
-  SidebarFolder,
-  SidebarItem,
-  SidebarParentFolder,
-} from "./SidebarItems";
-import "./sidebar.css";
+import { SidebarFolder, SidebarItem, SidebarParentFolder } from "./SidebarItems"
+
+import "./sidebar.css"
 
 // don't worry about responsive layouts for now, just
 export default function Sidebar() {
-  const { isSidebarOpen } = useUIState();
-  const { openFolder, filesInOpenFolder } = useFileState();
+  const { isSidebarOpen } = useUIState()
+  const { openFolder, filesInOpenFolder } = useFileState()
   const [isEditingFiles, setIsEditingFiles] = useState<Record<string, boolean>>(
-    {},
-  );
+    {}
+  )
 
   if (isSidebarOpen) {
     if (openFolder && filesInOpenFolder) {
-      let path = openFolder;
-      let parts = path.split(/[\\\/]/);
-      let lastPart = parts.pop();
+      let path = openFolder
+      let parts = path.split(/[\\\/]/)
+      let lastPart = parts.pop()
       return (
         <div className="sidebar mt-5 h-full">
           <SidebarParentFolder
@@ -67,15 +65,15 @@ export default function Sidebar() {
                           isEditingFiles={isEditingFiles}
                           setIsEditingFiles={setIsEditingFiles}
                         />
-                      );
+                      )
                     }
                   })}
                 </CollapsibleContent>
               </Collapsible>
-            ) : null,
+            ) : null
           )}
         </div>
-      );
+      )
     }
     return (
       <div className="items-center justify-center p-5 text-center">
@@ -83,6 +81,6 @@ export default function Sidebar() {
           Open
         </Button>
       </div>
-    );
+    )
   }
 }
