@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react"
 import { ImperativePanelHandle } from "react-resizable-panels"
 
-import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -13,11 +12,9 @@ import CommandPalette from "./components/Dialogs/CommandPalette"
 import About from "./components/Dialogs/Pages/About"
 import Settings from "./components/Dialogs/Pages/Settings"
 import MdEditor from "./components/Editor"
-import EditorContextMenu from "./components/Editor/EditorContextMenu"
 import Sidebar from "./components/Sidebar"
 import TitleBar from "./components/TitleBar"
 import useFileState from "./store/file"
-import useSettingsState from "./store/settings"
 import useUIState from "./store/ui"
 import Init from "./utils/init"
 import UseKeybinds from "./utils/keybinds"
@@ -26,7 +23,6 @@ export default function App() {
   const mdEditorRef = useRef(null)
   const sidebarRef = useRef<ImperativePanelHandle>(null)
   const { setEditorRef } = useFileState()
-  const { settings } = useSettingsState()
   const { setSidebarRef, isSidebarOpen, setSidebarOpen } = useUIState()
 
   useEffect(() => {

@@ -24,9 +24,9 @@ export default function Sidebar() {
 
   if (isSidebarOpen) {
     if (openFolder && filesInOpenFolder) {
-      let path = openFolder
-      let parts = path.split(/[\\\/]/)
-      let lastPart = parts.pop()
+      const path = openFolder
+      const parts = path.split(/[\\/]/)
+      const lastPart = parts.pop()
       return (
         <div className="sidebar mt-5 h-full">
           <SidebarParentFolder

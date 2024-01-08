@@ -1,12 +1,11 @@
 import useFileState from "@/store/file"
 import useSettingsState from "@/store/settings"
 import useUIState from "@/store/ui"
-import { Save } from "@/utils/fileOps"
-import { Remirror, useHelpers, useKeymap, useRemirror } from "@remirror/react"
+import { Remirror, useRemirror } from "@remirror/react"
 
 import "@remirror/styles/extension-code-block.css"
 
-import { forwardRef, useCallback, useImperativeHandle } from "react"
+import { forwardRef, useImperativeHandle } from "react"
 import { open } from "@tauri-apps/api/shell"
 import { LinkExtension } from "remirror/extensions"
 
@@ -16,23 +15,6 @@ import EditorContextMenu from "./EditorContextMenu"
 import "./editor.css"
 
 import { extensions } from "./exts"
-
-const hooks = [
-  () => {
-    const { getMarkdown } = useHelpers()
-
-    const handleSaveShortcut = useCallback(
-      ({}) => {
-        Save()
-        return true // Prevents any further key handlers from being run.
-      },
-      [getMarkdown]
-    )
-
-    // "Mod" means platform agnostic modifier key - i.e. Ctrl on Windows, or Cmd on MacOS
-    useKeymap("Mod-s", handleSaveShortcut)
-  },
-]
 
 const MdEditor = forwardRef((_, ref) => {
   const { manager, state, setState, getContext } = useRemirror({ extensions })
@@ -62,11 +44,11 @@ const MdEditor = forwardRef((_, ref) => {
   // Add the state and create an `onChange` handler for the state.
   return (
     <ContextMenu>
-      {/* @ts-ignore */}
+      {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment 
+          // @ts-ignore */}
       <ContextMenuTrigger spellCheck={settings.spellCheck}>
         <Remirror
           manager={manager}
-          hooks={hooks}
           state={state}
           onChange={(parameter: { state: any }) => {
             // Update the state to the latest value.

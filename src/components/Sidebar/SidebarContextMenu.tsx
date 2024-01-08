@@ -1,6 +1,3 @@
-import { MutableRefObject } from "react"
-import useFileState from "@/store/file"
-import { Open } from "@/utils/fileOps"
 import { tauri } from "@tauri-apps/api"
 import { writeText } from "@tauri-apps/api/clipboard"
 import { removeDir, removeFile } from "@tauri-apps/api/fs"
@@ -13,7 +10,6 @@ import {
 export default function SidebarContextMenu({
   type,
   path,
-  setIsEditing,
 }: {
   type: "sidebar" | "file" | "folder"
   path: string
