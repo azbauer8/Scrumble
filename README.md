@@ -1,6 +1,6 @@
 # Scrumble
 
-A simple Markdown editor powered by Remirror
+A desktop Markdown editor powered by Remirror
 
 ## Features
 
