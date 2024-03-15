@@ -1,8 +1,9 @@
-import useFileState from "@/store/file"
+import useFileStore from "@/store/fileStore"
+import useSettingsStore from "@/store/settingsStore"
+import { notifications } from "@mantine/notifications"
 import { ask, open, save } from "@tauri-apps/api/dialog"
 import { readDir, readTextFile, writeTextFile } from "@tauri-apps/api/fs"
 import { documentDir } from "@tauri-apps/api/path"
-import { toast } from "sonner"
 
 export const fileExtensions = [
   {
@@ -11,43 +12,46 @@ export const fileExtensions = [
   },
 ]
 
-export async function New() {
-  const filePath = useFileState.getState().filePath
-  const setFilePath = useFileState.getState().setFilePath
-  const setFileContent = useFileState.getState().setFileContent
-  const isSaved = useFileState.getState().isSaved
-  const setSaved = useFileState.getState().setSaved
+export async function newFile() {
+  const filePath = useFileStore.getState().filePath
+  const setFilePath = useFileStore.getState().setFilePath
+  const isSaved = useFileStore.getState().isSaved
+  const setSaved = useFileStore.getState().setSaved
+  const editor = useFileStore.getState().editor
 
-  const editor = useFileState.getState().editorRef
   if (!isSaved) {
     const response = await ask(
       "The current file is unsaved, do you want to save it first?",
-      { title: "Warning", type: "warning" }
+      { title: "Warning", type: "warning" },
     )
     if (response) {
-      filePath ? await Save() : await SaveAs()
+      filePath ? await saveFile() : await saveFileAs()
     }
   }
   setFilePath("")
-  setFileContent("")
-  editor?.clearContent()
+  editor?.commands.setContent("")
   setSaved(true)
+  if (
+    useSettingsStore.getState().settings.openOnStartup ===
+    "Previous File and Folder"
+  ) {
+    useSettingsStore.getState().setPreviousFile("")
+  }
 }
 
-export async function Open() {
-  const filePath = useFileState.getState().filePath
-  const setFilePath = useFileState.getState().setFilePath
-  const setFileContent = useFileState.getState().setFileContent
-  const isSaved = useFileState.getState().isSaved
-  const setSaved = useFileState.getState().setSaved
-  const editor = useFileState.getState().editorRef
+export async function openFile() {
+  const filePath = useFileStore.getState().filePath
+  const setFilePath = useFileStore.getState().setFilePath
+  const isSaved = useFileStore.getState().isSaved
+  const setSaved = useFileStore.getState().setSaved
+  const editor = useFileStore.getState().editor
   if (!isSaved) {
     const response = await ask(
       "The current file is unsaved, do you want to save it first?",
-      { title: "Warning", type: "warning" }
+      { title: "Warning", type: "warning" },
     )
     if (response) {
-      filePath ? await Save() : await SaveAs()
+      filePath ? await saveFile() : await saveFileAs()
     }
   }
   const selected = await open({
@@ -55,60 +59,73 @@ export async function Open() {
     filters: fileExtensions,
   })
   if (selected === null) {
-    toast.warning("Open dialog closed", {
-      description: "No file selected",
+    notifications.show({
+      title: "Open dialog closed",
+      message: "No file selected",
+      color: "yellow",
     })
     return
   }
   const openedContents = await readTextFile(selected as string)
-  setFileContent(openedContents)
-  editor?.clearContent()
-  editor?.commands.insertMarkdown(openedContents)
+  editor?.commands.setContent(openedContents)
   setFilePath(selected as string)
   setSaved(true)
 
-  toast.success("Opened file", {
-    description: selected as string,
+  notifications.show({
+    title: "Opened file",
+    message: selected as string,
+    color: "green",
   })
+  if (
+    useSettingsStore.getState().settings.openOnStartup ===
+    "Previous File and Folder"
+  ) {
+    useSettingsStore.getState().setPreviousFile(selected as string)
+  }
 }
 
-export async function OpenPath(path: string, saveCheck?: boolean) {
-  const filePath = useFileState.getState().filePath
-  const setFilePath = useFileState.getState().setFilePath
-  const setFileContent = useFileState.getState().setFileContent
-  const isSaved = useFileState.getState().isSaved
-  const setSaved = useFileState.getState().setSaved
-  const editor = useFileState.getState().editorRef
+export async function openFilePath(path: string, saveCheck?: boolean) {
+  const filePath = useFileStore.getState().filePath
+  const setFilePath = useFileStore.getState().setFilePath
+  const isSaved = useFileStore.getState().isSaved
+  const setSaved = useFileStore.getState().setSaved
+  const editor = useFileStore.getState().editor
 
   if (saveCheck && !isSaved) {
     const response = await ask(
       "The current file is unsaved, do you want to save it first?",
-      { title: "Warning", type: "warning" }
+      { title: "Warning", type: "warning" },
     )
     if (response) {
-      filePath ? await Save() : await SaveAs()
+      filePath ? await saveFile() : await saveFileAs()
     }
   }
   const openedContents = await readTextFile(path)
-  setFileContent(openedContents)
-  editor?.clearContent()
-  editor?.commands.insertMarkdown(openedContents)
+  editor?.commands.setContent(openedContents)
   setFilePath(path)
   setSaved(true)
+  if (
+    useSettingsStore.getState().settings.openOnStartup ===
+    "Previous File and Folder"
+  ) {
+    useSettingsStore.getState().setPreviousFile(path)
+  }
 }
 
-export async function OpenFolder() {
-  const setOpenFolder = useFileState.getState().setOpenFolder
-  const addFilesInOpenFolder = useFileState.getState().addFilesInOpenFolder
-  const clearFilesInOpenFolder = useFileState.getState().clearFilesInOpenFolder
+export async function openFolder() {
+  const setOpenFolder = useFileStore.getState().setOpenFolder
+  const addFilesInOpenFolder = useFileStore.getState().addFilesInOpenFolder
+  const clearFilesInOpenFolder = useFileStore.getState().clearFilesInOpenFolder
 
   const selected = await open({
     directory: true,
     defaultPath: await documentDir(),
   })
   if (selected === null) {
-    toast.warning("Open dialog closed", {
-      description: "No folder selected",
+    notifications.show({
+      title: "Open dialog closed",
+      message: "No folder selected",
+      color: "yellow",
     })
     return
   }
@@ -122,15 +139,24 @@ export async function OpenFolder() {
     }
   }
 
-  toast.success("Opened folder", {
-    description: selected as string,
+  notifications.show({
+    title: "Opened folder",
+    message: selected as string,
+    color: "green",
   })
+
+  if (
+    useSettingsStore.getState().settings.openOnStartup ===
+    "Previous File and Folder"
+  ) {
+    useSettingsStore.getState().setPreviousFolder(selected as string)
+  }
 }
 
-export async function OpenFolderFromPath(path: string) {
-  const setOpenFolder = useFileState.getState().setOpenFolder
-  const addFilesInOpenFolder = useFileState.getState().addFilesInOpenFolder
-  const clearFilesInOpenFolder = useFileState.getState().clearFilesInOpenFolder
+export async function openFolderFromPath(path: string) {
+  const setOpenFolder = useFileStore.getState().setOpenFolder
+  const addFilesInOpenFolder = useFileStore.getState().addFilesInOpenFolder
+  const clearFilesInOpenFolder = useFileStore.getState().clearFilesInOpenFolder
   clearFilesInOpenFolder()
   setOpenFolder(path)
   const entries = await readDir(path, { recursive: true })
@@ -139,52 +165,73 @@ export async function OpenFolderFromPath(path: string) {
     addFilesInOpenFolder(entry)
   }
 
-  toast.success("Opened folder", {
-    description: path,
+  notifications.show({
+    title: "Opened folder",
+    message: path,
+    color: "green",
   })
+
+  if (
+    useSettingsStore.getState().settings.openOnStartup ===
+    "Previous File and Folder"
+  ) {
+    useSettingsStore.getState().setPreviousFolder(path)
+  }
 }
 
-export async function Save() {
-  const filePath = useFileState.getState().filePath
-  const setFilePath = useFileState.getState().setFilePath
-  const fileContent = useFileState.getState().fileContent
-  const isSaved = useFileState.getState().isSaved
-  const setSaved = useFileState.getState().setSaved
+export async function saveFile() {
+  const path = useFileStore.getState().filePath
+  const setPath = useFileStore.getState().setFilePath
+  const contents = useFileStore
+    .getState()
+    .editor?.storage.markdown.getMarkdown()
+  const isSaved = useFileStore.getState().isSaved
+  const setSaved = useFileStore.getState().setSaved
   // no action needed if already saved
   if (!isSaved) {
     // show save as dialog if no file path
-    if (!filePath) {
-      const newPath = await save({
+    let newPath = null
+    if (!path) {
+      newPath = await save({
         defaultPath: await documentDir(),
         filters: fileExtensions,
       })
       // if user cancelled out of save dialog, return and don't save
       if (newPath === null) {
-        toast.warning("Save dialog closed", {
-          description: "Your file will not be saved",
+        notifications.show({
+          title: "Save dialog closed",
+          message: "Your file will not be saved",
+          color: "yellow",
         })
         return
       }
-      setFilePath(newPath)
+      setPath(newPath)
     }
     try {
-      await writeTextFile({ path: filePath, contents: fileContent })
+      await writeTextFile({ path: newPath ?? path, contents })
       setSaved(true)
-      toast.success("Save successful", {
-        description: `Saved to: ${filePath}`,
+
+      notifications.show({
+        title: "Save successful",
+        message: `Saved to: ${path}`,
+        color: "green",
       })
     } catch (e) {
-      toast.error("Error occurred while saving file", {
-        description: (e as Error).message,
+      notifications.show({
+        title: "Error occurred while saving file",
+        message: (e as Error).message,
+        color: "red",
       })
     }
   }
 }
 
-export async function SaveAs() {
-  const setFilePath = useFileState.getState().setFilePath
-  const fileContent = useFileState.getState().fileContent
-  const setSaved = useFileState.getState().setSaved
+export async function saveFileAs() {
+  const setFilePath = useFileStore.getState().setFilePath
+  const contents = useFileStore
+    .getState()
+    .editor?.storage.markdown.getMarkdown()
+  const setSaved = useFileStore.getState().setSaved
   // show save as dialog
   const path = await save({
     defaultPath: await documentDir(),
@@ -192,23 +239,28 @@ export async function SaveAs() {
   })
   // if user cancelled out of save dialog, return and don't save
   if (path === null) {
-    toast.warning("Save dialog closed", {
-      description: "Your file will not be saved",
+    notifications.show({
+      title: "Save dialog closed",
+      message: "Your file will not be saved",
+      color: "yellow",
     })
     return
   }
   setFilePath(path)
 
   try {
-    await writeTextFile({ path: path, contents: fileContent })
+    await writeTextFile({ path: path, contents })
     setSaved(true)
-    toast.success("Save successful", {
-      description: `Saved to: ${path}`,
+    notifications.show({
+      title: "Save successful",
+      message: `Saved to: ${path}`,
+      color: "green",
     })
-    // });
   } catch (e) {
-    toast.error("Error occurred while saving file", {
-      description: (e as Error).message,
+    notifications.show({
+      title: "Error occurred while saving file",
+      message: (e as Error).message,
+      color: "red",
     })
   }
 }
