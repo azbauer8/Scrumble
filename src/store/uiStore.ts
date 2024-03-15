@@ -5,6 +5,8 @@ interface UIState {
   setCommandOpen: (commandOpen: boolean) => void
   sidebarOpen: boolean
   setSidebarOpen: (sidebarOpen: boolean) => void
+  isMac: boolean
+  setMac: (isAMac: boolean) => void
 }
 
 const useUIStore = create<UIState>()((set) => ({
@@ -12,6 +14,8 @@ const useUIStore = create<UIState>()((set) => ({
   setCommandOpen: (commandOpen) => set(() => ({ commandOpen })),
   sidebarOpen: false,
   setSidebarOpen: (sidebarOpen) => set(() => ({ sidebarOpen })),
+  isMac: false,
+  setMac: (isAMac: boolean) => set({ isMac: isAMac }),
 }))
 
 export default useUIStore
