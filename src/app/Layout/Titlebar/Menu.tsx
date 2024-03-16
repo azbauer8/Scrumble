@@ -11,6 +11,7 @@ import {
   IconCommand,
   IconFileDownload,
   IconFilePlus,
+  IconFileUpload,
   IconFolderDown,
   IconFolderOpen,
   IconFolderUp,
@@ -55,7 +56,7 @@ export default function TitlebarMenu() {
         </Menu.Item>
         <Menu.Item
           leftSection={
-            <IconFolderUp style={{ width: rem(18), height: rem(18) }} />
+            <IconFileUpload style={{ width: rem(18), height: rem(18) }} />
           }
           onClick={async () => await openFile()}
         >
@@ -63,7 +64,7 @@ export default function TitlebarMenu() {
         </Menu.Item>
         <Menu.Item
           leftSection={
-            <IconFolderOpen style={{ width: rem(18), height: rem(18) }} />
+            <IconFolderUp style={{ width: rem(18), height: rem(18) }} />
           }
           onClick={async () => {
             openFolderFromDialog()
