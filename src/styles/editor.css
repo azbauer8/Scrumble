@@ -1,9 +1,5 @@
 @import '@mantine/tiptap/styles.css';
 
-  #main {
-    height: calc(100vh - var(--app-shell-header-height, 0px) - 10px);
-  }
-
   .mantine-RichTextEditor-root, .mantine-RichTextEditor-typographyStylesProvider, .mantine-RichTextEditor-content, .tiptap {
     @apply h-full rounded-md overflow-y-auto bg-transparent;
   }

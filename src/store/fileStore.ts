@@ -1,7 +1,11 @@
-import type { FileEntry } from "@tauri-apps/api/fs"
 import type { Editor } from "@tiptap/react"
 import { create } from "zustand"
 
+interface FileEntry {
+  id: string
+  name: string | undefined
+  children: { id: string; name: string | undefined }[] | undefined
+}
 interface FileStore {
   editor: Editor | null
   setEditor: (editor: Editor) => void

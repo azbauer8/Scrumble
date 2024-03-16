@@ -1,3 +1,4 @@
+import useFileStore from "@/store/fileStore"
 import useSettingsStore, {
   type OpenOnStartup,
   openOnStartup,
@@ -29,6 +30,10 @@ export default function Settings() {
       onClose={() => setSettingsOpen(false)}
       title="Settings"
       centered
+      classNames={{
+        content: "border border-solid border-neutral-500/20",
+        overlay: "bg-neutral-950/45",
+      }}
     >
       <div className="space-y-3" data-autofocus>
         <Title order={4}>Startup</Title>
@@ -38,7 +43,17 @@ export default function Settings() {
             placeholder="Pick value"
             data={openOnStartup}
             value={settings.openOnStartup}
-            onChange={(value) => setOpenOnStartup(value as OpenOnStartup)}
+            onChange={(value) => {
+              setOpenOnStartup(value as OpenOnStartup)
+              if (value === "Previous File and Folder") {
+                useSettingsStore
+                  .getState()
+                  .setPreviousFile(useFileStore.getState().filePath)
+                useSettingsStore
+                  .getState()
+                  .setPreviousFolder(useFileStore.getState().openFolder)
+              }
+            }}
           />
           <TextInput
             label="Custom Startup Folder"

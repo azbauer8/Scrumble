@@ -21,15 +21,13 @@ import { useKmenu } from "kmenu"
 
 export default function TitlebarMenu() {
   const { toggle } = useKmenu()
+  const { isMac } = useUIStore()
   return (
     <Menu
       shadow="md"
       width={200}
       withArrow
-      position="bottom-start"
-      classNames={{
-        dropdown: "bg-neutral-800/95 backdrop-blur-lg",
-      }}
+      position={isMac ? "bottom-end" : "bottom-start"}
     >
       <Menu.Target>
         <ActionIcon

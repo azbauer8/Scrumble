@@ -26,9 +26,9 @@
   position: fixed;
   border-style: solid;
   top: 20%;
-  background: rgba(34, 34, 34, 0.95) !important;
+  background: rgba(34, 34, 34) !important;
   box-shadow: none !important;
-  border-color: rgb(64 64 64 ) !important;
+  border-color: rgba(64, 64, 64 ) !important;
   border-width: 1px !important;
   @apply backdrop-blur-md;
 }

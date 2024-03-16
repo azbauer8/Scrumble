@@ -30,7 +30,7 @@ export default function AppLayout() {
               <Panel
                 id="sidebar-wrapper"
                 minSize={10}
-                maxSize={25}
+                maxSize={50}
                 defaultSize={sidebarWidth}
                 onResize={(size) => setSidebarWidth(size)}
                 order={1}

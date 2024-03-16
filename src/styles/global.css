@@ -4,6 +4,15 @@
 
 html, body { background: transparent; overflow: hidden; }
 
+#main {
+  height: calc(100vh - var(--app-shell-header-height, 0px) - 10px);
+}
+
 #sidebar-wrapper{
  border: calc(0.0625rem* var(--mantine-scale)) solid var(--mantine-color-dark-4);
+  height: calc(100vh - var(--app-shell-header-height, 0px) - 10px);
+}
+
+div[role="tree"], div[role="tree"] > div {
+  @apply h-full select-none !important;
 }

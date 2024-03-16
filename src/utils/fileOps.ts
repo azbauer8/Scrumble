@@ -4,6 +4,7 @@ import { notifications } from "@mantine/notifications"
 import { ask, open, save } from "@tauri-apps/api/dialog"
 import {
   type FileEntry,
+  exists,
   readDir,
   readTextFile,
   writeTextFile,
@@ -19,12 +20,8 @@ export const fileExtensions = [
 
 export async function newFile() {
   const filePath = useFileStore.getState().filePath
-  const setFilePath = useFileStore.getState().setFilePath
-  const isSaved = useFileStore.getState().isSaved
-  const setSaved = useFileStore.getState().setSaved
-  const editor = useFileStore.getState().editor
 
-  if (!isSaved) {
+  if (!useFileStore.getState().isSaved) {
     const response = await ask(
       "The current file is unsaved, do you want to save it first?",
       { title: "Warning", type: "warning" },
@@ -33,9 +30,9 @@ export async function newFile() {
       filePath ? await saveFile() : await saveFileAs()
     }
   }
-  setFilePath("")
-  editor?.commands.setContent("")
-  setSaved(true)
+  useFileStore.getState().setFilePath("")
+  useFileStore.getState().editor?.commands.clearContent()
+  useFileStore.getState().setSaved(true)
   if (
     useSettingsStore.getState().settings.openOnStartup ===
     "Previous File and Folder"
@@ -46,11 +43,7 @@ export async function newFile() {
 
 export async function openFile() {
   const filePath = useFileStore.getState().filePath
-  const setFilePath = useFileStore.getState().setFilePath
-  const isSaved = useFileStore.getState().isSaved
-  const setSaved = useFileStore.getState().setSaved
-  const editor = useFileStore.getState().editor
-  if (!isSaved) {
+  if (!useFileStore.getState().isSaved) {
     const response = await ask(
       "The current file is unsaved, do you want to save it first?",
       { title: "Warning", type: "warning" },
@@ -72,9 +65,9 @@ export async function openFile() {
     return
   }
   const openedContents = await readTextFile(selected as string)
-  editor?.commands.setContent(openedContents)
-  setFilePath(selected as string)
-  setSaved(true)
+  useFileStore.getState().editor?.commands.setContent(openedContents)
+  useFileStore.getState().setFilePath(selected as string)
+  useFileStore.getState().setSaved(true)
 
   notifications.show({
     title: "Opened file",
@@ -89,12 +82,9 @@ export async function openFile() {
   }
 }
 
-export async function openFilePath(path: string, saveCheck?: boolean) {
+export async function openFilePath(path: string, saveCheck: boolean) {
   const filePath = useFileStore.getState().filePath
-  const setFilePath = useFileStore.getState().setFilePath
   const isSaved = useFileStore.getState().isSaved
-  const setSaved = useFileStore.getState().setSaved
-  const editor = useFileStore.getState().editor
 
   if (saveCheck && !isSaved) {
     const response = await ask(
@@ -106,9 +96,9 @@ export async function openFilePath(path: string, saveCheck?: boolean) {
     }
   }
   const openedContents = await readTextFile(path)
-  editor?.commands.setContent(openedContents)
-  setFilePath(path)
-  setSaved(true)
+  useFileStore.getState().editor?.commands.setContent(openedContents)
+  useFileStore.getState().setFilePath(path)
+  useFileStore.getState().setSaved(true)
   if (
     useSettingsStore.getState().settings.openOnStartup ===
     "Previous File and Folder"
@@ -118,10 +108,6 @@ export async function openFilePath(path: string, saveCheck?: boolean) {
 }
 
 export async function openFolderFromDialog() {
-  const setOpenFolder = useFileStore.getState().setOpenFolder
-  const addFilesInOpenFolder = useFileStore.getState().addFilesInOpenFolder
-  const clearFilesInOpenFolder = useFileStore.getState().clearFilesInOpenFolder
-
   const selected = await open({
     directory: true,
     defaultPath: await documentDir(),
@@ -134,19 +120,13 @@ export async function openFolderFromDialog() {
     })
     return
   }
-  clearFilesInOpenFolder()
-  setOpenFolder(selected as string)
+  useFileStore.getState().clearFilesInOpenFolder()
+  useFileStore.getState().setOpenFolder(selected as string)
   const entries = await readDir(selected as string, {
     recursive: true,
   })
 
-  for (const entry of entries) {
-    if (entry.path.slice(-3) === ".md") {
-      addFilesInOpenFolder(entry)
-    } else if (entry.children) {
-      addFilesInOpenFolder(entry)
-    }
-  }
+  addEntriesFromFolder(entries)
 
   notifications.show({
     title: "Opened folder",
@@ -163,16 +143,10 @@ export async function openFolderFromDialog() {
 }
 
 export async function openFolderFromPath(path: string) {
-  const setOpenFolder = useFileStore.getState().setOpenFolder
-  const addFilesInOpenFolder = useFileStore.getState().addFilesInOpenFolder
-  const clearFilesInOpenFolder = useFileStore.getState().clearFilesInOpenFolder
-  clearFilesInOpenFolder()
-  setOpenFolder(path)
+  useFileStore.getState().clearFilesInOpenFolder()
+  useFileStore.getState().setOpenFolder(path)
   const entries = await readDir(path, { recursive: true })
-
-  for (const entry of entries) {
-    addFilesInOpenFolder(entry)
-  }
+  addEntriesFromFolder(entries)
 
   notifications.show({
     title: "Opened folder",
@@ -188,16 +162,43 @@ export async function openFolderFromPath(path: string) {
   }
 }
 
+function addEntriesFromFolder(entries: FileEntry[]) {
+  for (const entry of entries) {
+    const { path, name, children } = entry
+    if (name?.endsWith(".md")) {
+      const newEntry = {
+        id: path,
+        name: name,
+        children: undefined,
+      }
+      useFileStore.getState().addFilesInOpenFolder(newEntry)
+    } else if (children) {
+      const validChildren =
+        children?.filter((child) => child.name?.endsWith(".md")).length > 0
+      if (validChildren) {
+        const newEntry = {
+          id: path,
+          name: name,
+          children: children
+            ?.filter((child) => child.name?.endsWith(".md"))
+            .map((child) => ({
+              id: child.path,
+              name: child.name,
+            })),
+        }
+        useFileStore.getState().addFilesInOpenFolder(newEntry)
+      }
+    }
+  }
+}
+
 export async function saveFile() {
   const path = useFileStore.getState().filePath
-  const setPath = useFileStore.getState().setFilePath
   const contents = useFileStore
     .getState()
     .editor?.storage.markdown.getMarkdown()
-  const isSaved = useFileStore.getState().isSaved
-  const setSaved = useFileStore.getState().setSaved
   // no action needed if already saved
-  if (!isSaved) {
+  if (!useFileStore.getState().isSaved) {
     // show save as dialog if no file path
     let newPath = null
     if (!path) {
@@ -214,17 +215,11 @@ export async function saveFile() {
         })
         return
       }
-      setPath(newPath)
+      useFileStore.getState().setFilePath(newPath)
     }
     try {
       await writeTextFile({ path: newPath ?? path, contents })
-      setSaved(true)
-
-      notifications.show({
-        title: "Save successful",
-        message: `Saved to: ${path}`,
-        color: "green",
-      })
+      useFileStore.getState().setSaved(true)
     } catch (e) {
       notifications.show({
         title: "Error occurred while saving file",
@@ -236,12 +231,9 @@ export async function saveFile() {
 }
 
 export async function saveFileAs() {
-  const setFilePath = useFileStore.getState().setFilePath
   const contents = useFileStore
     .getState()
     .editor?.storage.markdown.getMarkdown()
-  const setSaved = useFileStore.getState().setSaved
-  // show save as dialog
   const path = await save({
     defaultPath: await documentDir(),
     filters: fileExtensions,
@@ -255,21 +247,46 @@ export async function saveFileAs() {
     })
     return
   }
-  setFilePath(path)
+  useFileStore.getState().setFilePath(path)
 
   try {
     await writeTextFile({ path: path, contents })
-    setSaved(true)
-    notifications.show({
-      title: "Save successful",
-      message: `Saved to: ${path}`,
-      color: "green",
-    })
+    useFileStore.getState().setSaved(true)
   } catch (e) {
     notifications.show({
       title: "Error occurred while saving file",
       message: (e as Error).message,
       color: "red",
     })
+  }
+}
+
+export async function setEditorFromFileSettings(
+  setting: "Previous File and Folder" | "Custom Folder",
+) {
+  if (setting === "Previous File and Folder") {
+    const previousFile = useSettingsStore.getState().settings.previousFile
+    const previousFolder = useSettingsStore.getState().settings.previousFolder
+
+    const previousFileExists = previousFile ? await exists(previousFile) : false
+    if (previousFileExists) {
+      openFilePath(previousFile, false)
+    }
+
+    const previousFolderExists = previousFolder
+      ? await exists(previousFolder)
+      : false
+    if (previousFolderExists) {
+      openFolderFromPath(previousFolder)
+    }
+  } else if (setting === "Custom Folder") {
+    const customStartupFolder =
+      useSettingsStore.getState().settings.customStartupFolder
+    const customFolderExists = customStartupFolder
+      ? await exists(customStartupFolder)
+      : false
+    if (customFolderExists) {
+      openFolderFromPath(customStartupFolder)
+    }
   }
 }

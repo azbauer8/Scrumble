@@ -8,79 +8,60 @@ import {
   IconFileText,
   IconFolder,
 } from "@tabler/icons-react"
-import type { FileEntry } from "@tauri-apps/api/fs"
 import { useState } from "react"
 import { type NodeRendererProps, Tree } from "react-arborist"
 
-interface NewFileEntry {
-  id: string
-  name: string | undefined
-  children: { id: string; name: string | undefined }[] | undefined
-}
-function convertFileEntry(entry: FileEntry): NewFileEntry {
-  const { path, name, children } = entry
-  const newEntry = {
-    id: path,
-    name: name,
-    children: children?.map((child) => ({
-      id: child.path,
-      name: child.name,
-    })),
-  }
-  return newEntry
-}
-
 export default function Sidebar() {
   const { openFolder, filesInOpenFolder } = useFileStore()
-  const data = filesInOpenFolder.map(convertFileEntry)
   const [term, setTerm] = useState("")
+
+  if (!openFolder) {
+    return (
+      <Button
+        variant="outline"
+        color="gray"
+        radius="sm"
+        className="m-3 w-full border-neutral-600/45 bg-neutral-700/25"
+        onClick={async () => await openFolderFromDialog()}
+      >
+        <IconFolder
+          style={{ width: rem(16), height: rem(16), strokeWidth: 2.5 }}
+          className="mr-0.5"
+        />
+        Open
+      </Button>
+    )
+  }
+
   return (
-    <div className="size-full space-y-2 p-3">
-      {openFolder ? (
-        <>
-          <Input
-            type="text"
-            placeholder="Search files..."
-            className="w-full"
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-          />
-          <Tree
-            data={data}
-            children={(props) => <Node {...props} />}
-            indent={20}
-            rowHeight={30}
-            width="100%"
-            className="select-none"
-            onActivate={async (item) =>
-              item.isLeaf && (await openFilePath(item.id, true))
-            }
-            searchTerm={term}
-            searchMatch={(node, term) =>
-              node.data.name?.toLowerCase().includes(term.toLowerCase()) ??
-              false
-            }
-            disableDrag
-            disableDrop
-            disableEdit
-            disableMultiSelection
-          />
-        </>
-      ) : (
-        <Button
-          variant="outline"
-          color="gray"
-          radius="sm"
-          className="w-full border-neutral-600/45 bg-neutral-700/25"
-          onClick={async () => await openFolderFromDialog()}
-        >
-          <IconFolder
-            style={{ width: rem(16), height: rem(16), strokeWidth: 2.5 }}
-            className="mr-0.5"
-          />
-          Open
-        </Button>
-      )}
+    <div className="flex size-full flex-col gap-2 p-3">
+      <Input
+        type="text"
+        placeholder="Search files..."
+        className="w-full"
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
+      />
+      <Tree
+        data={filesInOpenFolder}
+        children={(props) => <Node {...props} />}
+        indent={20}
+        rowHeight={30}
+        width="100%"
+        height={100000}
+        onActivate={async (item) =>
+          item.isLeaf && (await openFilePath(item.id, true))
+        }
+        searchTerm={term}
+        searchMatch={(node, term) =>
+          node.data.name?.toLowerCase().includes(term.toLowerCase()) ?? false
+        }
+        openByDefault={false}
+        disableDrag
+        disableDrop
+        disableEdit
+        disableMultiSelection
+      />
     </div>
   )
 }
