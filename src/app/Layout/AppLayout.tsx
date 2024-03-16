@@ -11,7 +11,7 @@ import Titlebar from "./Titlebar/Titlebar"
 export default function AppLayout() {
   startup()
 
-  const { sidebarOpen } = useUIStore()
+  const { sidebarOpen, sidebarWidth, setSidebarWidth } = useUIStore()
   return (
     <AppShell
       header={{ height: 36 }}
@@ -31,9 +31,10 @@ export default function AppLayout() {
                 id="sidebar"
                 minSize={10}
                 maxSize={25}
-                defaultSize={10}
+                defaultSize={sidebarWidth}
+                onResize={(size) => setSidebarWidth(size)}
                 order={1}
-                className="ml-2.5 rounded-md bg-neutral-800/50 p-3"
+                className="ml-2.5 rounded-md bg-neutral-800/50"
               >
                 <Sidebar />
               </Panel>
