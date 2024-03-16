@@ -1,0 +1,28 @@
+@import '@mantine/tiptap/styles.css';
+
+  .mantine-RichTextEditor-root, .mantine-RichTextEditor-typographyStylesProvider, .mantine-RichTextEditor-content, .tiptap {
+    @apply h-full rounded-md overflow-y-auto bg-transparent;
+  }
+
+  .tiptap {
+    @apply bg-neutral-800/50
+  }
+
+  ::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply rounded-lg bg-neutral-400/25 cursor-default
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

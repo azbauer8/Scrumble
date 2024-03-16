@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.6.0/schema.json",
 	"organizeImports": {
 		"enabled": true
 	},
@@ -9,14 +9,23 @@
 			"recommended": true,
 			"correctness": {
 				"useExhaustiveDependencies": "warn"
+			},
+			"complexity": {
+				"noForEach":"off"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "off"
+			},
+			"nursery": {
+				"useSortedClasses": "warn"
 			}
 		},
-		"ignore": [".next"]
+		"ignore": ["src-tauri"]
 	},
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"indentStyle": "tab",
+		"indentStyle": "space",
 		"indentWidth": 2,
 		"lineWidth": 80,
 		"lineEnding": "lf",

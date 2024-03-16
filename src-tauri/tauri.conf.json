@@ -1,13 +1,13 @@
 {
   "build": {
-    "beforeDevCommand": "yarn dev",
-    "beforeBuildCommand": "yarn build",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
     "devPath": "http://localhost:1420",
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Scrumble",
-    "version": "../package.json"
+    "productName": "scrumble-v2",
+    "version": "0.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -38,62 +38,34 @@
         "all": true
       }
     },
+    "windows": [
+      {
+        "label": "scrumble",
+        "title": "Scrumble",
+        "width": 800,
+        "height": 600,
+        "minWidth": 400,
+        "minHeight": 400,
+        "resizable": true,
+        "fullscreen": false,
+        "transparent": true,
+        "decorations": false
+      }
+    ],
+    "security": {
+      "csp": null
+    },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
-      "deb": {
-        "depends": []
-      },
-      "externalBin": [],
+      "targets": "all",
+      "identifier": "com.tauri.dev",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ],
-      "identifier": "Scrumble",
-      "longDescription": "A Markdown editor powered by Milkdown.",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "minimumSystemVersion": "11.3",
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [],
-      "shortDescription": "",
-      "targets": "all",
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": "",
-        "wix": {
-          "license": "../LICENSE",
-          "template": "wix-assets/main.wxs",
-          "bannerPath": "wix-assets/banner.png",
-          "dialogImagePath": "wix-assets/dialog.png"
-        }
-      }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": false
-    },
-    "windows": [
-      {
-        "label": "scrumble",
-        "title": "Scrumble",
-        "height": 680,
-        "width": 540,
-        "minHeight": 400,
-        "minWidth": 400,
-        "decorations": false
-      }
-    ]
+      ]
+    }
   }
 }
