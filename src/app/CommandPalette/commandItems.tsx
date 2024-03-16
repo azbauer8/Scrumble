@@ -1,4 +1,5 @@
 import useFileStore from "@/store/fileStore"
+import useUIStore from "@/store/uiStore"
 import {
   IconH1,
   IconH2,
@@ -7,6 +8,7 @@ import {
   IconH5,
   IconH6,
   IconHeading,
+  IconSettings,
 } from "@tabler/icons-react"
 import type { Command } from "kmenu"
 
@@ -23,9 +25,9 @@ export default function getCommands(
           perform: () => setOpen(2),
         },
         {
-          icon: <IconHeading />,
-          text: "Headings2",
-          perform: () => setOpen(2),
+          icon: <IconSettings />,
+          text: "Settings",
+          perform: () => useUIStore.getState().setSettingsOpen(true),
         },
       ],
     },

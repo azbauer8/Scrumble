@@ -1,7 +1,13 @@
 import useUIStore from "@/store/uiStore"
 import { useHotkeys } from "@mantine/hooks"
 import { useKmenu } from "kmenu"
-import { newFile, openFile, openFolder, saveFile, saveFileAs } from "./fileOps"
+import {
+  newFile,
+  openFile,
+  openFolderFromDialog,
+  saveFile,
+  saveFileAs,
+} from "./fileOps"
 
 export default function addKeymap() {
   const { toggle } = useKmenu()
@@ -17,6 +23,18 @@ export default function addKeymap() {
             .setSidebarOpen(!useUIStore.getState().sidebarOpen),
         { preventDefault: true },
       ],
+      ["mod+s", async () => await saveFile(), { preventDefault: true }],
+      ["shift+mod+s", async () => await saveFileAs(), { preventDefault: true }],
+      ["mod+n", async () => await newFile(), { preventDefault: true }],
+      ["mod+o", async () => await openFile(), { preventDefault: true }],
+      [
+        "shift+mod+o",
+        async () => {
+          openFolderFromDialog()
+        },
+        { preventDefault: true },
+      ],
+      // preventing defaults
       [
         "tab",
         (e) => {
@@ -25,18 +43,6 @@ export default function addKeymap() {
           }
         },
       ],
-      ["mod+s", async () => await saveFile(), { preventDefault: true }],
-      ["shift+mod+s", async () => await saveFileAs(), { preventDefault: true }],
-      ["mod+n", async () => await newFile(), { preventDefault: true }],
-      ["mod+o", async () => await openFile(), { preventDefault: true }],
-      [
-        "shift+mod+o",
-        async () => {
-          openFolder()
-        },
-        { preventDefault: true },
-      ],
-      // preventing defaults
       // ["mod+r", () => {}, { preventDefault: true }],
       ["shift+mod+r", () => {}, { preventDefault: true }],
       ["mod+p", () => {}, { preventDefault: true }],

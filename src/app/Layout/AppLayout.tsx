@@ -28,7 +28,7 @@ export default function AppLayout() {
           {sidebarOpen && (
             <>
               <Panel
-                id="sidebar"
+                id="sidebar-wrapper"
                 minSize={10}
                 maxSize={25}
                 defaultSize={sidebarWidth}

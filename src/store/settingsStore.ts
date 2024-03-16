@@ -1,7 +1,13 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-type OpenOnStartup = "New File" | "Previous File and Folder" | "Custom Folder"
+export const openOnStartup = [
+  "New File",
+  "Previous File and Folder",
+  "Custom Folder",
+] as const
+
+export type OpenOnStartup = (typeof openOnStartup)[number]
 
 interface Settings {
   openOnStartup: OpenOnStartup
@@ -10,7 +16,7 @@ interface Settings {
   customStartupFolder: string
   autoSave: boolean
   saveBlur: boolean
-  saveInterval: number
+  saveInterval: string | number
 }
 
 type SettingsStore = {
@@ -22,7 +28,7 @@ type SettingsStore = {
   setCustomStartupFolder: (customStartupFolder: string) => void
   setAutoSave: (autoSave: boolean) => void
   setSaveBlur: (saveBlur: boolean) => void
-  setSaveInterval: (saveInterval: number) => void
+  setSaveInterval: (saveInterval: string | number) => void
 }
 
 const useSettingsStore = create<SettingsStore>()(

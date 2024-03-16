@@ -2,7 +2,12 @@ import useFileStore from "@/store/fileStore"
 import useSettingsStore from "@/store/settingsStore"
 import { notifications } from "@mantine/notifications"
 import { ask, open, save } from "@tauri-apps/api/dialog"
-import { readDir, readTextFile, writeTextFile } from "@tauri-apps/api/fs"
+import {
+  type FileEntry,
+  readDir,
+  readTextFile,
+  writeTextFile,
+} from "@tauri-apps/api/fs"
 import { documentDir } from "@tauri-apps/api/path"
 
 export const fileExtensions = [
@@ -112,7 +117,7 @@ export async function openFilePath(path: string, saveCheck?: boolean) {
   }
 }
 
-export async function openFolder() {
+export async function openFolderFromDialog() {
   const setOpenFolder = useFileStore.getState().setOpenFolder
   const addFilesInOpenFolder = useFileStore.getState().addFilesInOpenFolder
   const clearFilesInOpenFolder = useFileStore.getState().clearFilesInOpenFolder
@@ -131,10 +136,14 @@ export async function openFolder() {
   }
   clearFilesInOpenFolder()
   setOpenFolder(selected as string)
-  const entries = await readDir(selected as string)
+  const entries = await readDir(selected as string, {
+    recursive: true,
+  })
 
   for (const entry of entries) {
     if (entry.path.slice(-3) === ".md") {
+      addFilesInOpenFolder(entry)
+    } else if (entry.children) {
       addFilesInOpenFolder(entry)
     }
   }

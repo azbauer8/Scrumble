@@ -1,58 +1,135 @@
 import useFileStore from "@/store/fileStore"
-import { openFilePath } from "@/utils/fileOps"
+import cn from "@/utils/cn"
+import { openFilePath, openFolderFromDialog } from "@/utils/fileOps"
+import { Button, Input, rem } from "@mantine/core"
+import {
+  IconChevronDown,
+  IconChevronRight,
+  IconFileText,
+  IconFolder,
+} from "@tabler/icons-react"
+import type { FileEntry } from "@tauri-apps/api/fs"
+import { useState } from "react"
 import { type NodeRendererProps, Tree } from "react-arborist"
 
-// const data = [
-//   {
-//     id: "1",
-//     name: "public",
-//     children: [{ id: "c1-1", name: "index.html" }],
-//   },
-//   {
-//     id: "2",
-//     name: "src",
-//     children: [
-//       { id: "c2-1", name: "App.js" },
-//       { id: "c2-2", name: "index.js" },
-//       { id: "c2-3", name: "styles.css" },
-//     ],
-//   },
-//   { id: "3", name: "package.json" },
-//   { id: "4", name: "README.md" },
-// ]
+interface NewFileEntry {
+  id: string
+  name: string | undefined
+  children: { id: string; name: string | undefined }[] | undefined
+}
+function convertFileEntry(entry: FileEntry): NewFileEntry {
+  const { path, name, children } = entry
+  const newEntry = {
+    id: path,
+    name: name,
+    children: children?.map((child) => ({
+      id: child.path,
+      name: child.name,
+    })),
+  }
+  return newEntry
+}
 
 export default function Sidebar() {
   const { openFolder, filesInOpenFolder } = useFileStore()
-  const data = filesInOpenFolder.map((file) => ({
-    id: file.path,
-    name: file.name,
-    children: file?.children
-      ? file.children.map((child) => ({ id: child.path, name: child.name }))
-      : undefined,
-  }))
-  console.log(openFolder, filesInOpenFolder)
+  const data = filesInOpenFolder.map(convertFileEntry)
+  const [term, setTerm] = useState("")
   return (
-    <Tree
-      data={data}
-      indent={20}
-      rowHeight={30}
-      className="select-none"
-      rowClassName="cursor-pointer hover:bg-neutral-800/50 flex items-center"
-      onActivate={async (item) =>
-        item.isLeaf && (await openFilePath(item.id, true))
-      }
-      disableDrag
-      disableDrop
-      disableEdit
-      disableMultiSelection
-      children={(props) => }
-    />
+    <div className="size-full space-y-2 p-3">
+      {openFolder ? (
+        <>
+          <Input
+            type="text"
+            placeholder="Search files..."
+            className="w-full"
+            value={term}
+            onChange={(e) => setTerm(e.target.value)}
+          />
+          <Tree
+            data={data}
+            children={(props) => <Node {...props} />}
+            indent={20}
+            rowHeight={30}
+            width="100%"
+            className="select-none"
+            onActivate={async (item) =>
+              item.isLeaf && (await openFilePath(item.id, true))
+            }
+            searchTerm={term}
+            searchMatch={(node, term) =>
+              node.data.name?.toLowerCase().includes(term.toLowerCase()) ??
+              false
+            }
+            disableDrag
+            disableDrop
+            disableEdit
+            disableMultiSelection
+          />
+        </>
+      ) : (
+        <Button
+          variant="outline"
+          color="gray"
+          radius="sm"
+          className="w-full border-neutral-600/45 bg-neutral-700/25"
+          onClick={async () => await openFolderFromDialog()}
+        >
+          <IconFolder
+            style={{ width: rem(16), height: rem(16), strokeWidth: 2.5 }}
+            className="mr-0.5"
+          />
+          Open
+        </Button>
+      )}
+    </div>
   )
 }
 
-
-function Node() {
+function Node({
+  style,
+  dragHandle,
+  node,
+  // ...props
+}: NodeRendererProps<{
+  id: string
+  name: string | undefined
+  children:
+    | {
+        id: string
+        name: string | undefined
+      }[]
+    | undefined
+}>) {
   return (
-    
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+    <div
+      className={cn(
+        "flex h-full cursor-pointer items-center gap-1.5 rounded-sm text-sm hover:bg-neutral-600/40",
+        node.state.isSelected && "bg-neutral-700/40",
+      )}
+      style={style}
+      ref={dragHandle}
+      onClick={() => node.isInternal && node.toggle()}
+    >
+      <div className="ml-1.5 flex items-center gap-1">
+        {node.isInternal ? (
+          <>
+            {node.isOpen ? (
+              <IconChevronDown size={16} className="translate-x-0.5" />
+            ) : (
+              <IconChevronRight size={16} className="translate-x-0.5" />
+            )}
+            <IconFolder size={20} />
+          </>
+        ) : (
+          <>
+            <IconFileText size={20} />
+          </>
+        )}
+      </div>
+      <p className="truncate">
+        {node.isLeaf ? node.data.name?.slice(0, -3) : node.data.name}
+      </p>
+    </div>
   )
 }

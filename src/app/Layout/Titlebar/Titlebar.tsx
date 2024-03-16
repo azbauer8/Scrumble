@@ -1,8 +1,8 @@
 import useUIStore from "@/store/uiStore"
 import { ActionIcon, AppShell } from "@mantine/core"
-import { notifications } from "@mantine/notifications"
 import { IconMenu } from "@tabler/icons-react"
 import ActiveFile from "./ActiveFile"
+import TitlebarMenu from "./Menu"
 import SidebarToggle from "./SidebarToggle"
 import WindowControls from "./WindowControls"
 
@@ -22,14 +22,6 @@ export default function Titlebar() {
           color="gray"
           radius="sm"
           className="border-neutral-600/45 bg-neutral-700/25"
-          onClick={() =>
-            notifications.show({
-              color: "red",
-              title: "Notification with custom styles",
-              message: "It is red",
-              autoClose: false,
-            })
-          }
         >
           <IconMenu className="size-[1.2rem]" />
         </ActionIcon>
@@ -44,6 +36,7 @@ export default function Titlebar() {
     >
       <div className="flex items-center gap-1.5">
         <SidebarToggle />
+        <TitlebarMenu />
         <ActiveFile />
       </div>
       <WindowControls />

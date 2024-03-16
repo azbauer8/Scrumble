@@ -4,6 +4,6 @@
 
 html, body { background: transparent; overflow: hidden; }
 
-#sidebar {
+#sidebar-wrapper{
  border: calc(0.0625rem* var(--mantine-scale)) solid var(--mantine-color-dark-4);
 }
