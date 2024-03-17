@@ -1,4 +1,5 @@
 import { Link } from "@mantine/tiptap"
+import BubbleMenu from "@tiptap/extension-bubble-menu"
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight"
 import type { Extensions } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
@@ -13,7 +14,10 @@ lowlight.register({ js })
 lowlight.register({ ts })
 
 const extensions: Extensions = [
-  StarterKit,
+  StarterKit.configure({
+    codeBlock: false,
+    dropcursor: false,
+  }),
   Link,
   CodeBlockLowlight.configure({
     lowlight,
@@ -22,31 +26,9 @@ const extensions: Extensions = [
     transformCopiedText: true,
     transformPastedText: true,
   }),
+  BubbleMenu.configure({
+    element: document.querySelector(".menu") as HTMLElement | null | undefined,
+  }),
 ]
 
 export default extensions
-
-// starter kit includes: //
-// #Nodes //
-// Blockquote
-// BulletList
-// CodeBlock
-// Document
-// HardBreak
-// Heading
-// HorizontalRule
-// ListItem
-// OrderedList
-// Paragraph
-// Text
-//
-// #Marks //
-// Bold
-// Code
-// Italic
-// Strike
-//
-// #Extensions //
-// Dropcursor
-// Gapcursor
-// History

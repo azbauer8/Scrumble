@@ -268,25 +268,32 @@ export async function setEditorFromFileSettings(
     const previousFile = useSettingsStore.getState().settings.previousFile
     const previousFolder = useSettingsStore.getState().settings.previousFolder
 
-    const previousFileExists = previousFile ? await exists(previousFile) : false
-    if (previousFileExists) {
-      openFilePath(previousFile, false)
+    if (useFileStore.getState().filePath === "") {
+      const previousFileExists = previousFile
+        ? await exists(previousFile)
+        : false
+      if (previousFileExists) {
+        await openFilePath(previousFile, false)
+      }
     }
-
-    const previousFolderExists = previousFolder
-      ? await exists(previousFolder)
-      : false
-    if (previousFolderExists) {
-      openFolderFromPath(previousFolder)
+    if (useFileStore.getState().openFolder === "") {
+      const previousFolderExists = previousFolder
+        ? await exists(previousFolder)
+        : false
+      if (previousFolderExists) {
+        await openFolderFromPath(previousFolder)
+      }
     }
   } else if (setting === "Custom Folder") {
     const customStartupFolder =
       useSettingsStore.getState().settings.customStartupFolder
-    const customFolderExists = customStartupFolder
-      ? await exists(customStartupFolder)
-      : false
-    if (customFolderExists) {
-      openFolderFromPath(customStartupFolder)
+    if (useFileStore.getState().openFolder === "") {
+      const customFolderExists = customStartupFolder
+        ? await exists(customStartupFolder)
+        : false
+      if (customFolderExists) {
+        await openFolderFromPath(customStartupFolder)
+      }
     }
   }
 }

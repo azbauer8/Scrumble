@@ -31,8 +31,10 @@ export default function Settings() {
       title="Settings"
       centered
       classNames={{
-        content: "border border-solid border-neutral-500/20",
+        content:
+          "border border-solid border-neutral-500/20 bg-neutral-800/95 backdrop-blur-sm",
         overlay: "bg-neutral-950/45",
+        header: "bg-transparent",
       }}
     >
       <div className="space-y-3" data-autofocus>

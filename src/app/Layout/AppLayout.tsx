@@ -5,7 +5,7 @@ import { AppShell } from "@mantine/core"
 import { IconDotsVertical } from "@tabler/icons-react"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import Editor from "../Editor/MdEditor"
-import Sidebar from "../Sidebar/Sidebar"
+import FileExplorer from "../FileExplorer"
 import Titlebar from "./Titlebar/Titlebar"
 
 export default function AppLayout() {
@@ -36,7 +36,7 @@ export default function AppLayout() {
                 order={1}
                 className="ml-2.5 rounded-md bg-neutral-800/50"
               >
-                <Sidebar />
+                <FileExplorer />
               </Panel>
               <PanelResizeHandle className="group flex items-center">
                 <IconDotsVertical className="mx-[1px] h-8 w-4 rounded-md group-hover:bg-neutral-700/35" />

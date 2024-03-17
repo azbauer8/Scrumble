@@ -1,6 +1,6 @@
 import useUIStore from "@/store/uiStore"
 import { useHotkeys } from "@mantine/hooks"
-import { useKmenu } from "kmenu"
+import { toggleSpotlight } from "@mantine/spotlight"
 import {
   newFile,
   openFile,
@@ -10,11 +10,9 @@ import {
 } from "./fileOps"
 
 export default function addKeymap() {
-  const { toggle } = useKmenu()
-
   useHotkeys(
     [
-      ["shift+mod+p", () => toggle(), { preventDefault: true }],
+      ["shift+mod+p", () => toggleSpotlight(), { preventDefault: true }],
       [
         "shift+mod+e",
         () =>

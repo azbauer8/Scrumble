@@ -7,21 +7,19 @@ import {
   saveFileAs,
 } from "@/utils/fileOps"
 import { ActionIcon, Menu, rem } from "@mantine/core"
+import { toggleSpotlight } from "@mantine/spotlight"
 import {
   IconCommand,
   IconFileDownload,
   IconFilePlus,
   IconFileUpload,
   IconFolderDown,
-  IconFolderOpen,
   IconFolderUp,
   IconMenu2,
   IconSettings2,
 } from "@tabler/icons-react"
-import { useKmenu } from "kmenu"
 
 export default function TitlebarMenu() {
-  const { toggle } = useKmenu()
   const { isMac } = useUIStore()
   return (
     <Menu
@@ -29,6 +27,10 @@ export default function TitlebarMenu() {
       width={200}
       withArrow
       position={isMac ? "bottom-end" : "bottom-start"}
+      classNames={{
+        dropdown:
+          "border border-solid border-neutral-600/45 bg-neutral-800/95 backdrop-blur-lg",
+      }}
     >
       <Menu.Target>
         <ActionIcon
@@ -66,9 +68,7 @@ export default function TitlebarMenu() {
           leftSection={
             <IconFolderUp style={{ width: rem(18), height: rem(18) }} />
           }
-          onClick={async () => {
-            openFolderFromDialog()
-          }}
+          onClick={async () => openFolderFromDialog()}
         >
           Open Folder
         </Menu.Item>
@@ -93,7 +93,7 @@ export default function TitlebarMenu() {
           leftSection={
             <IconCommand style={{ width: rem(18), height: rem(18) }} />
           }
-          onClick={() => toggle()}
+          onClick={() => toggleSpotlight()}
         >
           Open Command
         </Menu.Item>

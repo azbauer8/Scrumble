@@ -11,7 +11,7 @@ import {
 import { useState } from "react"
 import { type NodeRendererProps, Tree } from "react-arborist"
 
-export default function Sidebar() {
+export default function FileExplorer() {
   const { openFolder, filesInOpenFolder } = useFileStore()
   const [term, setTerm] = useState("")
 
